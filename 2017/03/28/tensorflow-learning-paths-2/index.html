@@ -106,7 +106,7 @@
 <meta property="og:site_name" content="Talk is cheap">
 <meta property="og:description" content="TL;DR：有同学反应资源太多不知道从何看起，或者有点基础了想快速上手，因此就直接把几个比较好的教程放在这里，后面的内容作为参考。  Stanford的CS 20SI课程，专门针对TensorFlow的课程，Tensorflow for Deep Learning Research 两本书籍：TensorFlow  Machine Learning Cookbook以及TensorFlow for">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2017-08-16T05:25:34.092Z">
+<meta property="og:updated_time" content="2017-08-16T05:32:05.062Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="新手向的TensorFlow学习之路2（Learning paths 2）">
 <meta name="twitter:description" content="TL;DR：有同学反应资源太多不知道从何看起，或者有点基础了想快速上手，因此就直接把几个比较好的教程放在这里，后面的内容作为参考。  Stanford的CS 20SI课程，专门针对TensorFlow的课程，Tensorflow for Deep Learning Research 两本书籍：TensorFlow  Machine Learning Cookbook以及TensorFlow for">
@@ -359,9 +359,7 @@
 <p><a href="http://hp.stuhome.net/index.php/2016/07/06/tensorflow-learning-paths/" target="_blank" rel="external">第一篇</a>学习之路写于2016年6月份，时过境迁，特别是深度学习这个日新月异的领域，隔了那么久，不得不说已经有些过时了，并且随着学习的深入，越发觉得之前的学习之路过于笼统，加之TensorFlow发布了1.0正式版，因此整理一下，再次写一篇。这次在内容的结构上将会大体分为三种，首先是<strong>公共基础部分</strong>，这个无需多解释。另外，一个是<strong>偏向应用性质的快节奏（fast peace），针对不想也没必要深入了解理论知识希望尽快应用的人群</strong>，另一种是<strong>偏向研究性质的人群（hard way），针对例如研究生之类希望深入理论知识的人群</strong>。当然，hard way的前提是fast peace。但是写法上，并没有分别写，因为某种意义上这两种是相互包含的，分开写会显得冗长与重复，因此采用粗体标记提示特定部分是属于哪一种。</p>
 <p><strong>0. 不是前提的前提–英语阅读【公共基础】：</strong>需要有扎实的英语阅读能力，其实与其说扎实，不如说是能<strong>沉下心</strong>看英语。其实我最开始看这些大段英文文档的时候，我是拒绝的，后来发现真的，这是绕不过去的坎，再后来坚持背英语单词（推荐扇贝单词）加上耐着性子读好了很多。至于原因，为什么读英文，那是因为不仅很多优秀的文档有且仅有英文的，更是很多国内的开发者也会用英文写。而且，如果对于做学术的人，那么英语作为通用语言更是要熟练掌握。但是我尽量每个部分教程都给出一份中文的，尽量保证在不想看英文的情况下也有不错的指导。</p>
 <p><strong>1. 翻墙【公共基础】：</strong>这是个不是技术的技术，TensorFlow毕竟出自Google，官方文档访问不是很稳定，而且Google搜索的结果要比Baidu好很多（学术，代码，外文类，这是有目共睹的）。有些免费一键翻墙的软件比如<a href="https://getlantern.org/" target="_blank" rel="external">Lantern</a>，打不开就<a href="https://github.com/getlantern/lantern/" target="_blank" rel="external">这个</a>（在releases中下载对应操作系统版本），或者<a href="https://psiphon3.com/en/index.html" target="_blank" rel="external">赛风</a>。高级一点的是<a href="https://github.com/shadowsocks/" target="_blank" rel="external">Shadowsocks</a>，这个不同于前面的一键翻墙工具，需要自己配置服务器或者购买配置好的服务。</p>
-<blockquote>
-<p>在这里插一句，本来是不想说这些的，有推销嫌疑，但是有很多人文这个问题，有哪些推荐的梯子。<br>我是用的是<a href="https://m.do.co/c/ee79ae347c9f" target="_blank" rel="external">Digitalocean</a>（这是我的推荐链接 ，使用的话你我都可以获得奖励）搭建服务器<br>很稳定，$5（约35人民币）一个月，1T流量（肯定是用不完的，好像超了也不收费）<br>在服务器上跑了一个shadowsocks的服务端外加这个wordpress的博客。<br>网上有很多搭建教程。或者如果想省事，可以与我合租，服务器已经搭建好了，简单配置即可。<br>可以发我Gmail，在网站的About页面有。<br>p.s. 几人合租就按汇率几分之一$5，无额外费用，程序员纯纯的友谊你懂的：）</p>
-</blockquote>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">在这里插一句，本来是不想说这些的，有推销嫌疑，但是有很多人文这个问题，有哪些推荐的梯子。</div><div class="line">我是用的是[Digitalocean](https://m.do.co/c/ee79ae347c9f)（这是我的推荐链接 ，使用的话你我都可以获得奖励）搭建服务器</div><div class="line">很稳定，$5（约35人民币）一个月，1T流量（肯定是用不完的，好像超了也不收费）</div><div class="line">在服务器上跑了一个shadowsocks的服务端外加这个wordpress的博客。</div><div class="line">网上有很多搭建教程。或者如果想省事，可以与我合租，服务器已经搭建好了，简单配置即可。</div><div class="line">可以发我Gmail，在网站的About页面有。</div><div class="line">p.s. 几人合租就按汇率几分之一$5，无额外费用，程序员纯纯的友谊你懂的：）</div></pre></td></tr></table></figure>
 <p><strong>2. Github【公共基础】：</strong>这是个开源程序的网站，Linux内核就在这个网站托管。Github的核心是Git，一种版本控制系统，已经逐渐取代SVN。这个网站托管了很多高质量的或者说世界顶尖的开源项目，比如TensorFlow。学习一下这个网站如何使用，注册个账号，学习一下Git的使用方法。这个网站有自己的tutorial和guide。而且后期自己的项目管理多半也会用到git，所以，早点学习肯定是有好处的。</p>
 <p><strong>【fast peace（即简略的快节奏教程，下同）】</strong>：</p>
 <ol>
