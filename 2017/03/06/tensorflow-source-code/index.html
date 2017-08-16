@@ -98,18 +98,18 @@
 
 
 
-<meta name="description" content="看完了TensorFlow官网的两份白皮书后，产生了阅读源码的念头，不过，git clone下来以后，仅从代码大小上就可以看出TF的体量之大，源码绝不是一己之力一时半会能够理解的。几番搜索，发现网上关于源码阅读的教程确实是很少，这里有一份不错的，这里还有google group里的讨论，为了方便墙内读者阅读，引用于此： 1234567891011121314151617core/ contains">
+<meta name="description" content="看完了TensorFlow官网的两份白皮书后，产生了阅读源码的念头，不过，git clone下来以后，仅从代码大小上就可以看出TF的体量之大，源码绝不是一己之力一时半会能够理解的。几番搜索，发现网上关于源码阅读的教程确实是很少，这里有一份不错的，这里还有google group里的讨论，为了方便墙内读者阅读，引用于此：  core/ contains the main C++ code and r">
 <meta name="keywords" content="Deep Learning,TensorFlow,Development,Learn">
 <meta property="og:type" content="article">
 <meta property="og:title" content="TensorFlow 源码阅读">
 <meta property="og:url" content="https://callofdutyops.github.io/2017/03/06/tensorflow-source-code/index.html">
 <meta property="og:site_name" content="Talk is cheap">
-<meta property="og:description" content="看完了TensorFlow官网的两份白皮书后，产生了阅读源码的念头，不过，git clone下来以后，仅从代码大小上就可以看出TF的体量之大，源码绝不是一己之力一时半会能够理解的。几番搜索，发现网上关于源码阅读的教程确实是很少，这里有一份不错的，这里还有google group里的讨论，为了方便墙内读者阅读，引用于此： 1234567891011121314151617core/ contains">
+<meta property="og:description" content="看完了TensorFlow官网的两份白皮书后，产生了阅读源码的念头，不过，git clone下来以后，仅从代码大小上就可以看出TF的体量之大，源码绝不是一己之力一时半会能够理解的。几番搜索，发现网上关于源码阅读的教程确实是很少，这里有一份不错的，这里还有google group里的讨论，为了方便墙内读者阅读，引用于此：  core/ contains the main C++ code and r">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2017-08-16T03:14:37.586Z">
+<meta property="og:updated_time" content="2017-08-16T05:26:03.709Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="TensorFlow 源码阅读">
-<meta name="twitter:description" content="看完了TensorFlow官网的两份白皮书后，产生了阅读源码的念头，不过，git clone下来以后，仅从代码大小上就可以看出TF的体量之大，源码绝不是一己之力一时半会能够理解的。几番搜索，发现网上关于源码阅读的教程确实是很少，这里有一份不错的，这里还有google group里的讨论，为了方便墙内读者阅读，引用于此： 1234567891011121314151617core/ contains">
+<meta name="twitter:description" content="看完了TensorFlow官网的两份白皮书后，产生了阅读源码的念头，不过，git clone下来以后，仅从代码大小上就可以看出TF的体量之大，源码绝不是一己之力一时半会能够理解的。几番搜索，发现网上关于源码阅读的教程确实是很少，这里有一份不错的，这里还有google group里的讨论，为了方便墙内读者阅读，引用于此：  core/ contains the main C++ code and r">
 
 
 
@@ -351,7 +351,14 @@
 
       
         <p>看完了TensorFlow官网的<a href="https://www.tensorflow.org/about/bib" target="_blank" rel="external">两份白皮书</a>后，产生了阅读源码的念头，不过，git clone下来以后，仅从代码大小上就可以看出TF的体量之大，源码绝不是一己之力一时半会能够理解的。几番搜索，发现网上关于源码阅读的教程确实是很少，这里<a href="http://www.cnblogs.com/yao62995/p/5773578.html" target="_blank" rel="external">有一份不错的</a>，<a href="https://groups.google.com/a/tensorflow.org/forum/?utm_medium=email&amp;utm_source=footer#!msg/discuss/Fp0PEvZpSP0/-5u1WcKkAgAJ" target="_blank" rel="external">这里</a>还有google group里的讨论，为了方便墙内读者阅读，引用于此：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div></pre></td><td class="code"><pre><div class="line">core/ contains the main C++ code and runtimes.</div><div class="line"></div><div class="line">core/ops/ contains the &quot;signatures&quot; of the operations</div><div class="line">core/kernels/ contains the &quot;implementations&quot; of the operations (including CPU and CUDA kernels)</div><div class="line">core/framework/ contains the main abstract graph computation and other useful libraries</div><div class="line">core/platform/ contains code that abstracts away the platform and other imported libraries (protobuf, etc)</div><div class="line"></div><div class="line">TensorFlow relies heavily on the Eigen library for both CPU and GPU calculations.  Though some GPU kernels are implemented directly with CUDA code.</div><div class="line"></div><div class="line">bazel builds certain C++ code using gcc/clang, and certain CUDA code (files with extension .cu.cc) with nvcc.</div><div class="line"></div><div class="line">python/ops/ contain the core python interface</div><div class="line">python/kernel\_tests/ contain the unit tests and lots of example code</div><div class="line">python/framework/ contains the python abstractions of graph, etc, a lot of which get serialized down to proto and/or get passed to swigged session calls.</div><div class="line">python/platform/ is similar to the C++ platform, adding lightweight wrappers for python I/O, unit testing, etc.</div><div class="line"></div><div class="line">contrib/*/ directories generally mimic the root tensorflow path (i.e., they have core/ops/, etc)</div></pre></td></tr></table></figure>
+<blockquote>
+<p>core/ contains the main C++ code and runtimes.</p>
+<p>core/ops/ contains the “signatures” of the operations<br>core/kernels/ contains the “implementations” of the operations (including CPU and CUDA kernels)<br>core/framework/ contains the main abstract graph computation and other useful libraries<br>core/platform/ contains code that abstracts away the platform and other imported libraries (protobuf, etc)</p>
+<p>TensorFlow relies heavily on the Eigen library for both CPU and GPU calculations.  Though some GPU kernels are implemented directly with CUDA code.</p>
+<p>bazel builds certain C++ code using gcc/clang, and certain CUDA code (files with extension .cu.cc) with nvcc.</p>
+<p>python/ops/ contain the core python interface<br>python/kernel_tests/ contain the unit tests and lots of example code<br>python/framework/ contains the python abstractions of graph, etc, a lot of which get serialized down to proto and/or get passed to swigged session calls.<br>python/platform/ is similar to the C++ platform, adding lightweight wrappers for python I/O, unit testing, etc.</p>
+<p>contrib/*/ directories generally mimic the root tensorflow path (i.e., they have core/ops/, etc)</p>
+</blockquote>
 
       
     </div>

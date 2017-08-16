@@ -106,7 +106,7 @@
 <meta property="og:site_name" content="Talk is cheap">
 <meta property="og:description" content="UPDATE：请看更新篇新手向的TensorFlow学习之路2 在学习Tensorflow的过程中磕磕碰碰，总结一些个人心得记录于此，志同道合之友共勉~~ 这篇文章算是新手向“纲领性”目录吧，近期正好在做一个有关TensorFlow的小项目，如果有时间就分章分篇详细写几篇TF的教程，还请大家关注本博客～ 1. 翻墙：这个是个不是技术的技术，TensorFlow毕竟出自Google，官方文档访问不是">
 <meta property="og:locale" content="zh-Hans">
-<meta property="og:updated_time" content="2017-08-16T03:17:27.153Z">
+<meta property="og:updated_time" content="2017-08-16T05:28:15.829Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="新手向的TensorFlow学习之路（Learning paths）">
 <meta name="twitter:description" content="UPDATE：请看更新篇新手向的TensorFlow学习之路2 在学习Tensorflow的过程中磕磕碰碰，总结一些个人心得记录于此，志同道合之友共勉~~ 这篇文章算是新手向“纲领性”目录吧，近期正好在做一个有关TensorFlow的小项目，如果有时间就分章分篇详细写几篇TF的教程，还请大家关注本博客～ 1. 翻墙：这个是个不是技术的技术，TensorFlow毕竟出自Google，官方文档访问不是">
@@ -354,7 +354,9 @@
 <p>在学习Tensorflow的过程中磕磕碰碰，总结一些个人心得记录于此，志同道合之友共勉~~</p>
 <p>这篇文章算是新手向“纲领性”目录吧，近期正好在做一个有关TensorFlow的小项目，如果有时间就分章分篇详细写几篇TF的教程，还请大家关注本博客～</p>
 <p><strong>1. 翻墙：</strong>这个是个不是技术的技术，TensorFlow毕竟出自Google，官方文档访问不是很稳定，而且Google搜索的结果要比Baidu好很多。有些免费一键翻墙的软件比如<a href="https://getlantern.org/" target="_blank" rel="external">Lantern</a>，打不开就<a href="https://github.com/getlantern/lantern/" target="_blank" rel="external">这个</a>（在releases中下载对应操作系统版本），或者<a href="https://psiphon3.com/" target="_blank" rel="external">赛风</a>。高级一点的是<a href="https://github.com/shadowsocks/" target="_blank" rel="external">Shadowsocks</a>。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">在这里插一句，本来是不想说这些的，有推销嫌疑，但是有很多人文这个问题，有些推荐的梯子。我是用的是[Digitalocean](https://m.do.co/c/ee79ae347c9f)（这是我的推荐链接 ，使用的话你我都可以获得奖励）搭建服务器，很稳定，$5（约30人民币）一个月，1T流量（肯定是用不完的，好像超了也不收费），在服务器上跑了一个shadowsocks的服务端外加这个wordpress的博客。网上有很多搭建教程。或者如果想省事，可以与我合租，服务器已经搭建好了，简单配置即可。可以发我Gmail，在网站的About页面有。p.s. 几人合租就几分之一$5，无额外费用，程序员纯纯的友谊你懂的：）</div></pre></td></tr></table></figure>
+<blockquote>
+<p>在这里插一句，本来是不想说这些的，有推销嫌疑，但是有很多人文这个问题，有些推荐的梯子。<br>我是用的是<a href="https://m.do.co/c/ee79ae347c9f" target="_blank" rel="external">Digitalocean</a>（这是我的推荐链接 ，使用的话你我都可以获得奖励）搭建服务器<br>很稳定，$5（约30人民币）一个月，1T流量（肯定是用不完的，好像超了也不收费），在服务器上跑了一个shadowsocks的服务端外加这个wordpress的博客。<br>网上有很多搭建教程。或者如果想省事，可以与我合租，服务器已经搭建好了，简单配置即可。<br>可以发我Gmail，在网站的About页面有。<br>p.s. 几人合租就按汇率几分之一$5，无额外费用，程序员纯纯的友谊你懂的：）</p>
+</blockquote>
 <p><strong>2. Github：</strong>这是个开源程序的<a href="https://github.com/" target="_blank" rel="external">网站</a>，Linux内核就在这个网站托管。Github的核心是Git，一种版本控制系统，已经逐渐取代SVN。这个网站托管了很多高质量的或者说世界顶尖的开源项目，比如TensorFlow。学习一下这个网站如何使用，注册个账号，学习一下Git的使用方法。这个网站有自己的tutorial和guide。</p>
 <p><strong>3. Linux:</strong> TensorFlow的主要运行平台就是Linux，目前在Windows上运行的方案是虚拟机，但是深度学习对计算要求还是比较高的，虚拟机效率不是太高，因此还是推荐在原生Linux中运行。新手推荐发行版是<a href="http://www.ubuntu.org.cn/" target="_blank" rel="external">Ubuntu</a> 或者<a href="https://www.linuxmint.com/" target="_blank" rel="external">Linux mint</a>。这个可以自行搜索。学习Linux也有很多好处，因为很多开源软件都only linux的。</p>
 <p><strong>4. Python：</strong>这是一种非常流行的脚本语言，庞大的第三方库可以快速写出短小容易理解的代码，而且也是TensorFlow的推荐开发语言。教程太多了，这里给几个优秀的教程：<a href="http://learnpython.org/" target="_blank" rel="external">官网教程</a>，<a href="http://learnpythonthehardway.org/book/" target="_blank" rel="external">Learn Python the Hard Way</a>，<a href="http://www.liaoxuefeng.com/wiki/001374738125095c955c1e6d8bb493182103fac9270762a000/" target="_blank" rel="external">Python2.7教程</a></p>
