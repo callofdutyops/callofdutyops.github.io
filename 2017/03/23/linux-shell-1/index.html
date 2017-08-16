@@ -1,0 +1,318 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="utf-8">
+  
+  <title>Linux Shell 脚本攻略（一） | Talk is cheap</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="虽然用Linux好几年了，但是对shell脚本的掌握基本为零……最近需要做一些文件批量重命名，图像批量预处理，文本批量预处理的琐碎而重复的工作，于是乎下定决心好好学习一下shell脚本。于是找了一本口碑不错的shell脚本入门书—-《Linux Shell 脚本攻略 第2版》，是印度人Shantanu Tushar和Sarath Lakshman写的。边看边写博客系列（计划分九个系列完成）当做读书">
+<meta name="keywords" content="Linux,Tutorial,Development,Learn,Shell">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Linux Shell 脚本攻略（一）">
+<meta property="og:url" content="https://callofdutyops.github.io/2017/03/23/linux-shell-1/index.html">
+<meta property="og:site_name" content="Talk is cheap">
+<meta property="og:description" content="虽然用Linux好几年了，但是对shell脚本的掌握基本为零……最近需要做一些文件批量重命名，图像批量预处理，文本批量预处理的琐碎而重复的工作，于是乎下定决心好好学习一下shell脚本。于是找了一本口碑不错的shell脚本入门书—-《Linux Shell 脚本攻略 第2版》，是印度人Shantanu Tushar和Sarath Lakshman写的。边看边写博客系列（计划分九个系列完成）当做读书">
+<meta property="og:locale" content="zh-cn">
+<meta property="og:updated_time" content="2017-08-16T03:36:05.019Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Linux Shell 脚本攻略（一）">
+<meta name="twitter:description" content="虽然用Linux好几年了，但是对shell脚本的掌握基本为零……最近需要做一些文件批量重命名，图像批量预处理，文本批量预处理的琐碎而重复的工作，于是乎下定决心好好学习一下shell脚本。于是找了一本口碑不错的shell脚本入门书—-《Linux Shell 脚本攻略 第2版》，是印度人Shantanu Tushar和Sarath Lakshman写的。边看边写博客系列（计划分九个系列完成）当做读书">
+  
+    <link rel="alternate" href="/atom.xml" title="Talk is cheap" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  <link rel="stylesheet" href="/css/style.css"><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+  
+
+</head>
+
+<body>
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Talk is cheap</a>
+      </h1>
+      
+        <h2 id="subtitle-wrap">
+          <a href="/" id="subtitle">Working harder</a>
+        </h2>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="https://callofdutyops.github.io"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-linux-shell-1" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2017/03/23/linux-shell-1/" class="article-date">
+  <time datetime="2017-03-22T19:50:41.000Z" itemprop="datePublished">2017-03-23</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/Linux/">Linux</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      Linux Shell 脚本攻略（一）
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>虽然用Linux好几年了，但是对shell脚本的掌握基本为零……最近需要做一些文件批量重命名，图像批量预处理，文本批量预处理的琐碎而重复的工作，于是乎下定决心好好学习一下shell脚本。于是找了一本口碑不错的shell脚本入门书—-《Linux Shell 脚本攻略 第2版》，是印度人Shantanu Tushar和Sarath Lakshman写的。边看边写博客系列（计划分九个系列完成）当做读书笔记，同时，也不完全是读书笔记，会加上一些解释的链接或者个人的经验：）当然，如果有人看，也算是做个“脱水版”的精炼shell脚本入门“指南”吧：）</p>
+<ol>
+<li><p><strong>基本的文件格式结构，运行规则：</strong><br>文件开头第一行<code>#!/bin/bash</code>（这里可以是别的shell的路径），<code>#!</code>这玩意叫<a href="https://zh.wikipedia.org/wiki/Shebang" target="_blank" rel="external">shebang</a>，不过<code>$ bash script.sh</code> 这种运行方式首行的shebang就没什么用了，或者<code>$ chmod +x script.sh</code>然后<code>$ ./script.sh</code>。</p>
+</li>
+<li><p><strong>命令间隔符：</strong><br>换行符或者分号; 是等价的，也就是说<code>$ cmd1; cmd2</code>等同于<code>$ cmd1 $ cmd2</code>。</p>
+</li>
+<li><p><strong>终端的打印：</strong><br>最基本的<code>echo</code>，<code>$ echo “Hello world”</code>，注意这里也可以用单引号，但是有些差别，关于单双引号的不同，后面再说，简单的来讲就是单引号不拓展特殊符号（也就是原样输出）。高级一点的printf，这个大家都熟悉，和C里的函数用法差不多，一个小例子：<code>$ printf &quot;%-5s %-10s %-4s\n&quot;</code>，几点注意的地方，首先，%s, %c, %d, %f和C语言的含义相同，“-”号表示左对齐，“-”号后面跟的数字表示字符宽度。更多的printf用法随意搜索便有很详细的解释。其次，需要加\n手动换行，echo就不需要。3. 双引号内设置格式，需要打印的内容在引号外面。</p>
+</li>
+<li><p><strong>echo打印转义字符：</strong><br>加上“-e”参数，例如，<code>$ echo -e &quot;\t&quot;</code><br><em>bonus：</em>echo打印彩色，看起来很炫酷的样子，<code>$ echo -e &quot;\e[1;31m THIS IS RED TEXT \e[0m&quot;</code>， <code>\e[1;31</code> 将颜色设置为红色，<code>\e[0m</code>又把颜色重置了，更多的颜色以及解释请看<a href="http://stackoverflow.com/questions/5947742/how-to-change-the-output-color-of-echo-in-linux" target="_blank" rel="external">这个链接</a>。</p>
+</li>
+<li><p><strong>环境变量：</strong><br>查看某个运行程序的环境变量<code>$ cat /proc/$PID/environ</code>，其中<code>$PID</code>的获取用<code>pgrep</code>命令，例如：<code>$ pgrep gedit</code>，输出一大堆，而且居然还没有换行，因为这些字符是<code>name=value</code>的形式显示，<code>\0</code>也就是<code>null</code>结尾，我们可以吧<code>\0</code>换成<code>\n</code>，<code>$ cat /proc/$PID/environ | tr &#39;\0&#39; &#39;\n&#39;</code>，这里用到了管道以及<code>tr</code>命令，详细的用法后面会解释。</p>
+</li>
+<li><p><strong>变量的赋值与取值：</strong><br>赋值：<code>var=value</code>，注意等号左右没有空格，有空格就是相等的意思了。取值：<code>$var</code>或者<code>${var}</code>，加花括号是为了区分，例如<code>${var}s</code>，如果不加花括号，则会去取vars的值，然而这个变量不存在也就是为空。<br><em>bonus：</em></p>
+</li>
+<li>获得字符串长度：<code>length=${\#var}</code>。</li>
+<li>识别当前的shell：<code>echo $SHELL</code>，或者<code>echo $0</code>（试试看这两个有什么不同？）。</li>
+<li>检查执行当前脚本的用户是否为超级用户：检查<code>$UID</code>是否为0，关于如何检查是否相等，后面会提及。</li>
+<li><p>修改BASH的提示符：设置PS1变量，例如：<code>PS1=&quot;PROMPT&gt;&quot;</code>，当然，也可以用前面炫酷的彩色效果，这里还有些小技巧，比如：<code>\u</code>是用户名等等。详细的内容可以查询搜索引擎。</p>
+</li>
+<li><p><strong>环境变量的设置：</strong><br>环境变量也是变量，但是是一些名称约定俗成的变量，例如<code>HOME</code>，<code>PATH</code>等等，详情请见<a href="https://zh.wikipedia.org/wiki/%E7%8E%AF%E5%A2%83%E5%8F%98%E9%87%8F" target="_blank" rel="external">这里</a></p>
+</li>
+<li><p><strong>在shell中进行数学运算：</strong><br>shell中<code>var=value</code>赋值后存储的是字符串，可以使用<code>let</code>进行运算，例如：<code>no1=4; no2=5; let result=no1+no2; echo $result</code>，自加/自减：<code>let no1++/--</code>，简写：<code>let no+=6</code>也就是<code>let no=no+6</code>。<code>let</code>可以换成<code>[ ]</code>或者<code>(( ))</code>，用这两个符合，变量名前面可加可不加$，例如：<code>result=$[ no1 + no2 ]</code>，注意两侧的空格。同时，<code>expr</code>也可以，例如：<code>result=$(expr $no1 + $no2 )</code>。以上方法适用于整数运算，浮点数需要借助<code>bc</code>。<code>bc</code>有很多选项，这里举几个例子：</p>
+</li>
+<li>基本运算：<code>echo &quot;4 * 0.56&quot; | bc</code></li>
+<li>设定小数点精度<code>echo &quot;scale=2;4 * 0.56&quot; | bc</code></li>
+<li>进制转换：<code>echo &quot;obase=2;ibase=10;53&quot; | bc</code></li>
+<li><p>调用数学函数：<code>echo &quot;sqrt(100)&quot; | bc</code></p>
+</li>
+<li><p><strong>文件描述符以及重定向：</strong><br><code>0：stdin</code>，<code>1：stdout</code>，<code>2：stderr</code>，重定向：<code>&gt;</code>覆盖模式，<code>&gt;&gt;</code>追加模式，例如：<code>echo &quot;Hello world&quot; &gt;/&gt;&gt; text.txt</code>。stderr重定向：<code>2&gt;</code>，例如<code>$ ls + 2&gt; err.txt</code>。多个重定向：<code>$ cmd 2&gt;stderr.txt 1&gt;stdout.txt</code>。stderr转换成stdout，与stdout同时重定向：<code>$ cmd 2&gt;&amp;amp;1 output.txt</code>。重定向到<code>/dev/null</code>的所有信息都会像进入黑洞一样被抛弃。三通<code>tee</code>命令，可以把<code>tee</code>看成一个三通管道，左边的口进来，copy一份往下送，右边口原样输出。例如：<code>ls | tee out.txt | cat -n</code>。<code>exec</code>自定义文件描述符：<code>exec 3&lt;input.txt</code>，&lt;表示读取，&gt;表示写入，现在3就可以作为文件描述符使用了。同样的，&gt;&gt;表示追加写入。注意，文件描述符是”一次性使用的“，每次使用都要用<code>exec</code>重新分配。</p>
+</li>
+<li><p><strong>数组与关联数组（BASH从4.0才开始支持关联数组，请检查BASH版本：bash –version）：</strong><br>赋值：<code>array_var=(1 2 3 4 5)</code>，或者<code>array_var[0]=&quot;test1&quot;</code>。打印：<code>echo ${array_var[0]}</code>。打印全部：<code>echo ${array_var[\*]}</code>或者<code>echo ${array_var[@]}</code>，打印数组长度：<code>echo ${\#array_var[\*]}</code>。关联数组：使用任意文本作为数组的索引。首先<code>declare -A ass_array</code>，赋值：<code>ass_array[index1]=&quot;test1&quot;</code>。其他用法同数组。打印索引列表：<code>echo ${!ass_array[\*]}</code></p>
+</li>
+<li><p><strong>命令别名：</strong><br><code>alias new_command=&#39;old command&#39;</code>，若不希望执行命令别名，仅仅希望执行命令本身，可以用\转义。例如：<code>alias cat=&#39;ls&#39;</code>，执行cat则会输出ls的结果，这时，想要执行cat应该是<code>\cat</code>。</p>
+</li>
+<li><p><strong>获取终端信息：</strong><br>获取终端的行数，列数：<code>tput lines，tput cols</code>。获取当前终端名：<code>tput longname</code>。详细的tput用法请见<a href="http://man.linuxde.net/tput" target="_blank" rel="external">这篇文章</a>。</p>
+</li>
+<li><p><strong>获取、设置时间与延时：</strong><br>首先，介绍一个概念：<a href="https://zh.wikipedia.org/wiki/UNIX%E6%97%B6%E9%97%B4" target="_blank" rel="external">Unix时间</a>。读取日期：<code>date</code>。读取Unix时间：<code>date +%s</code>。日期格式化：<code>date --date &quot;Wed Mar 22 22:21:13 CST 2017&quot; +%s</code>，其中s可以换成不同的符号输出不同的日期格式。具体请查看man date的FORMAT部分。设置日期：需要root权限，<code>date -s &quot;日期&quot;</code>。延时：<code>sleep sec</code>，其中sec是需要延时的秒数。</p>
+</li>
+<li><p><strong>调试脚本：</strong><br><code>$ bash -x script.sh</code>，如果仅仅想对部分语句调试，在语句的前后分别加上<code>set -x</code>和<code>set +x</code>即可。</p>
+</li>
+<li><p><strong>函数：</strong><br>定义函数：<code>fname() { statements; }</code>。函数调用与参数传递：<code>fname arg1 arg2</code>; 访问参数：$1是第一个参数，$n是第n个参数，$@以列表方式一次性打印所有参数。注：BASH的函数支持递归调用。</p>
+</li>
+<li><p><strong>检测命令的返回状态：</strong><br><code>$ echo $?</code>返回上条命令的返回状态，一般来讲，非0值表示异常退出。</p>
+</li>
+<li><p><strong>管道：</strong><br>Linux的基本设计思想之一就是，每个程序小而精，只干且干好一件事情，这样很多小工具组合起来就非常强大且稳健。管道是这些小工具能够联合工作的重要基础之一。<code>cmd1 | cmd2 | cmd3</code>表示cmd1加工输入后输出给cmd2，cmd2加工cmd1的输出后输出给cmd3。</p>
+</li>
+<li><p><strong>反引用：</strong><br>`commd`可以看成执行``之间的命令，例如output=`ls`; <code>echo $output</code></p>
+</li>
+<li><p><strong>子shell：</strong><br>将命令用()括起来代表命令在子shell中执行，此时命令不会影响主shell。例如<code>pwd; (cd /bin; ls); pwd;</code>，虽然cd到了/bin但是主shell的工作目录并不会改变。</p>
+</li>
+<li><p><strong>read的使用：</strong><br><code>read -s var</code>：无回显，<code>read -p &quot;Enter your input: &quot; var</code>，带提示信息，<code>read -t timeout var</code>，特定时限内读入，<code>read -d delim var</code>，以delim为输入行的结束。</p>
+</li>
+<li><p><strong>内部字符分隔符（Internal Field Separator，IFS）：</strong><br>简单地说，就是通过<code>IFS</code>这个环境变量告诉shell如何分割字符。直接看例子：<code>data=&quot;name,sex,location&quot;; oldIFS=$IFS; for item in $data; do echo $item; done IFS=$oldIFS</code>。</p>
+</li>
+<li><p><strong>循环：</strong><br>for循环：<code>for var in list; do commd; done;</code><br>C语言风格：<code>for ((i=0;i&lt;10;i++)){ commd; }</code><br>while循环：<code>while condition; do commd; done;</code><br>until循环：<code>until condition; do commd; done;</code></p>
+</li>
+<li><p><strong>比较与测试：</strong><br>if、else：<code>if condition; then commd; else if condition; then commd; else commd; fi</code><br><code>[ condition ] &amp;&amp; action</code>：如果condition为真则执行action<br><code>[ condition ] || action</code>：如果condition为假则执行action<br>注意<code>[  ]</code>周围的空格。算数比较：<code>[ $var -eq/ne/gt/lt/ge/le 0 ]</code>:如果var等于/不等于/大于/小于/大于等于/小于等于0，则返回真。辅助记忆：eq是equal也就是相等，ne是non equal也就是不相等，g是greater也就是大于，l是less也就是小于。-a是与-o是或（and和or），例如：[ $var1 -ne 0 -a $var2 -gt 2 ]表示如果var1不等于0并且var2大于2则返回真。<br>文件系统相关测试：<code>[ -f/x/d/e/c/b/w/r/L $var ]</code>，如果给定的变量包含正常的文件路径或文件名/可执行/是目录/存在/是字符设备文件/是块设备文件/可写/可读/是符号链接，则返回真。辅助记忆，file/execute/dir/exist/char/block/write/read/link。<br>字符串比较：使用双中括号。<code>[[ $str1 ==/!=/&gt;/&amp;lt; $str2 ]]</code>，如果str1等于/不等于/字典序大于/字典序小于str2，则返回真。<br><code>[[ -z/n $str1 ]]</code>，若str1包含的是空/非空字符串，则返回真。辅助记忆：zero/non-zero。对于字符串，同样逻辑运算符<code>&amp;&amp;</code>与<code>||</code>也适用。<br><code>test</code>命令：<code>test</code>可以避免使用过多括号，与前面的命令相同，例如：<code>[ $var -eq 0 ]</code>等价于<code>test $var -eq 0</code></p>
+</li>
+</ol>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://callofdutyops.github.io/2017/03/23/linux-shell-1/" data-id="cj6egt8vs0008yaqx10bfr3p5" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Development/">Development</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Learn/">Learn</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Linux/">Linux</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Shell/">Shell</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Tutorial/">Tutorial</a></li></ul>
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2017/03/23/roadmap-recently/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          Roadmap recently
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2017/03/11/tensorboard-embedding/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">TensorBoard Embedding 实战</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Categories</h3>
+    <div class="widget">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Android/">Android</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Learning/">Learning</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Life/">Life</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Linux/">Linux</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/TensorFLow/">TensorFLow</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/TensorFlow/">TensorFlow</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tags</h3>
+    <div class="widget">
+      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Android/">Android</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Dagger/">Dagger</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Data/">Data</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Deep-Learning/">Deep Learning</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Development/">Development</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Github/">Github</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Google/">Google</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Inception/">Inception</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Java/">Java</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Knowledge/">Knowledge</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Lambda/">Lambda</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Learn/">Learn</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Library/">Library</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Linux/">Linux</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/MVP/">MVP</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/MVVM/">MVVM</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/OkHttp/">OkHttp</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Practices/">Practices</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Printer/">Printer</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Python/">Python</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/R/">R</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Research/">Research</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Retrofit/">Retrofit</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/RxAndroid/">RxAndroid</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/RxJava/">RxJava</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Shell/">Shell</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/TensorBoard/">TensorBoard</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/TensorFlow/">TensorFlow</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Time-series/">Time series</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Tutorial/">Tutorial</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Volley/">Volley</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/development/">development</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/tutorial/">tutorial</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tag Cloud</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/Android/" style="font-size: 14.29px;">Android</a> <a href="/tags/Dagger/" style="font-size: 10px;">Dagger</a> <a href="/tags/Data/" style="font-size: 10px;">Data</a> <a href="/tags/Deep-Learning/" style="font-size: 18.57px;">Deep Learning</a> <a href="/tags/Development/" style="font-size: 15.71px;">Development</a> <a href="/tags/Github/" style="font-size: 10px;">Github</a> <a href="/tags/Google/" style="font-size: 10px;">Google</a> <a href="/tags/Inception/" style="font-size: 10px;">Inception</a> <a href="/tags/Java/" style="font-size: 10px;">Java</a> <a href="/tags/Knowledge/" style="font-size: 10px;">Knowledge</a> <a href="/tags/Lambda/" style="font-size: 10px;">Lambda</a> <a href="/tags/Learn/" style="font-size: 15.71px;">Learn</a> <a href="/tags/Library/" style="font-size: 10px;">Library</a> <a href="/tags/Linux/" style="font-size: 15.71px;">Linux</a> <a href="/tags/MVP/" style="font-size: 10px;">MVP</a> <a href="/tags/MVVM/" style="font-size: 10px;">MVVM</a> <a href="/tags/OkHttp/" style="font-size: 10px;">OkHttp</a> <a href="/tags/Practices/" style="font-size: 10px;">Practices</a> <a href="/tags/Printer/" style="font-size: 10px;">Printer</a> <a href="/tags/Python/" style="font-size: 11.43px;">Python</a> <a href="/tags/R/" style="font-size: 10px;">R</a> <a href="/tags/Research/" style="font-size: 10px;">Research</a> <a href="/tags/Retrofit/" style="font-size: 10px;">Retrofit</a> <a href="/tags/RxAndroid/" style="font-size: 10px;">RxAndroid</a> <a href="/tags/RxJava/" style="font-size: 11.43px;">RxJava</a> <a href="/tags/Shell/" style="font-size: 10px;">Shell</a> <a href="/tags/TensorBoard/" style="font-size: 10px;">TensorBoard</a> <a href="/tags/TensorFlow/" style="font-size: 20px;">TensorFlow</a> <a href="/tags/Time-series/" style="font-size: 10px;">Time series</a> <a href="/tags/Tutorial/" style="font-size: 17.14px;">Tutorial</a> <a href="/tags/Volley/" style="font-size: 10px;">Volley</a> <a href="/tags/development/" style="font-size: 12.86px;">development</a> <a href="/tags/tutorial/" style="font-size: 10px;">tutorial</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/08/">八月 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/07/">七月 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/06/">六月 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/03/">三月 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/02/">二月 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/10/">十月 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/09/">九月 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/07/">七月 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/06/">六月 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/02/">二月 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/01/">一月 2016</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2017/08/03/tensorflow-model-best-practice/">TensorFLow模型建立最佳实践</a>
+          </li>
+        
+          <li>
+            <a href="/2017/07/30/tensorflow-details/">TensorFlow中的一些细节--PART 1</a>
+          </li>
+        
+          <li>
+            <a href="/2017/07/21/archlinux-tensorflow/">在ArchLinux上安装GPU版TensorFlow</a>
+          </li>
+        
+          <li>
+            <a href="/2017/06/15/sudo-python-environ/">sudo python environ 环境变量问题</a>
+          </li>
+        
+          <li>
+            <a href="/2017/03/28/tensorflow-learning-paths-2/">新手向的TensorFlow学习之路2（Learning paths 2）</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2017 Pu Huang<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/script.js"></script>
+
+
+
+  </div><!-- hexo-inject:begin --><!-- Begin: Injected MathJax -->
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({"tex2jax":{"inlineMath":[["$","$"],["\\(","\\)"]],"skipTags":["script","noscript","style","textarea","pre","code"],"processEscapes":true},"TeX":{"equationNumbers":{"autoNumber":"AMS"}}});
+</script>
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+      all[i].SourceElement().parentNode.className += ' has-jax';
+    }
+  });
+</script>
+
+<script type="text/javascript" src="//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+<!-- End: Injected MathJax -->
+<!-- hexo-inject:end -->
+</body>
+</html>

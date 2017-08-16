@@ -69,6 +69,486 @@
       <div class="outer">
         <section id="main">
   
+    <article id="post-tensorflow-on-android" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2017/02/17/tensorflow-on-android/" class="article-date">
+  <time datetime="2017-02-16T16:05:54.000Z" itemprop="datePublished">2017-02-17</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/TensorFlow/">TensorFlow</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2017/02/17/tensorflow-on-android/">在Android端使用TensorFlow</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>本篇文章中软件的下载需要科学上网支持。<br>主要参考资料为<a href="https://www.oreilly.com/learning/tensorflow-on-android" target="_blank" rel="external">这篇文章</a>，但是原文章涉及的TF版本已经过旧，有些小坑，例如android工程几个项目文件的修改，已经完全不同了。<br>TensorFlow的一个很突出的优势是跨平台，但是这方面的资料还比较少。<br>不过最近随着1.0版本的发布，文档的逐渐完善，在移动端的应用也越来越都多，并且官方增加了<a href="https://github.com/tensorflow/tensorflow/tree/master/tensorflow/examples/android" target="_blank" rel="external">两个demo</a>。其实应用在移动端还是比较容易的，只是因为官方的文档还是太省略，并且如果没有前两篇（<a href="http://hp.stuhome.net/index.php/2017/02/16/tensorflow-install/" target="_blank" rel="external">1</a>，<a href="http://hp.stuhome.net/index.php/2017/02/16/retrain-google-inception-model/" target="_blank" rel="external">2</a>）的铺垫知识，看起来容易一头雾水。还有一个复杂的地方是，如果需要自定义app需要用到一些Android编程的知识，并且Google的Bazel编译工具也实在是太小众了。鉴于这些坑，将项目的心得分享记录于此，以供参考，节省大家的时间。<br>通过前两篇博客（<a href="http://hp.stuhome.net/index.php/2017/02/16/tensorflow-install/" target="_blank" rel="external">1</a>，<a href="http://hp.stuhome.net/index.php/2017/02/16/retrain-google-inception-model/" target="_blank" rel="external">2</a>），我们通过重新训练获得了权重值文件（retrained_graph.pb）和标签文件（retrained_labels.txt），利用这两个文件和官方给的demo代码，就可以简单实现在移动端（因为我手上只有Android设备，因此仅针对Android）的实时识别。<br>编译Android端的app需要用到Android的<a href="https://dl.google.com/android/repository/tools_r25.2.3-linux.zip" target="_blank" rel="external">SDK</a>与<a href="https://dl.google.com/android/repository/android-ndk-r13b-linux-x86_64.zip" target="_blank" rel="external">NDK</a>，首先下载这两个工具集。不过我推荐先下载Android Studio，使用Android Studio管理SDK与NDK，这样下载，管理和升级比较方便，而且毕竟以后可能还要调整demo，要用到Android的开发IDE。下载过程就不详细描述了，<a href="https://developer.android.com/" target="_blank" rel="external">Android开发者网站</a>有很详细的步骤。<br>有了SDK与NDK后，就可以着手利用我们重训练的权重值文件与标签编译app了。首先，需要告诉TensorFlow SDK与NDK的路径。浏览至tensorflow目录，打开WORKSPACE文件，在文件第10行左右，会看到以下代码：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line"># Uncomment and update the paths in these entries to build the Android demo.</div><div class="line">#android_sdk_repository(</div><div class="line">#    name = &quot;androidsdk&quot;,</div><div class="line">#    api_level = 23,</div><div class="line">#    build_tools_version = &quot;23.0.1&quot;,</div><div class="line">#    # Replace with path to Android SDK on your system</div><div class="line">#    path = &quot;&quot;,</div><div class="line">#)</div><div class="line">#</div><div class="line">#android_ndk_repository(</div><div class="line">#    name=&quot;androidndk&quot;,</div><div class="line">#    path=&quot;&quot;,</div><div class="line">#    api_level=21)</div></pre></td></tr></table></figure>
+<p>首先删除行首的井号取消注释，随后编辑””和””为你的SDK与NDK路径，同时注意修改SDK的api_level和build_tools_version与NDK的api_level为下载的版本。若使用Android Studioi下载SDK与NDK则在SDK Manager中可以看到对应的版本。若是单独下载的SDK与NDK，则文件名会有版本号体现。（目前分别是25,25.0.2,24，注意版本号可能会随时间改变），修改完是这样的：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line"># Uncomment and update the paths in these entries to build the Android demo.</div><div class="line">android_sdk_repository(</div><div class="line">    name = &quot;androidsdk&quot;,</div><div class="line">    api_level = 25,</div><div class="line">    build_tools_version = &quot;25.0.2&quot;,</div><div class="line">    # Replace with path to Android SDK on your system</div><div class="line">    path = &quot;/home/hp/Android/Sdk&quot;,</div><div class="line">)</div><div class="line"></div><div class="line">android_ndk_repository(</div><div class="line">    name=&quot;androidndk&quot;,</div><div class="line">    path=&quot;/home/hp/Android/Sdk/ndk-bundle&quot;,</div><div class="line">    api_level=24)</div></pre></td></tr></table></figure>
+<p>源码目录中，tensorflow/examples/android是我们重点关注的内容，这里存放了demo源代码。<br>接下来，编译对权重文件优化的优化工具，因为要在移动端使用，因此要优化权重值文件：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="meta">$</span> cd ~/tensorflow</div><div class="line"><span class="meta">$</span> bazel build tensorflow/python/tools:optimize_for_inference</div></pre></td></tr></table></figure>
+<p>随后，优化权重值文件：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="meta">$</span> bazel-bin/tensorflow/python/tools/optimize_for_inference \</div><div class="line">--input=/home/hp/Downloads/flower/retrained_graph.pb \</div><div class="line">--output=tensorflow/examples/android/assets/retrained_graph.pb \</div><div class="line">--input_names=Mul \</div><div class="line">--output_names=final_result</div></pre></td></tr></table></figure>
+<p>把标签文件也拷贝进来：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="meta">$</span> cp /home/hp/Downloads/flower/retrained_labels.txt /your_path/tensorflow/tensorflow/examples/android/assets/</div></pre></td></tr></table></figure>
+<p>由于我们使用自己的权重值文件，因此在编译过程中不需要再次下载Inception模型文件了（当然这步不做也可以，只不过编译过程会再次下载Inception模型），打开tensorflow/examples/android/BUILD文件，搜索inception，在67行左右，添加井号注释掉即可。<br>由于我们使用的权重值文件名称是自定的（retrained_graph.pb），因此需要修改demo代码：<br>打开/your_path/tensorflow/tensorflow/examples/android/src/org/tensorflow/demo/ClassifierActivity.java文件，文件开头import部分后，有注释，根据注释，我们修改源代码：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">int</span> NUM_CLASSES = <span class="number">1001</span>;<span class="comment">//类别+1</span></div><div class="line"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">int</span> INPUT_SIZE = <span class="number">224</span>;</div><div class="line"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">int</span> IMAGE_MEAN = <span class="number">117</span>;</div><div class="line"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">float</span> IMAGE_STD = <span class="number">1</span>;</div><div class="line"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> String INPUT_NAME = <span class="string">"input:0"</span>;</div><div class="line"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> String OUTPUT_NAME = <span class="string">"output:0"</span>;</div><div class="line"></div><div class="line"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> String MODEL_FILE = <span class="string">"file:///android_asset/tensorflow_inception_graph.pb"</span>;<span class="comment">//权重值文件名</span></div><div class="line"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> String LABEL_FILE = <span class="string">"file:///android_asset/imagenet_comp_graph_label_strings.txt"</span>;<span class="comment">//标签文件名</span></div></pre></td></tr></table></figure>
+<p>为：</p>
+<figure class="highlight java"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">int</span> NUM_CLASSES = <span class="number">6</span>;</div><div class="line"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">int</span> INPUT_SIZE = <span class="number">299</span>;</div><div class="line"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">int</span> IMAGE_MEAN = <span class="number">128</span>;</div><div class="line"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> <span class="keyword">float</span> IMAGE_STD = <span class="number">128</span>;</div><div class="line"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> String INPUT_NAME = <span class="string">"Mul:0"</span>;</div><div class="line"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> String OUTPUT_NAME = <span class="string">"final_result:0"</span>;</div><div class="line"></div><div class="line"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> String MODEL_FILE = <span class="string">"file:///android_asset/retrained_graph.pb"</span>;</div><div class="line"><span class="keyword">private</span> <span class="keyword">static</span> <span class="keyword">final</span> String LABEL_FILE = <span class="string">"file:///android_asset/retrained_labels.txt"</span>;</div></pre></td></tr></table></figure>
+<p>接下来就可以编译apk文件并安装啦！<br>首先安装adb工具集（其实SDK中有，但是为了方便使用，还是安装一下）：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="meta">$</span> sudo apt-get install adb</div></pre></td></tr></table></figure>
+<p>打开手机的USB调试模式，连接电脑，用adb命令先查看手机是否成功连接：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="meta">$</span> sudo adb devices</div></pre></td></tr></table></figure>
+<p>若命令输出不为空，并且有xxxxxx device字样，则说明连接成功。<br>随后，编译apk文件并上传安装：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="meta">$</span> cd /your_path/tensorflow</div><div class="line"><span class="meta">$</span> bazel build //tensorflow/examples/android:tensorflow_demo</div><div class="line"><span class="meta">$</span> adb install -r -g bazel-bin/tensorflow/examples/android/tensorflow_demo.apk</div></pre></td></tr></table></figure>
+<p>在手机上打开应用即可。<br>在电脑屏幕上显示一张训练集图片，测试结果如图所示（单击音量下键显示详细信息）：<br><img src="http://hp.stuhome.net/wp-content/uploads/2017/02/Screenshot_20170217-012837.png" alt=""><br>可以看出，app给出了正确的分类，并且置信率很高。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://callofdutyops.github.io/2017/02/17/tensorflow-on-android/" data-id="cj6egt8w9001hyaqx3rnw11in" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Android/">Android</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Deep-Learning/">Deep Learning</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/TensorFlow/">TensorFlow</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/tutorial/">tutorial</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-retrain-google-inception-model" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2017/02/16/retrain-google-inception-model/" class="article-date">
+  <time datetime="2017-02-16T14:06:30.000Z" itemprop="datePublished">2017-02-16</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/TensorFLow/">TensorFLow</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2017/02/16/retrain-google-inception-model/">利用TF重训练Google Inception模型</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>本篇文章中软件的下载需要科学上网支持。<br>主要参考资料为<a href="https://www.oreilly.com/learning/dive-into-tensorflow-with-linux" target="_blank" rel="external">这篇文章</a>，主要步骤相同，对参数，细节做了说明。<br>一般来讲，深度学习的模型训练需要消耗大量的计算资源，例如Google的Inception模型，使用了8张K40显卡训练了两周，普通开发者一般没有这样强大的计算资源支撑。但是迁移学习提供了捷径，通过重训练已训练模型的最后几层，就可以将模型用于自定义图像的分类。TF提供了用于重训练的工具集。<br>因此，在尝试自己搭建模型并训练模型之前，应首先尝试使用重训练模型方法，这样的好处是可以先快速评估至少可以达到的准确率，对以后的模型建立，优化提供基线（baseline）。<br>并且，重训练生成的权重值文件可以用于TF移动端app，移动端app直接加载训练好的权重值，通过摄像头实时识别，这将在下篇博客中讲解。<br>这次项目中使用的是基金会提供的视网膜病变图像，数据集比较小，只有不到400张，依然达到了不错的准确率（测试集80%左右），本教程中，以开源数据集为例做示范。<br>开源数据集下载地址：<br><code>http://download.tensorflow.org/example_images/flower_photos.tgz</code><br>首先，下载数据集</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="meta">$</span> curl -O http://download.tensorflow.org/example_images/flower_photos.tgz</div></pre></td></tr></table></figure>
+<p>解压到某一目录下，比如<code>～/Downloads/flower</code>，可以看到，<code>flower_photos</code>文件夹中有5个分类，在重训练过程中，TF提供的工具集会将这五个分类文件夹的名称作为类别标签，因此，若需要修改分类标签，应在这里修改文件夹的名称。<br><a href="http://hp.stuhome.net/index.php/2017/02/16/tensorflow-install/" target="_blank" rel="external">上篇博客</a>讲解了如何从源码安装TF（是本篇博客的基础）。<br>首先，浏览至源码目录顶层，例如：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="meta">$</span> cd ～/tensorflow</div></pre></td></tr></table></figure>
+<p>然后执行重训练Python程序（这里的参数仅仅是示例，可直接打开源码文件，底部有所有参数以及参数说明，可用于进一步调参使用），注意路径替换为自己的路径：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">python3 tensorflow/examples/image_retraining/retrain.py \</div><div class="line">--bottleneck_dir=/home/hp/Downloads/flower/bottlenecks \</div><div class="line">--model_dir=/home/hp/Downloads/flower/inception \</div><div class="line">--output_graph=/home/hp/Downloads/flower/retrained_graph.pb \</div><div class="line">--output_labels=/home/hp/Downloads/flower/retrained_labels.txt \</div><div class="line">--image_dir /home/hp/Downloads/flower/flower_photos</div></pre></td></tr></table></figure>
+<p>参数解析：<br><code>bottleneck_dir</code>：生成bottleneck文件，加快训练过程，详细解释参见<a href="https://www.tensorflow.org/tutorials/image_retraining#bottlenecks" target="_blank" rel="external">这里</a>。<br><code>model_dir</code>：下载的Inception存放目录。<br><code>output_graph</code>：重训练生成的权重值的存放目录。<br><code>output_labels</code>：重训练生成的标签的存放目录。<br><code>image_dir</code>：数据集目录。<br>执行Python程序后，会自动下载Inception模型，随后会生成bottleneck文件并开始重训练，此过程需要些时间。<br>或者：<br>TF提供了二进制重训练工具，执行以下命令编译：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">bazel build --config opt tensorflow/examples/image_retraining:retrain</div></pre></td></tr></table></figure>
+<p>其中–config opt参数利用了configure步骤设置的指令集，可以最大化性能。<br>参数与上面的Python程序类似，可以-h查看参数列表与用法：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">bazel-bin/tensorflow/examples/image_retraining/retrain -h</div></pre></td></tr></table></figure>
+<p>训练完成在output_graph文件夹将会得到重训练好的权重值文件，接下来，编译分类器，让此分类器利用训练好的权重值执行分类任务：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="meta">$</span> bazel build tensorflow/examples/label_image:label_image</div></pre></td></tr></table></figure>
+<p>执行分类测试：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line"><span class="meta">$</span> bazel-bin/tensorflow/examples/label_image/label_image \</div><div class="line">--graph=/home/hp/Downloads/flower/retrained_graph.pb \</div><div class="line">--labels=/home/hp/Downloads/flower/retrained_labels.txt \</div><div class="line">--output_layer=final_result \</div><div class="line">--image=/home/hp/Downloads/flower/flower_photos/8181477_8cb77d2e0f_n.jpg #测试训练集中的图片</div></pre></td></tr></table></figure>
+<p>程序所用参数应该很容易理解。<br>这种方法可以用来测试，如果批量对图片分类的话会很慢，因为每次执行命令都会重新加载整个权重值文件，因此，批量分类应使用另写Python程序利用TF加载重训练的权重值建立图，然后批量分类。具体实现过程我放到了<a href="https://github.com/callofdutyops/tensorflow_yxh/blob/master/predict_inception.py" target="_blank" rel="external">github</a>上，必要的注释在源文件中。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://callofdutyops.github.io/2017/02/16/retrain-google-inception-model/" data-id="cj6egt8vu000dyaqxhpk5goi8" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Deep-Learning/">Deep Learning</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Google/">Google</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Inception/">Inception</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Learn/">Learn</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/TensorFlow/">TensorFlow</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Tutorial/">Tutorial</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-tensorflow-install" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2017/02/16/tensorflow-install/" class="article-date">
+  <time datetime="2017-02-16T07:39:47.000Z" itemprop="datePublished">2017-02-16</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/TensorFlow/">TensorFlow</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2017/02/16/tensorflow-install/">TensorFlow从源码安装</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <blockquote>
+<p>今天（2017年2月15日），TensorFlow 1.0正式发布，这意味着TF已经可以真正作为生产环境的主力Framework了！向所有开发者致敬~</p>
+</blockquote>
+<p>本篇文章中软件的下载需要科学上网支持。主要参考资料为tensorflow的官方说明文档。</p>
+<p>本想在一月份就把近期做的一个有关医疗图像识别的项目以博客的形式记录下来，然而一直拖到现在……计划写一个小系列吧，把配置过程，尝试过的方法分开记录于此。就从从源码安装开始吧。<br>由于本项目用到了重训练inception和生成Android端app，这个过程需要使用TensorFlow中的一些二进制工具软件，仅仅使用pip安装Python包是不够的，因此，需要通过源码安装TF。并且，通过源码安装可以获得<a href="https://www.tensorflow.org/performance/performance_guide" target="_blank" rel="external">最大性能</a>，可以开启CPU高级指令集（例如sse，avx）的支持。由于我使用的计算机配置的是AMD显卡，并且当时没有OpenCL支持，因此不涉及GPU版本，但步骤都是相似的，配合查阅官方文档很容易安装GPU版本。我使用的操作系统为Ubuntu 16.04（当时TF的版本是0.11，但是写这篇博客的时候1.0已经发布，因此我就以1.0版本为基础复现项目，在写作过程中我尽量每一步都使用1.0版本复现，防止造成困扰）</p>
+<p>首先从github clone项目并checkout到1.0版本：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="meta">$</span> git clone https://github.com/tensorflow/tensorflow</div><div class="line"><span class="meta">$</span> cd tensorflow</div><div class="line"><span class="meta">$</span> git checkout r1.0</div></pre></td></tr></table></figure>
+<p>安装编译工具Bazel：</p>
+<p>首先安装JDK8：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"><span class="meta">$</span> sudo add-apt-repository ppa:webupd8team/java</div><div class="line"><span class="meta">$</span> sudo apt-get update</div><div class="line"><span class="meta">$</span> sudo apt-get install oracle-java8-installer</div></pre></td></tr></table></figure>
+<p>添加Bazel软件源：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line"><span class="meta">$</span> echo "deb [arch=amd64] http://storage.googleapis.com/bazel-apt stable jdk1.8" | sudo tee /etc/apt/sources.list.d/bazel.list</div><div class="line"><span class="meta">$</span> curl https://bazel.build/bazel-release.pub.gpg | sudo apt-key add -</div></pre></td></tr></table></figure>
+<p>安装Bazel：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="meta">$</span> sudo apt-get update &amp;amp;&amp;amp; sudo apt-get install bazel</div></pre></td></tr></table></figure>
+<p>安装依赖：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">Python 2.7</div><div class="line"><span class="meta">$</span> sudo apt-get install python-numpy python-dev python-pip python-wheel</div></pre></td></tr></table></figure>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">Python 3.x（推荐）</div><div class="line"><span class="meta">$</span> sudo apt-get install python3-numpy python3-dev python3-pip python3-wheel</div></pre></td></tr></table></figure>
+<p>编译TF，在指定Python路径时选择安装了依赖的Python版本，我这里是Python3（可能需要些时间）：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div></pre></td><td class="code"><pre><div class="line"><span class="meta">$</span> cd tensorflow</div><div class="line"><span class="meta">$</span> ./configure</div><div class="line">Please specify the location of python. [Default is /usr/bin/python]: /usr/bin/python3</div><div class="line">Please specify optimization flags to use during compilation when bazel option "--config=opt" is specified [Default is -march=native]:</div><div class="line">Do you wish to use jemalloc as the malloc implementation? [Y/n]</div><div class="line">jemalloc enabled</div><div class="line">Do you wish to build TensorFlow with Google Cloud Platform support? [y/N]</div><div class="line">No Google Cloud Platform support will be enabled for TensorFlow</div><div class="line">Do you wish to build TensorFlow with Hadoop File System support? [y/N]</div><div class="line">No Hadoop File System support will be enabled for TensorFlow</div><div class="line">Do you wish to build TensorFlow with the XLA just-in-time compiler (experimental)? [y/N]</div><div class="line">No XLA JIT support will be enabled for TensorFlow</div><div class="line">Found possible Python library paths:</div><div class="line">  /usr/local/lib/python2.7/dist-packages</div><div class="line">  /usr/lib/python2.7/dist-packages</div><div class="line">Please input the desired Python library path to use.  Default is [/usr/local/lib/python2.7/dist-packages]</div><div class="line">Using python library path: /usr/local/lib/python2.7/dist-packages</div><div class="line">Do you wish to build TensorFlow with OpenCL support? [y/N] N</div><div class="line">No OpenCL support will be enabled for TensorFlow</div><div class="line">Do you wish to build TensorFlow with CUDA support? [y/N] N</div></pre></td></tr></table></figure>
+<p>编译pip包：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="meta">$</span> bazel build --config=opt //tensorflow/tools/pip_package:build_pip_package</div></pre></td></tr></table></figure>
+<p>生成pip包：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="meta">$</span> bazel-bin/tensorflow/tools/pip_package/build_pip_package /tmp/tensorflow_pkg</div></pre></td></tr></table></figure>
+<p>如果已经从pip源安装TF，首先执行卸载：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="meta">$</span> sudo -H pip3 uninstall tensorflow</div></pre></td></tr></table></figure>
+<p>安装pip包</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="meta">$</span> sudo -H pip3 install /tmp/tensorflow_pkg/*.whl</div></pre></td></tr></table></figure>
+<p>验证安装：</p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="meta">$</span> ipython3</div></pre></td></tr></table></figure>
+<figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line"><span class="keyword">import</span> tensorflow <span class="keyword">as</span> tf</div><div class="line">hello = tf.constant(<span class="string">'Hello, TensorFlow!'</span>)</div><div class="line">sess = tf.Session()</div><div class="line">print(sess.run(hello))</div></pre></td></tr></table></figure>
+<p>若执行过程未报错则说明安装成功。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://callofdutyops.github.io/2017/02/16/tensorflow-install/" data-id="cj6egt8w30011yaqx7mrxccr1" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Deep-Learning/">Deep Learning</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Linux/">Linux</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/TensorFlow/">TensorFlow</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Tutorial/">Tutorial</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/development/">development</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-doc-search-skills" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2016/10/19/doc-search-skills/" class="article-date">
+  <time datetime="2016-10-18T17:36:48.000Z" itemprop="datePublished">2016-10-19</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/Learning/">Learning</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2016/10/19/doc-search-skills/">文献检索技巧总结</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>今天研分会开了个《掌控资源，助力科研》的讲座，主讲人是图书馆的管理老师陈卫静，讲的非常nice，总结一下（Google keep渣排版……）</p>
+<p><img src="http://hp.stuhome.net/wp-content/uploads/2016/10/765773404FF6D803AFD2B0AA339824A498277C28A.jpg" alt=""></p>
+<h2 id="主要目标："><a href="#主要目标：" class="headerlink" title="主要目标："></a>主要目标：</h2><ol>
+<li>检索</li>
+<li>分析课题进展</li>
+<li>找到课题空白</li>
+<li>跟踪课题进展</li>
+<li>有序管理已有文献</li>
+</ol>
+<h2 id="主要途径："><a href="#主要途径：" class="headerlink" title="主要途径："></a>主要途径：</h2><ol>
+<li>图书馆数据库 &amp; 学术搜索引擎</li>
+<li>馆际互借</li>
+<li>文摘数据库为主，全文数据库 &amp; 学术搜索引擎为辅</li>
+</ol>
+<h2 id="主要文献类型（中文-amp-外文）："><a href="#主要文献类型（中文-amp-外文）：" class="headerlink" title="主要文献类型（中文 &amp; 外文）："></a>主要文献类型（中文 &amp; 外文）：</h2><ol>
+<li>文摘</li>
+<li>期刊</li>
+<li>电子图书</li>
+<li>学位论文</li>
+</ol>
+<h2 id="数据库类型："><a href="#数据库类型：" class="headerlink" title="数据库类型："></a>数据库类型：</h2><ol>
+<li><p>文摘数据库（无全文信息）：</p>
+<ol>
+<li>SCI</li>
+<li>DII （专利）</li>
+<li>EI</li>
+<li>PQDT-B</li>
+</ol>
+</li>
+<li><p>全文数据库：</p>
+<ol>
+<li>ASME</li>
+<li>ACM</li>
+<li>IEL</li>
+<li>ELsevier</li>
+</ol>
+</li>
+<li><p>中文数据库：</p>
+<ol>
+<li>CNKI</li>
+<li>万方</li>
+</ol>
+</li>
+<li><p>JCR数据库（查看影响因子）</p>
+</li>
+</ol>
+<h2 id="SCI检索技巧："><a href="#SCI检索技巧：" class="headerlink" title="SCI检索技巧："></a>SCI检索技巧：</h2><ol>
+<li><p>基本检索 &amp; 高级检索</p>
+<ol>
+<li>逻辑关键词 and or not</li>
+<li>位置关键词 same near</li>
+<li>截词 * ? “ “</li>
+</ol>
+</li>
+<li><p>优先阅读文章</p>
+<ol>
+<li>高被引</li>
+<li>热点论文</li>
+<li>Review（综述）</li>
+</ol>
+</li>
+<li><p>跟踪服务：</p>
+<ol>
+<li>引文跟踪</li>
+<li>引文报告</li>
+</ol>
+</li>
+</ol>
+<h2 id="从一篇高质量文章开始入手："><a href="#从一篇高质量文章开始入手：" class="headerlink" title="从一篇高质量文章开始入手："></a>从一篇高质量文章开始入手：</h2><ol>
+<li>查阅文章的引用文献：越查越旧–&gt;追根溯源</li>
+<li>查阅被引文章：越查越新–&gt;发展趋势</li>
+<li>查阅相关文献：越查越广–&gt;业界态势</li>
+</ol>
+<h2 id="文献管理软件："><a href="#文献管理软件：" class="headerlink" title="文献管理软件："></a>文献管理软件：</h2><ol>
+<li><p>Endnote（需要注册SCI检索）：</p>
+<ol>
+<li>网页版和SCI检索无缝衔接</li>
+<li>word插件–&gt;写作助手，一键插入引用文献</li>
+</ol>
+</li>
+<li><p>notefirst：</p>
+<ol>
+<li>投稿助手–&gt;分析适合投递的刊物</li>
+<li>论文助手–&gt;论文模板，参考文献一键插入</li>
+</ol>
+</li>
+</ol>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://callofdutyops.github.io/2016/10/19/doc-search-skills/" data-id="cj6egt8vr0006yaqx16d893wh" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Research/">Research</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Tutorial/">Tutorial</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-tensorflow-playground" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2016/10/15/tensorflow-playground/" class="article-date">
+  <time datetime="2016-10-15T06:47:02.000Z" itemprop="datePublished">2016-10-15</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/TensorFlow/">TensorFlow</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2016/10/15/tensorflow-playground/">结合TensorFlow PlayGround的简单神经网络原理解释</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>很多人把机器学习（或者说本篇文章的重点：神经网络）看成“黑技术”、“黑魔法”，其实不然，所有的机器学习无外乎就是找到从输入到输入的<strong>最佳拟合函数</strong>，只是各种不同的机器学习技术得到的拟合函数方法、效果不同因此适用情景不同罢了。那么今天我们就结合TensorFlow的Playground来具体讲解一下，神经网络是如何去拟合输入和输出之间的目标函数的。好的，系好安全带，要发车了：）</p>
+<p><img src="http://hp.stuhome.net/wp-content/uploads/2016/10/765773404FF6D803AFD2B0AA339824A498277C28A.jpg" alt=""></p>
+<p><a href="http://playground.tensorflow.org/" target="_blank" rel="external">PlayGround</a>是一个图形化用于教学目的的简单神经网络在线演示、实验的平台，非常强大地可视化了神经网络的训练过程。不得不说做出这个演示系统的人不仅对神经网络的见解深刻，更是找到了可视化的有力方法。建议使用的时候把右下角的discretize output（离散化输出）选上，不去让系统自动平滑，这样本质看的更清楚。我们首先简单的讲一下这个PlayGround。第一块也就是最上面一行是训练参数，保持默认即可，这个我们不去做过多解释和介绍。因为这涉及到更深层次的神经网络知识，远非一篇简短的blog可以解释清楚，而且本篇文章的重点也是从intuitive（直觉化，直观化）方式讲解基本原理。想要了解更多的内容，请参见我写的另一篇教程：<a href="http://hp.stuhome.net/index.php/2016/07/06/tensorflow-learning-paths/" target="_blank" rel="external">新手向的TensorFlow学习之路（Learning paths）</a>。第二块就是下面的内容，从左到右是dataset（数据集）选择，feature（特征）选择，hidden layers（隐含层）选择和output（输出）。</p>
+<p>研究一个未知事物的时候，我们习惯于也应该从最简单的情况开始讨论，那么对于神经网络，什么是简单的情况？当然是神经元的数目越少越好，这样我们才能从繁杂的现象中理清关系。首先我们选择dataset中的第二行第一个，也就是Gaussian，然后feature选择x1，x2，点击hedden layers的减号去掉所有的隐含层，这样我们就得到的简单的模型，这个模型简单到只有两个神经元！就像这样：</p>
+<p><img src="http://hp.stuhome.net/wp-content/uploads/2016/10/playground1-1024x438.png" alt="playground1"></p>
+<p>接下来，我们点击第一行的Run开始训练。这个模型应该几秒钟就训练完成了。而且效果非常好，可以清晰的看出dataset已经被明显地按照颜色划分成了两块。你可能会觉得，What！！发生了什么！！别急，我们接着看。</p>
+<p>这时把鼠标hover（悬停）在x1或者x2上，你会看到这样的划分：</p>
+<p><img src="http://hp.stuhome.net/wp-content/uploads/2016/10/playgroud2.png" alt="playground2"></p>
+<p>对，这就是第一个feature，竖着“切一刀”！同样，第二个也是“切一刀”，不过是横着罢了。这样简单的“切一刀”就能解决问题吗？显然不能，所以这时时候weight（权重）就是上场了。weight就是来协调每个“切一刀”切多少的，把每个简单的动作联合起来，共同去解决问题。也就是说：<strong>每个神经元都是“傻傻的”只会一件事情，然后通过weight去组合协调，完成一件复杂的任务！</strong>多说无益。我们更进一步看看吧。</p>
+<p>我们再把鼠标hover到那个连接x1，x2到output的线条上，这时你会看到“Weight is xxx”的字样，点击线条我们是可以修改那个xxx数值的。那我们就试着修改那个xxx吧！首先，把x1的weight改成0，你应该会看到这样的画面：</p>
+<p><img src="http://hp.stuhome.net/wp-content/uploads/2016/10/Screenshot-from-2016-10-15-14-21-09.png" alt="screenshot-from-2016-10-15-14-21-09"></p>
+<p>这不就是x2嘛！是不是有点感觉了？如果x2的weight是0那么应该和x1一样吧？那就来试试自己的猜想，点击第一行的reset（重置）后run重新训练，再试着把x2的weight改成0。这次发现，不出所料，果真是自己猜想的那样～这次我们把x1，x2的weight都改成1，当然如果你开心，可以都改成100：）你会发现，一条完美的对角线平分了dataset，把dataset分成了两个部分。就像这样：</p>
+<p><img src="http://hp.stuhome.net/wp-content/uploads/2016/10/Screenshot-from-2016-10-15-14-54-49.png" alt="screenshot-from-2016-10-15-14-54-49"></p>
+<p>这意味着什么？这意味着两点：1.weight确实是各个feature的加权值，是一个去协调各个feature的量，weight(x1)=weight(x2)的时候，x1，x2同等重要，导致平分天下；2.学习/训练的过程不过是去寻找选择最优weight的过程，如果“人眼”能一眼看出weight，就像这个简单的数据集，我们大可去手工输入weight，同样可以达到一样甚至更好的效果！这正验证了之前的结论：<strong>每个神经元都是“傻傻的”只会一件事情，然后通过weight去组合协调，完成一件复杂的任务！</strong>两个神经元尚且如此，想象一个拥有成千上万乃至上亿神经元的系统（比如人脑），完全不用奇怪这个系统可以完成及其复杂的任务！</p>
+<p>现在可以尝试不同的dataset，再多加几个hidden layers，感受一下简单的神经元通过weight组合协调完成分类任务的强大。推荐试一下这个组合：dataset选择第一行第二个Exclusive or，feature只选择一个，就是第五个x1x2，然后hidden layers为0，也就是没有隐含层。然后再试一下用其他的feature去训练，对比感受一下feature的选择对结果的巨大影响。</p>
+<p>讲到这里，应该对神经网络的基本原理有了朦胧的认识的，但这是远远不够的，还有很多都没有讲（好吧，主要是比较懒：）），比如feature，multiple output，activition function等等，感兴趣可以参见Michael Nielsen的<a href="http://neuralnetworksanddeeplearning.com/chap4.html" target="_blank" rel="external">这一讲</a>，可视化地证明了神经网络对任意函数的拟合能力，非常精彩。阅读过程中可以结合PlayGround去理解。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://callofdutyops.github.io/2016/10/15/tensorflow-playground/" data-id="cj6egt8wa001lyaqx0cqr8exy" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Deep-Learning/">Deep Learning</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/TensorFlow/">TensorFlow</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-tensorflow-batch-minibatch" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2016/09/20/tensorflow-batch-minibatch/" class="article-date">
+  <time datetime="2016-09-19T17:47:30.000Z" itemprop="datePublished">2016-09-20</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/TensorFlow/">TensorFlow</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2016/09/20/tensorflow-batch-minibatch/">如何理解TensorFlow中的batch和minibatch</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>在刚开始学习使用TF的过程中，我不是很理解什么是“batch”。也经常有人问，到底minibatch是干什么的？<br>然而这是一个在TF中，或者说很多DL的框架中很常见的词。<br><a href="http://keras-cn.readthedocs.io/en/latest/getting_started/concepts/" title="这个" target="_blank" rel="external">这个</a>解释我觉得比较贴切也比较容易理解。引用如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">深度学习的优化算法，说白了就是梯度下降。每次的参数更新有两种方式。</div><div class="line">第一种，遍历全部数据集算一次损失函数，然后算函数对各个参数的梯度，更新梯度。这种方法每更新一次参数都要把数据集里的所有样本都看一遍，计算量开销大，计算速度慢，不支持在线学习，这称为Batch gradient descent，批梯度下降。</div><div class="line">另一种，每看一个数据就算一下损失函数，然后求梯度更新参数，这个称为随机梯度下降，stochastic gradient descent。这个方法速度比较快，但是收敛性能不太好，可能在最优点附近晃来晃去，hit不到最优点。两次参数的更新也有可能互相抵消掉，造成目标函数震荡的比较剧烈。</div><div class="line">为了克服两种方法的缺点，现在一般采用的是一种折中手段，mini-batch gradient decent，小批的梯度下降，这种方法把数据分为若干个批，按批来更新参数，这样，一个批中的一组数据共同决定了本次梯度的方向，下降起来就不容易跑偏，减少了随机性。另一方面因为批的样本数与整个数据集相比小了很多，计算量也不是很大。</div></pre></td></tr></table></figure>
+<p>Michael Nielsen在<a href="http://neuralnetworksanddeeplearning.com/chap1.html#learning_with_gradient_descent" title="Neural networks and deep learning" target="_blank" rel="external">这一章节</a>也有解释，mini-batch是什么，为什么有这个东西。<br>Deep Learning的<a href="http://www.deeplearningbook.org/contents/ml.html" title="这一章节" target="_blank" rel="external">这一章节</a>的5.9小节也有解释，还给出了batch的典型值。<br>结合上面给出的中文解释，再看这两个小节，应该会对batch有所理解。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://callofdutyops.github.io/2016/09/20/tensorflow-batch-minibatch/" data-id="cj6egt8w0000qyaqxyq3tqfq9" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Deep-Learning/">Deep Learning</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/TensorFlow/">TensorFlow</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-tensorflow-learning-paths" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2016/07/06/tensorflow-learning-paths/" class="article-date">
+  <time datetime="2016-07-06T01:56:57.000Z" itemprop="datePublished">2016-07-06</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/TensorFlow/">TensorFlow</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2016/07/06/tensorflow-learning-paths/">新手向的TensorFlow学习之路（Learning paths）</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>UPDATE：请看更新篇<a href="http://hp.stuhome.net/index.php/2017/03/28/tensorflow-learning-paths-2/" target="_blank" rel="external">新手向的TensorFlow学习之路2</a></p>
+<p>在学习Tensorflow的过程中磕磕碰碰，总结一些个人心得记录于此，志同道合之友共勉~~</p>
+<p>这篇文章算是新手向“纲领性”目录吧，近期正好在做一个有关TensorFlow的小项目，如果有时间就分章分篇详细写几篇TF的教程，还请大家关注本博客～</p>
+<p><strong>1. 翻墙：</strong>这个是个不是技术的技术，TensorFlow毕竟出自Google，官方文档访问不是很稳定，而且Google搜索的结果要比Baidu好很多。有些免费一键翻墙的软件比如<a href="https://getlantern.org/" target="_blank" rel="external">Lantern</a>，打不开就<a href="https://github.com/getlantern/lantern/" target="_blank" rel="external">这个</a>（在releases中下载对应操作系统版本），或者<a href="https://psiphon3.com/" target="_blank" rel="external">赛风</a>。高级一点的是<a href="https://github.com/shadowsocks/" target="_blank" rel="external">Shadowsocks</a>。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">在这里插一句，本来是不想说这些的，有推销嫌疑，但是有很多人文这个问题，有些推荐的梯子。我是用的是[Digitalocean](https://m.do.co/c/ee79ae347c9f)（这是我的推荐链接 ，使用的话你我都可以获得奖励）搭建服务器，很稳定，$5（约30人民币）一个月，1T流量（肯定是用不完的，好像超了也不收费），在服务器上跑了一个shadowsocks的服务端外加这个wordpress的博客。网上有很多搭建教程。或者如果想省事，可以与我合租，服务器已经搭建好了，简单配置即可。可以发我Gmail，在网站的About页面有。p.s. 几人合租就几分之一$5，无额外费用，程序员纯纯的友谊你懂的：）</div></pre></td></tr></table></figure>
+<p><strong>2. Github：</strong>这是个开源程序的<a href="https://github.com/" target="_blank" rel="external">网站</a>，Linux内核就在这个网站托管。Github的核心是Git，一种版本控制系统，已经逐渐取代SVN。这个网站托管了很多高质量的或者说世界顶尖的开源项目，比如TensorFlow。学习一下这个网站如何使用，注册个账号，学习一下Git的使用方法。这个网站有自己的tutorial和guide。</p>
+<p><strong>3. Linux:</strong> TensorFlow的主要运行平台就是Linux，目前在Windows上运行的方案是虚拟机，但是深度学习对计算要求还是比较高的，虚拟机效率不是太高，因此还是推荐在原生Linux中运行。新手推荐发行版是<a href="http://www.ubuntu.org.cn/" target="_blank" rel="external">Ubuntu</a> 或者<a href="https://www.linuxmint.com/" target="_blank" rel="external">Linux mint</a>。这个可以自行搜索。学习Linux也有很多好处，因为很多开源软件都only linux的。</p>
+<p><strong>4. Python：</strong>这是一种非常流行的脚本语言，庞大的第三方库可以快速写出短小容易理解的代码，而且也是TensorFlow的推荐开发语言。教程太多了，这里给几个优秀的教程：<a href="http://learnpython.org/" target="_blank" rel="external">官网教程</a>，<a href="http://learnpythonthehardway.org/book/" target="_blank" rel="external">Learn Python the Hard Way</a>，<a href="http://www.liaoxuefeng.com/wiki/001374738125095c955c1e6d8bb493182103fac9270762a000/" target="_blank" rel="external">Python2.7教程</a></p>
+<p><strong>5. 深度学习（Deep Learning，DL）：</strong>虽然TensorFlow已经封装好了大部分DL的细节，但是如果不了解DL的相关核心概念，就会很难着手分析问题。首先强烈推荐<a href="http://neuralnetworksanddeeplearning.com/" target="_blank" rel="external">这个教程</a>，通读一遍，然后还有<a href="http://www.deeplearningbook.org/" target="_blank" rel="external">这个</a>，可以快速浏览或者只看自己不太明白的地方，还有<a href="http://deeplearning.stanford.edu/tutorial/" target="_blank" rel="external">这个</a>分块介绍的，还有几篇blog，<a href="http://colah.github.io/posts/2014-07-Conv-Nets-Modular/" target="_blank" rel="external">这个</a>和<a href="http://deeplearning.net/tutorial/lenet.html/" target="_blank" rel="external">这个</a>讲的是卷积神经网络。图像识别用的比较多的就是卷积神经网络，这两篇可以看看。</p>
+<p><strong>6. Tensorflow：</strong>前面都是铺垫，是为了更好地使用<a href="https://www.tensorflow.org/" target="_blank" rel="external">TensorFlow</a>。官方的文档不错，可以从get started然后tutorial看起，有个中文的<a href="http://wiki.jikexueyuan.com/project/tensorflow-zh/" target="_blank" rel="external">翻译版</a>，但是更新不及时（官方已经v0.10，这个可能是v0.8或者v0.7），可能有坑，可以和英文对照着看，还有个TensorFlow的<a href="http://learningtensorflow.com/" target="_blank" rel="external">教程</a>，也不错。有篇<a href="http://www.jorditorres.org/first-contact-with-tensorflow/" target="_blank" rel="external">FIRST CONTACT WITH TENSORFLOW</a>也不错。</p>
+<p><strong>7. 优秀博客：</strong><a href="http://acko.net/，https://bost.ocks.org/mike/，http://colah.github.io/，https://ireneli.eu/，这几个都是我在学习中遇到的非常nice的blog，有时间读读定会有所收获。" target="_blank" rel="external">http://acko.net/，https://bost.ocks.org/mike/，http://colah.github.io/，https://ireneli.eu/，这几个都是我在学习中遇到的非常nice的blog，有时间读读定会有所收获。</a></p>
+<p><strong>8. 经典论文及书籍：</strong>收集了一些DL的经典论文&amp;书籍，有些杂乱，不过几乎都是经典，各取所需吧。<a href="http://pan.baidu.com/s/1kUJ0fY3/" target="_blank" rel="external">百度云地址</a>（密码: 4w91）。各位有更好的欢迎推荐，我会整理上传。</p>
+<p>其中，Python，DL，TensorFlow是重点，其他都是辅助， 自己感觉够用即可，无需深入。学习中遇到困难首先向搜索引擎询问。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://callofdutyops.github.io/2016/07/06/tensorflow-learning-paths/" data-id="cj6egt8w7001byaqxk2587op1" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Deep-Learning/">Deep Learning</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Github/">Github</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Linux/">Linux</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Python/">Python</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/TensorFlow/">TensorFlow</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/development/">development</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
     <article id="post-tensorflow-is-on-the-way" class="article article-type-post" itemscope itemprop="blogPost">
   <div class="article-meta">
     <a href="/2016/06/02/tensorflow-is-on-the-way/" class="article-date">
@@ -100,7 +580,7 @@
       
     </div>
     <footer class="article-footer">
-      <a data-url="https://callofdutyops.github.io/2016/06/02/tensorflow-is-on-the-way/" data-id="cj6egagqz000bp1qxh0obsrv4" class="article-share-link">Share</a>
+      <a data-url="https://callofdutyops.github.io/2016/06/02/tensorflow-is-on-the-way/" data-id="cj6egt8w40015yaqxw1oqvfqn" class="article-share-link">Share</a>
       
       
   <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Deep-Learning/">Deep Learning</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Development/">Development</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/TensorFlow/">TensorFlow</a></li></ul>
@@ -112,10 +592,98 @@
 
 
   
+    <article id="post-whole-new-things-rock-in-my-mind" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2016/02/01/whole-new-things-rock-in-my-mind/" class="article-date">
+  <time datetime="2016-01-31T21:34:04.000Z" itemprop="datePublished">2016-02-01</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/Life/">Life</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2016/02/01/whole-new-things-rock-in-my-mind/">Whole new things of Android Development rock in my mind!</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>MVP, MVVM, RxJava/RxAndroid, Lambda, Dagger, Retrofit, Volley, OkHttp… All of those rock in my mind!</p>
+<p>Love those pretty theories and libraries!!</p>
+<p>Now I am studying in them and now I think I will give it a try to use all of those in one project!</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://callofdutyops.github.io/2016/02/01/whole-new-things-rock-in-my-mind/" data-id="cj6egt8wd001syaqxdoctyc06" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Android/">Android</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Dagger/">Dagger</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Lambda/">Lambda</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/MVP/">MVP</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/MVVM/">MVVM</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/OkHttp/">OkHttp</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Retrofit/">Retrofit</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/RxAndroid/">RxAndroid</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/RxJava/">RxJava</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Volley/">Volley</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/development/">development</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
+    <article id="post-best-practices-in-android-development" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2016/02/01/best-practices-in-android-development/" class="article-date">
+  <time datetime="2016-01-31T21:16:59.000Z" itemprop="datePublished">2016-02-01</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/Android/">Android</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 itemprop="name">
+      <a class="article-title" href="/2016/02/01/best-practices-in-android-development/">Best practices in Android development</a>
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>This <a href="https://github.com/futurice/android-best-practices" target="_blank" rel="external">blog</a> is excellent for best practices in Android!</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://callofdutyops.github.io/2016/02/01/best-practices-in-android-development/" data-id="cj6egt8vq0005yaqxx4q46sz9" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Android/">Android</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Development/">Development</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Practices/">Practices</a></li></ul>
+
+    </footer>
+  </div>
+  
+</article>
+
+
+  
 
 
   <nav id="page-nav">
-    <a class="extend prev" rel="prev" href="/">&laquo; __('prev')</a><a class="page-number" href="/">1</a><span class="page-number current">2</span>
+    <a class="extend prev" rel="prev" href="/">&laquo; __('prev')</a><a class="page-number" href="/">1</a><span class="page-number current">2</span><a class="page-number" href="/page/3/">3</a><a class="extend next" rel="next" href="/page/3/">__('next') &raquo;</a>
   </nav>
 </section>
         
@@ -125,7 +693,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">Categories</h3>
     <div class="widget">
-      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/TensorFlow/">TensorFlow</a></li></ul>
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Android/">Android</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Learning/">Learning</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Life/">Life</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Linux/">Linux</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/TensorFLow/">TensorFLow</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/TensorFlow/">TensorFlow</a></li></ul>
     </div>
   </div>
 
@@ -135,7 +703,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">Tags</h3>
     <div class="widget">
-      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Android/">Android</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Deep-Learning/">Deep Learning</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Development/">Development</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Github/">Github</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Learn/">Learn</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Linux/">Linux</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Python/">Python</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/TensorBoard/">TensorBoard</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/TensorFlow/">TensorFlow</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Tutorial/">Tutorial</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/development/">development</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/tutorial/">tutorial</a></li></ul>
+      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Android/">Android</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Dagger/">Dagger</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Data/">Data</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Deep-Learning/">Deep Learning</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Development/">Development</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Github/">Github</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Google/">Google</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Inception/">Inception</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Java/">Java</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Knowledge/">Knowledge</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Lambda/">Lambda</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Learn/">Learn</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Library/">Library</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Linux/">Linux</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/MVP/">MVP</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/MVVM/">MVVM</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/OkHttp/">OkHttp</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Practices/">Practices</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Printer/">Printer</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Python/">Python</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/R/">R</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Research/">Research</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Retrofit/">Retrofit</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/RxAndroid/">RxAndroid</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/RxJava/">RxJava</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Shell/">Shell</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/TensorBoard/">TensorBoard</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/TensorFlow/">TensorFlow</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Time-series/">Time series</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Tutorial/">Tutorial</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Volley/">Volley</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/development/">development</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/tutorial/">tutorial</a></li></ul>
     </div>
   </div>
 
@@ -145,7 +713,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">Tag Cloud</h3>
     <div class="widget tagcloud">
-      <a href="/tags/Android/" style="font-size: 10px;">Android</a> <a href="/tags/Deep-Learning/" style="font-size: 17.5px;">Deep Learning</a> <a href="/tags/Development/" style="font-size: 15px;">Development</a> <a href="/tags/Github/" style="font-size: 10px;">Github</a> <a href="/tags/Learn/" style="font-size: 12.5px;">Learn</a> <a href="/tags/Linux/" style="font-size: 12.5px;">Linux</a> <a href="/tags/Python/" style="font-size: 10px;">Python</a> <a href="/tags/TensorBoard/" style="font-size: 10px;">TensorBoard</a> <a href="/tags/TensorFlow/" style="font-size: 20px;">TensorFlow</a> <a href="/tags/Tutorial/" style="font-size: 15px;">Tutorial</a> <a href="/tags/development/" style="font-size: 12.5px;">development</a> <a href="/tags/tutorial/" style="font-size: 10px;">tutorial</a>
+      <a href="/tags/Android/" style="font-size: 14.29px;">Android</a> <a href="/tags/Dagger/" style="font-size: 10px;">Dagger</a> <a href="/tags/Data/" style="font-size: 10px;">Data</a> <a href="/tags/Deep-Learning/" style="font-size: 18.57px;">Deep Learning</a> <a href="/tags/Development/" style="font-size: 15.71px;">Development</a> <a href="/tags/Github/" style="font-size: 10px;">Github</a> <a href="/tags/Google/" style="font-size: 10px;">Google</a> <a href="/tags/Inception/" style="font-size: 10px;">Inception</a> <a href="/tags/Java/" style="font-size: 10px;">Java</a> <a href="/tags/Knowledge/" style="font-size: 10px;">Knowledge</a> <a href="/tags/Lambda/" style="font-size: 10px;">Lambda</a> <a href="/tags/Learn/" style="font-size: 15.71px;">Learn</a> <a href="/tags/Library/" style="font-size: 10px;">Library</a> <a href="/tags/Linux/" style="font-size: 15.71px;">Linux</a> <a href="/tags/MVP/" style="font-size: 10px;">MVP</a> <a href="/tags/MVVM/" style="font-size: 10px;">MVVM</a> <a href="/tags/OkHttp/" style="font-size: 10px;">OkHttp</a> <a href="/tags/Practices/" style="font-size: 10px;">Practices</a> <a href="/tags/Printer/" style="font-size: 10px;">Printer</a> <a href="/tags/Python/" style="font-size: 11.43px;">Python</a> <a href="/tags/R/" style="font-size: 10px;">R</a> <a href="/tags/Research/" style="font-size: 10px;">Research</a> <a href="/tags/Retrofit/" style="font-size: 10px;">Retrofit</a> <a href="/tags/RxAndroid/" style="font-size: 10px;">RxAndroid</a> <a href="/tags/RxJava/" style="font-size: 11.43px;">RxJava</a> <a href="/tags/Shell/" style="font-size: 10px;">Shell</a> <a href="/tags/TensorBoard/" style="font-size: 10px;">TensorBoard</a> <a href="/tags/TensorFlow/" style="font-size: 20px;">TensorFlow</a> <a href="/tags/Time-series/" style="font-size: 10px;">Time series</a> <a href="/tags/Tutorial/" style="font-size: 17.14px;">Tutorial</a> <a href="/tags/Volley/" style="font-size: 10px;">Volley</a> <a href="/tags/development/" style="font-size: 12.86px;">development</a> <a href="/tags/tutorial/" style="font-size: 10px;">tutorial</a>
     </div>
   </div>
 
@@ -154,7 +722,7 @@
   <div class="widget-wrap">
     <h3 class="widget-title">Archives</h3>
     <div class="widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/08/">八月 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/07/">七月 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/03/">三月 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/02/">二月 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/10/">十月 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/09/">九月 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/07/">七月 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/06/">六月 2016</a></li></ul>
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/08/">八月 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/07/">七月 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/06/">六月 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/03/">三月 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/02/">二月 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/10/">十月 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/09/">九月 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/07/">七月 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/06/">六月 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/02/">二月 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/01/">一月 2016</a></li></ul>
     </div>
   </div>
 
@@ -175,15 +743,15 @@
           </li>
         
           <li>
+            <a href="/2017/07/21/archlinux-tensorflow/">在ArchLinux上安装GPU版TensorFlow</a>
+          </li>
+        
+          <li>
+            <a href="/2017/06/15/sudo-python-environ/">sudo python environ 环境变量问题</a>
+          </li>
+        
+          <li>
             <a href="/2017/03/28/tensorflow-learning-paths-2/">新手向的TensorFlow学习之路2（Learning paths 2）</a>
-          </li>
-        
-          <li>
-            <a href="/2017/03/11/tensorboard-embedding/">TensorBoard Embedding 实战</a>
-          </li>
-        
-          <li>
-            <a href="/2017/03/06/tensorflow-source-code/">TensorFlow 源码阅读</a>
           </li>
         
       </ul>
@@ -224,6 +792,23 @@
 
 
 
-  </div><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+  </div><!-- hexo-inject:begin --><!-- Begin: Injected MathJax -->
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({"tex2jax":{"inlineMath":[["$","$"],["\\(","\\)"]],"skipTags":["script","noscript","style","textarea","pre","code"],"processEscapes":true},"TeX":{"equationNumbers":{"autoNumber":"AMS"}}});
+</script>
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+      all[i].SourceElement().parentNode.className += ' has-jax';
+    }
+  });
+</script>
+
+<script type="text/javascript" src="//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+<!-- End: Injected MathJax -->
+<!-- hexo-inject:end -->
 </body>
 </html>
