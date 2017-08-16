@@ -1,143 +1,501 @@
 <!DOCTYPE html>
-<html>
-<head>
-  <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="utf-8">
+
+
+
   
-  <title>Talk is cheap</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="This is an internal blog in 516.">
+
+
+<html class="theme-next gemini use-motion" lang="zh-Hans">
+<head>
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+<meta name="theme-color" content="#222">
+
+
+
+
+
+
+  
+  
+  <link rel="stylesheet" media="all" href="/lib/Han/dist/han.min.css?v=3.3">
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.2" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Hexo, NexT" />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.2" />
+
+
+
+
+
+
+<meta name="description" content="Mirror blog of http://hp.stuhome.net.">
 <meta property="og:type" content="website">
 <meta property="og:title" content="Talk is cheap">
 <meta property="og:url" content="https://callofdutyops.github.io/index.html">
 <meta property="og:site_name" content="Talk is cheap">
-<meta property="og:description" content="This is an internal blog in 516.">
-<meta property="og:locale" content="zh-cn">
+<meta property="og:description" content="Mirror blog of http://hp.stuhome.net.">
+<meta property="og:locale" content="zh-Hans">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Talk is cheap">
-<meta name="twitter:description" content="This is an internal blog in 516.">
+<meta name="twitter:description" content="Mirror blog of http://hp.stuhome.net.">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Gemini',
+    sidebar: {"position":"left","display":"post","offset":12,"offset_float":12,"b2t":false,"scrollpercent":false,"onmobile":false},
+    fancybox: true,
+    tabs: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="https://callofdutyops.github.io/"/>
+
+
+
+
+
+  <title>Talk is cheap</title><!-- hexo-inject:begin --><!-- hexo-inject:end -->
   
-    <link rel="alternate" href="/atom.xml" title="Talk is cheap" type="application/atom+xml">
-  
-  
-    <link rel="icon" href="/favicon.png">
-  
-  
-    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
-  
-  <link rel="stylesheet" href="/css/style.css"><!-- hexo-inject:begin --><!-- hexo-inject:end -->
-  
+
+
+
+
+
+
+
 
 </head>
 
-<body>
-  <!-- hexo-inject:begin --><!-- hexo-inject:end --><div id="container">
-    <div id="wrap">
-      <header id="header">
-  <div id="banner"></div>
-  <div id="header-outer" class="outer">
-    <div id="header-title" class="inner">
-      <h1 id="logo-wrap">
-        <a href="/" id="logo">Talk is cheap</a>
-      </h1>
-      
-        <h2 id="subtitle-wrap">
-          <a href="/" id="subtitle">Working harder</a>
-        </h2>
-      
-    </div>
-    <div id="header-inner" class="inner">
-      <nav id="main-nav">
-        <a id="main-nav-toggle" class="nav-icon"></a>
-        
-          <a class="main-nav-link" href="/">Home</a>
-        
-          <a class="main-nav-link" href="/archives">Archives</a>
-        
-      </nav>
-      <nav id="sub-nav">
-        
-          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
-        
-        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
-      </nav>
-      <div id="search-form-wrap">
-        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="https://callofdutyops.github.io"></form>
-      </div>
-    </div>
-  </div>
-</header>
-      <div class="outer">
-        <section id="main">
-  
-    <article id="post-tensorflow-model-best-practice" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2017/08/03/tensorflow-model-best-practice/" class="article-date">
-  <time datetime="2017-08-02T17:44:07.000Z" itemprop="datePublished">2017-08-03</time>
-</a>
-    
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/TensorFlow/">TensorFlow</a>
-  </div>
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
 
-  </div>
-  <div class="article-inner">
-    
-    
-      <header class="article-header">
-        
   
-    <h1 itemprop="name">
-      <a class="article-title" href="/2017/08/03/tensorflow-model-best-practice/">TensorFLow模型建立最佳实践</a>
-    </h1>
+  
+    
   
 
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><div class="container sidebar-position-left 
+   page-home 
+ ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Talk is cheap</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle">Working harder</p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+  <section id="posts" class="posts-expand">
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://callofdutyops.github.io/2017/08/03/tensorflow-model-best-practice/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Pu Huang">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Talk is cheap">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2017/08/03/tensorflow-model-best-practice/" itemprop="url">TensorFLow模型建立最佳实践</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-08-03T01:44:07+08:00">
+                2017-08-03
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/TensorFlow/" itemprop="url" rel="index">
+                    <span itemprop="name">TensorFlow</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
       </header>
     
-    <div class="article-entry" itemprop="articleBody">
+
+    
+    
+    
+    <div class="post-body han-init-context" itemprop="articleBody">
+
       
-        <h1 id="TODO"><a href="#TODO" class="headerlink" title="TODO"></a>TODO</h1>
+      
+
+      
+        
+          
+            <h1 id="TODO"><a href="#TODO" class="headerlink" title="TODO"></a>TODO</h1>
+          
+        
       
     </div>
-    <footer class="article-footer">
-      <a data-url="https://callofdutyops.github.io/2017/08/03/tensorflow-model-best-practice/" data-id="cj6eioix1001e17qxqk9qx79n" class="article-share-link">Share</a>
-      
-      
-  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/TensorFlow/">TensorFlow</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Tutorial/">Tutorial</a></li></ul>
+    
+    
+    
 
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
     </footer>
   </div>
   
-</article>
+  
+  
+  </article>
 
+
+    
+      
 
   
-    <article id="post-tensorflow-details" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2017/07/30/tensorflow-details/" class="article-date">
-  <time datetime="2017-07-30T03:31:34.000Z" itemprop="datePublished">2017-07-30</time>
-</a>
-    
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/TensorFlow/">TensorFlow</a>
-  </div>
 
-  </div>
-  <div class="article-inner">
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://callofdutyops.github.io/2017/07/30/tensorflow-details/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Pu Huang">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Talk is cheap">
+    </span>
+
     
-    
-      <header class="article-header">
+      <header class="post-header">
+
         
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2017/07/30/tensorflow-details/">TensorFlow中的一些细节--PART 1</a>
-    </h1>
-  
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2017/07/30/tensorflow-details/" itemprop="url">TensorFlow中的一些细节--PART 1</a></h1>
+        
 
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-07-30T11:31:34+08:00">
+                2017-07-30
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/TensorFlow/" itemprop="url" rel="index">
+                    <span itemprop="name">TensorFlow</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
       </header>
     
-    <div class="article-entry" itemprop="articleBody">
+
+    
+    
+    
+    <div class="post-body han-init-context" itemprop="articleBody">
+
       
-        <p>随着TensorFlow学习的深入，有许多细节不得不注意，Stanford的tensorflow公开课就讲解了很多细节，记录于此，以供参考。</p>
+      
+
+      
+        
+          
+            <p>随着TensorFlow学习的深入，有许多细节不得不注意，Stanford的tensorflow公开课就讲解了很多细节，记录于此，以供参考。</p>
 <ol>
 <li><code>tf.constant()</code>和<code>tf.Variable()</code>，为什么constant是小写，Variable是大写？因为constant是个op（操作节点），而Variable是个class（类）。</li>
 <li>Variable的initialize其实就是assign初始值，所以，当定义一个Variable时，如果紧跟了一个assign操作，其实是不用initialize的，例如<code>W = tf.Variable(10), assign_op = W.assign(100)</code>, 我们可以直接<code>sess.run(assign_op)</code>而不用<code>sess.run(tf.global_variables_initializer())</code>。详见<a href="https://github.com/tensorflow/tensorflow/blob/master/tensorflow/python/ops/variables.py" target="_blank" rel="external">源码</a>，其中有一句是：<code>self._initializer_op = state_ops.assign(self._variable, self._initial_value, validate_shape=validate_shape).op</code>。注意，类似<code>tf.Variable.assign_add()</code>, <code>tf.Variable.assign_sub()</code>之类的方法仍然要求对变量进行initialize，因为这些操作依赖Variable的初始值。</li>
@@ -147,48 +505,147 @@
 <li>尽可能将graph definition和graph execute分离开，否则，会在execute的时候反复向graph添加节点，导致graph过大。</li>
 </ol>
 
+          
+        
       
     </div>
-    <footer class="article-footer">
-      <a data-url="https://callofdutyops.github.io/2017/07/30/tensorflow-details/" data-id="cj6eioiwu000v17qx4s5d3mvk" class="article-share-link">Share</a>
-      
-      
-  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/TensorFlow/">TensorFlow</a></li></ul>
+    
+    
+    
 
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
     </footer>
   </div>
   
-</article>
+  
+  
+  </article>
 
+
+    
+      
 
   
-    <article id="post-archlinux-tensorflow" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2017/07/21/archlinux-tensorflow/" class="article-date">
-  <time datetime="2017-07-21T07:20:00.000Z" itemprop="datePublished">2017-07-21</time>
-</a>
-    
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/TensorFlow/">TensorFlow</a>
-  </div>
 
-  </div>
-  <div class="article-inner">
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://callofdutyops.github.io/2017/07/21/archlinux-tensorflow/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Pu Huang">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Talk is cheap">
+    </span>
+
     
-    
-      <header class="article-header">
+      <header class="post-header">
+
         
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2017/07/21/archlinux-tensorflow/">在ArchLinux上安装GPU版TensorFlow</a>
-    </h1>
-  
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2017/07/21/archlinux-tensorflow/" itemprop="url">在ArchLinux上安装GPU版TensorFlow</a></h1>
+        
 
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-07-21T15:20:00+08:00">
+                2017-07-21
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/TensorFlow/" itemprop="url" rel="index">
+                    <span itemprop="name">TensorFlow</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
       </header>
     
-    <div class="article-entry" itemprop="articleBody">
+
+    
+    
+    
+    <div class="post-body han-init-context" itemprop="articleBody">
+
       
-        <p>不得不说，archlinux真的是开发人员友好的…当然前提是能够接受足够新的软件环境（gcc都7.1.1了…）<br>安装Nvidia驱动，cuda，cudnn，配置环境变量一条命令搞定：</p>
+      
+
+      
+        
+          
+            <p>不得不说，archlinux真的是开发人员友好的…当然前提是能够接受足够新的软件环境（gcc都7.1.1了…）<br>安装Nvidia驱动，cuda，cudnn，配置环境变量一条命令搞定：</p>
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="meta">#</span> pacman -S nvidia cuda cudnn</div></pre></td></tr></table></figure>
 <p>对，你没有看错，就是一条命令，而且以后升级也是，交给系统，完全无忧。</p>
 <p>如果不从源码编译的话，直接pip install tensorflow-gpu就好了，That‘s it！</p>
@@ -197,48 +654,147 @@
 <p>然后参照官方教程编译安装即可。</p>
 <p>比Ubuntu简单几个数量级：）</p>
 
+          
+        
       
     </div>
-    <footer class="article-footer">
-      <a data-url="https://callofdutyops.github.io/2017/07/21/archlinux-tensorflow/" data-id="cj6eioiwi000317qxsnxwi8ji" class="article-share-link">Share</a>
-      
-      
-  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Deep-Learning/">Deep Learning</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Linux/">Linux</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/TensorFlow/">TensorFlow</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Tutorial/">Tutorial</a></li></ul>
+    
+    
+    
 
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
     </footer>
   </div>
   
-</article>
+  
+  
+  </article>
 
+
+    
+      
 
   
-    <article id="post-sudo-python-environ" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2017/06/15/sudo-python-environ/" class="article-date">
-  <time datetime="2017-06-15T08:25:05.000Z" itemprop="datePublished">2017-06-15</time>
-</a>
-    
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/Linux/">Linux</a>
-  </div>
 
-  </div>
-  <div class="article-inner">
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://callofdutyops.github.io/2017/06/15/sudo-python-environ/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Pu Huang">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Talk is cheap">
+    </span>
+
     
-    
-      <header class="article-header">
+      <header class="post-header">
+
         
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2017/06/15/sudo-python-environ/">sudo python environ 环境变量问题</a>
-    </h1>
-  
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2017/06/15/sudo-python-environ/" itemprop="url">sudo python environ 环境变量问题</a></h1>
+        
 
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-06-15T16:25:05+08:00">
+                2017-06-15
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Linux/" itemprop="url" rel="index">
+                    <span itemprop="name">Linux</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
       </header>
     
-    <div class="article-entry" itemprop="articleBody">
+
+    
+    
+    
+    <div class="post-body han-init-context" itemprop="articleBody">
+
       
-        <p>如果用sudo执行python命令的话，会发现<code>import os; os.getenv(&quot;PATH&quot;)</code>得到的变量和普通权限得到的不一致，即使是sudo加上-E参数也没有用。<br>这是sudoers的默认行为导致的，解决方案：</p>
+      
+
+      
+        
+          
+            <p>如果用sudo执行python命令的话，会发现<code>import os; os.getenv(&quot;PATH&quot;)</code>得到的变量和普通权限得到的不一致，即使是sudo加上-E参数也没有用。<br>这是sudoers的默认行为导致的，解决方案：</p>
 <figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">sudo visudo</div></pre></td></tr></table></figure>
 <p><code>Defaults env_reset</code>改为<code>Defaults !env_reset</code>，注意，加了<code>!</code>号<br>同时注释掉<code>Defaults secure_path</code><br>改完记得注销一下。<br>不需要以sudo执行python的时候记得改回来，防止出现权限安全问题。</p>
 <p>这个奇葩的问题Google居然搜不到，看来是个神坑，分析过程如下：<br>既然问题的根源是<code>sudo -E python</code>都无法继承当前的环境变量，那么首先<br><code>man sudo</code><br>搜索-E参数，发现是这么写的：<br><figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">-E, --preserve-env</div><div class="line">                 Indicates to the security policy that the user wishes to pre‐</div><div class="line">                 serve their existing environment variables.  The security</div><div class="line">                 policy may return an error if the user does not have permis‐</div><div class="line">                 sion to preserve the environment.</div></pre></td></tr></table></figure></p>
@@ -248,48 +804,147 @@
 </blockquote>
 <p>后来似乎搜到了，<a href="https://stackoverflow.com/questions/7969540/pythonpath-not-working-for-sudo-on-gnu-linux-works-for-root" target="_blank" rel="external">PYTHONPATH not working for sudo on GNU/Linux (works for root)</a></p>
 
+          
+        
       
     </div>
-    <footer class="article-footer">
-      <a data-url="https://callofdutyops.github.io/2017/06/15/sudo-python-environ/" data-id="cj6eioiws000o17qxsinu5acb" class="article-share-link">Share</a>
-      
-      
-  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Linux/">Linux</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Python/">Python</a></li></ul>
+    
+    
+    
 
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
     </footer>
   </div>
   
-</article>
+  
+  
+  </article>
 
+
+    
+      
 
   
-    <article id="post-tensorflow-learning-paths-2" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2017/03/28/tensorflow-learning-paths-2/" class="article-date">
-  <time datetime="2017-03-28T15:12:36.000Z" itemprop="datePublished">2017-03-28</time>
-</a>
-    
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/TensorFlow/">TensorFlow</a>
-  </div>
 
-  </div>
-  <div class="article-inner">
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://callofdutyops.github.io/2017/03/28/tensorflow-learning-paths-2/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Pu Huang">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Talk is cheap">
+    </span>
+
     
-    
-      <header class="article-header">
+      <header class="post-header">
+
         
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2017/03/28/tensorflow-learning-paths-2/">新手向的TensorFlow学习之路2（Learning paths 2）</a>
-    </h1>
-  
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2017/03/28/tensorflow-learning-paths-2/" itemprop="url">新手向的TensorFlow学习之路2（Learning paths 2）</a></h1>
+        
 
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-03-28T23:12:36+08:00">
+                2017-03-28
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/TensorFlow/" itemprop="url" rel="index">
+                    <span itemprop="name">TensorFlow</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
       </header>
     
-    <div class="article-entry" itemprop="articleBody">
+
+    
+    
+    
+    <div class="post-body han-init-context" itemprop="articleBody">
+
       
-        <p>TL;DR：有同学反应资源太多不知道从何看起，或者有点基础了想快速上手，因此就直接把几个比较好的教程放在这里，后面的内容作为参考。</p>
+      
+
+      
+        
+          
+            <p>TL;DR：有同学反应资源太多不知道从何看起，或者有点基础了想快速上手，因此就直接把几个比较好的教程放在这里，后面的内容作为参考。</p>
 <ol>
 <li>Stanford的CS 20SI课程，专门针对TensorFlow的课程，Tensorflow for Deep Learning Research</li>
 <li>两本书籍：TensorFlow  Machine Learning Cookbook以及TensorFlow for Machine Intelligence，这两本网络均有pdf版本，请自行搜索。</li>
@@ -385,48 +1040,147 @@
 <li><a href="http://www.gitxiv.com/" target="_blank" rel="external">GitXiv</a></li>
 </ol>
 
+          
+        
       
     </div>
-    <footer class="article-footer">
-      <a data-url="https://callofdutyops.github.io/2017/03/28/tensorflow-learning-paths-2/" data-id="cj6eioiwz001817qxcrkm17ry" class="article-share-link">Share</a>
-      
-      
-  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Learn/">Learn</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Tutorial/">Tutorial</a></li></ul>
+    
+    
+    
 
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
     </footer>
   </div>
   
-</article>
+  
+  
+  </article>
 
+
+    
+      
 
   
-    <article id="post-roadmap-recently" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2017/03/23/roadmap-recently/" class="article-date">
-  <time datetime="2017-03-22T20:08:52.000Z" itemprop="datePublished">2017-03-23</time>
-</a>
-    
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/Life/">Life</a>
-  </div>
 
-  </div>
-  <div class="article-inner">
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://callofdutyops.github.io/2017/03/23/roadmap-recently/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Pu Huang">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Talk is cheap">
+    </span>
+
     
-    
-      <header class="article-header">
+      <header class="post-header">
+
         
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2017/03/23/roadmap-recently/">Roadmap recently</a>
-    </h1>
-  
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2017/03/23/roadmap-recently/" itemprop="url">Roadmap recently</a></h1>
+        
 
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-03-23T04:08:52+08:00">
+                2017-03-23
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Life/" itemprop="url" rel="index">
+                    <span itemprop="name">Life</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
       </header>
     
-    <div class="article-entry" itemprop="articleBody">
+
+    
+    
+    
+    <div class="post-body han-init-context" itemprop="articleBody">
+
       
-        <p>最近感觉很多应该掌握的技术虽然都知道，也用过，也能说上一知半解，但是没有成系统串起来，趁着研一下学期正好课不多也没科研任务，好好梳理一下需要重新掌握的知识。</p>
+      
+
+      
+        
+          
+            <p>最近感觉很多应该掌握的技术虽然都知道，也用过，也能说上一知半解，但是没有成系统串起来，趁着研一下学期正好课不多也没科研任务，好好梳理一下需要重新掌握的知识。</p>
 <ol>
 <li>语言<ul>
 <li>C++：阅读《C++ Primer》，25天</li>
@@ -462,48 +1216,147 @@
 </li>
 </ol>
 
+          
+        
       
     </div>
-    <footer class="article-footer">
-      <a data-url="https://callofdutyops.github.io/2017/03/23/roadmap-recently/" data-id="cj6eioiwp000g17qxwmw151di" class="article-share-link">Share</a>
-      
-      
-  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Learn/">Learn</a></li></ul>
+    
+    
+    
 
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
     </footer>
   </div>
   
-</article>
+  
+  
+  </article>
 
+
+    
+      
 
   
-    <article id="post-linux-shell-1" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2017/03/23/linux-shell-1/" class="article-date">
-  <time datetime="2017-03-22T19:50:41.000Z" itemprop="datePublished">2017-03-23</time>
-</a>
-    
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/Linux/">Linux</a>
-  </div>
 
-  </div>
-  <div class="article-inner">
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://callofdutyops.github.io/2017/03/23/linux-shell-1/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Pu Huang">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Talk is cheap">
+    </span>
+
     
-    
-      <header class="article-header">
+      <header class="post-header">
+
         
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2017/03/23/linux-shell-1/">Linux Shell 脚本攻略（一）</a>
-    </h1>
-  
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2017/03/23/linux-shell-1/" itemprop="url">Linux Shell 脚本攻略（一）</a></h1>
+        
 
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-03-23T03:50:41+08:00">
+                2017-03-23
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Linux/" itemprop="url" rel="index">
+                    <span itemprop="name">Linux</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
       </header>
     
-    <div class="article-entry" itemprop="articleBody">
+
+    
+    
+    
+    <div class="post-body han-init-context" itemprop="articleBody">
+
       
-        <p>虽然用Linux好几年了，但是对shell脚本的掌握基本为零……最近需要做一些文件批量重命名，图像批量预处理，文本批量预处理的琐碎而重复的工作，于是乎下定决心好好学习一下shell脚本。于是找了一本口碑不错的shell脚本入门书—-《Linux Shell 脚本攻略 第2版》，是印度人Shantanu Tushar和Sarath Lakshman写的。边看边写博客系列（计划分九个系列完成）当做读书笔记，同时，也不完全是读书笔记，会加上一些解释的链接或者个人的经验：）当然，如果有人看，也算是做个“脱水版”的精炼shell脚本入门“指南”吧：）</p>
+      
+
+      
+        
+          
+            <p>虽然用Linux好几年了，但是对shell脚本的掌握基本为零……最近需要做一些文件批量重命名，图像批量预处理，文本批量预处理的琐碎而重复的工作，于是乎下定决心好好学习一下shell脚本。于是找了一本口碑不错的shell脚本入门书—-《Linux Shell 脚本攻略 第2版》，是印度人Shantanu Tushar和Sarath Lakshman写的。边看边写博客系列（计划分九个系列完成）当做读书笔记，同时，也不完全是读书笔记，会加上一些解释的链接或者个人的经验：）当然，如果有人看，也算是做个“脱水版”的精炼shell脚本入门“指南”吧：）</p>
 <ol>
 <li><p><strong>基本的文件格式结构，运行规则：</strong><br>文件开头第一行<code>#!/bin/bash</code>（这里可以是别的shell的路径），<code>#!</code>这玩意叫<a href="https://zh.wikipedia.org/wiki/Shebang" target="_blank" rel="external">shebang</a>，不过<code>$ bash script.sh</code> 这种运行方式首行的shebang就没什么用了，或者<code>$ chmod +x script.sh</code>然后<code>$ ./script.sh</code>。</p>
 </li>
@@ -563,48 +1416,147 @@
 </li>
 </ol>
 
+          
+        
       
     </div>
-    <footer class="article-footer">
-      <a data-url="https://callofdutyops.github.io/2017/03/23/linux-shell-1/" data-id="cj6eioiwn000b17qxcwnttgtj" class="article-share-link">Share</a>
-      
-      
-  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Development/">Development</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Learn/">Learn</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Linux/">Linux</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Shell/">Shell</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Tutorial/">Tutorial</a></li></ul>
+    
+    
+    
 
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
     </footer>
   </div>
   
-</article>
+  
+  
+  </article>
 
+
+    
+      
 
   
-    <article id="post-tensorboard-embedding" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2017/03/11/tensorboard-embedding/" class="article-date">
-  <time datetime="2017-03-11T15:16:15.000Z" itemprop="datePublished">2017-03-11</time>
-</a>
-    
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/TensorFlow/">TensorFlow</a>
-  </div>
 
-  </div>
-  <div class="article-inner">
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://callofdutyops.github.io/2017/03/11/tensorboard-embedding/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Pu Huang">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Talk is cheap">
+    </span>
+
     
-    
-      <header class="article-header">
+      <header class="post-header">
+
         
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2017/03/11/tensorboard-embedding/">TensorBoard Embedding 实战</a>
-    </h1>
-  
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2017/03/11/tensorboard-embedding/" itemprop="url">TensorBoard Embedding 实战</a></h1>
+        
 
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-03-11T23:16:15+08:00">
+                2017-03-11
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/TensorFlow/" itemprop="url" rel="index">
+                    <span itemprop="name">TensorFlow</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
       </header>
     
-    <div class="article-entry" itemprop="articleBody">
+
+    
+    
+    
+    <div class="post-body han-init-context" itemprop="articleBody">
+
       
-        <p>TensorBoard是TensorFlow自带的一个训练可视化工具，可以实现对训练过程中的tensor量监控，常见的包括loss，accuracy等等，同时也可以对权重值W，偏置值b等绘制histogram（不过这个不是传统意义上的histogram，<a href="https://github.com/tensorflow/tensorflow/tree/master/tensorflow/tensorboard#distribution-dashboard" target="_blank" rel="external">开发组也在着手让这个histogram变得更直观</a>），r0.12版本中添加了新功能embedding，随着r1.0的释出，embedding也越发成熟，但是<a href="https://www.tensorflow.org/get_started/embedding_viz" target="_blank" rel="external">官网的教程</a>确实让新手一头雾水，几番搜索后，发现了<a href="https://gist.github.com/dandelionmane/4f02ab8f1451e276fea1f165a20336f1" target="_blank" rel="external">一份不错的示例代码</a>，但是这其中还是有些比较隐晦的概念，因此这篇博客针对对mnist的embedding进行讲解。</p>
+      
+
+      
+        
+          
+            <p>TensorBoard是TensorFlow自带的一个训练可视化工具，可以实现对训练过程中的tensor量监控，常见的包括loss，accuracy等等，同时也可以对权重值W，偏置值b等绘制histogram（不过这个不是传统意义上的histogram，<a href="https://github.com/tensorflow/tensorflow/tree/master/tensorflow/tensorboard#distribution-dashboard" target="_blank" rel="external">开发组也在着手让这个histogram变得更直观</a>），r0.12版本中添加了新功能embedding，随着r1.0的释出，embedding也越发成熟，但是<a href="https://www.tensorflow.org/get_started/embedding_viz" target="_blank" rel="external">官网的教程</a>确实让新手一头雾水，几番搜索后，发现了<a href="https://gist.github.com/dandelionmane/4f02ab8f1451e276fea1f165a20336f1" target="_blank" rel="external">一份不错的示例代码</a>，但是这其中还是有些比较隐晦的概念，因此这篇博客针对对mnist的embedding进行讲解。</p>
 <p>预备知识：</p>
 <ol>
 <li>什么是embedding，首先，可以看看<a href="https://zh.wikipedia.org/wiki/%E5%B5%8C%E5%85%A5_(%E6%95%B0%E5%AD%A6" target="_blank" rel="external">wiki的定义</a>)，其实简而言之，embedding就是一个“保持结构的单射”，保持结构是指不改变原始数据的结构信息（比如几何结构，mnist图像的内在结构），单射是指一一映射，这样就很好理解什么叫对mnist进行embedding，也就是对mnist原始图像进行一个“保持结构的单射变换”，使得一个图像这种非结构型数据易于处理（分类），如果对词嵌入很熟悉的话，就很好理解了，词嵌入也是一种embedding，把词映射到了实数空间。</li>
@@ -615,92 +1567,290 @@
 <p>实现的关键代码是（解释详见注释）：<br><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line">config = tf.contrib.tensorboard.plugins.projector.ProjectorConfig()</div><div class="line">embedding_config = config.embeddings.add()</div><div class="line"><span class="comment"># embedding是一个tf变量</span></div><div class="line">embedding_config.tensor_name = embedding.name</div><div class="line"><span class="comment"># sprite image文件路径</span></div><div class="line">embedding_config.sprite.image_path = sprite_path</div><div class="line"><span class="comment"># labels文件路径</span></div><div class="line">embedding_config.metadata_path = labels_path</div><div class="line"><span class="comment"># sprite image中每一单个图像的大小</span></div><div class="line">embedding_config.sprite.single_image_dim.extend([<span class="number">28</span>, <span class="number">28</span>])</div><div class="line"><span class="comment"># 写入配置</span></div><div class="line">tf.contrib.tensorboard.plugins.projector.visualize_embeddings(writer, config)</div></pre></td></tr></table></figure></p>
 <p>从代码中可以看出，关键在于，embedding变量，sprite image文件路径，labels文件路径。<br>具体的实现详见<a href="https://gist.github.com/dandelionmane/4f02ab8f1451e276fea1f165a20336f1" target="_blank" rel="external">示例代码</a>。</p>
 
+          
+        
       
     </div>
-    <footer class="article-footer">
-      <a data-url="https://callofdutyops.github.io/2017/03/11/tensorboard-embedding/" data-id="cj6eioiwt000r17qxhpgtw9st" class="article-share-link">Share</a>
-      
-      
-  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Deep-Learning/">Deep Learning</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Development/">Development</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/TensorBoard/">TensorBoard</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/TensorFlow/">TensorFlow</a></li></ul>
+    
+    
+    
 
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
     </footer>
   </div>
   
-</article>
+  
+  
+  </article>
 
+
+    
+      
 
   
-    <article id="post-tensorflow-source-code" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2017/03/06/tensorflow-source-code/" class="article-date">
-  <time datetime="2017-03-05T18:20:15.000Z" itemprop="datePublished">2017-03-06</time>
-</a>
-    
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/TensorFlow/">TensorFlow</a>
-  </div>
 
-  </div>
-  <div class="article-inner">
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://callofdutyops.github.io/2017/03/06/tensorflow-source-code/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Pu Huang">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Talk is cheap">
+    </span>
+
     
-    
-      <header class="article-header">
+      <header class="post-header">
+
         
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2017/03/06/tensorflow-source-code/">TensorFlow 源码阅读</a>
-    </h1>
-  
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2017/03/06/tensorflow-source-code/" itemprop="url">TensorFlow 源码阅读</a></h1>
+        
 
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-03-06T02:20:15+08:00">
+                2017-03-06
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/TensorFlow/" itemprop="url" rel="index">
+                    <span itemprop="name">TensorFlow</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
       </header>
     
-    <div class="article-entry" itemprop="articleBody">
+
+    
+    
+    
+    <div class="post-body han-init-context" itemprop="articleBody">
+
       
-        <p>看完了TensorFlow官网的<a href="https://www.tensorflow.org/about/bib" target="_blank" rel="external">两份白皮书</a>后，产生了阅读源码的念头，不过，git clone下来以后，仅从代码大小上就可以看出TF的体量之大，源码绝不是一己之力一时半会能够理解的。几番搜索，发现网上关于源码阅读的教程确实是很少，这里<a href="http://www.cnblogs.com/yao62995/p/5773578.html" target="_blank" rel="external">有一份不错的</a>，<a href="https://groups.google.com/a/tensorflow.org/forum/?utm_medium=email&amp;utm_source=footer#!msg/discuss/Fp0PEvZpSP0/-5u1WcKkAgAJ" target="_blank" rel="external">这里</a>还有google group里的讨论，为了方便墙内读者阅读，引用于此：</p>
+      
+
+      
+        
+          
+            <p>看完了TensorFlow官网的<a href="https://www.tensorflow.org/about/bib" target="_blank" rel="external">两份白皮书</a>后，产生了阅读源码的念头，不过，git clone下来以后，仅从代码大小上就可以看出TF的体量之大，源码绝不是一己之力一时半会能够理解的。几番搜索，发现网上关于源码阅读的教程确实是很少，这里<a href="http://www.cnblogs.com/yao62995/p/5773578.html" target="_blank" rel="external">有一份不错的</a>，<a href="https://groups.google.com/a/tensorflow.org/forum/?utm_medium=email&amp;utm_source=footer#!msg/discuss/Fp0PEvZpSP0/-5u1WcKkAgAJ" target="_blank" rel="external">这里</a>还有google group里的讨论，为了方便墙内读者阅读，引用于此：</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div></pre></td><td class="code"><pre><div class="line">core/ contains the main C++ code and runtimes.</div><div class="line"></div><div class="line">core/ops/ contains the &quot;signatures&quot; of the operations</div><div class="line">core/kernels/ contains the &quot;implementations&quot; of the operations (including CPU and CUDA kernels)</div><div class="line">core/framework/ contains the main abstract graph computation and other useful libraries</div><div class="line">core/platform/ contains code that abstracts away the platform and other imported libraries (protobuf, etc)</div><div class="line"></div><div class="line">TensorFlow relies heavily on the Eigen library for both CPU and GPU calculations.  Though some GPU kernels are implemented directly with CUDA code.</div><div class="line"></div><div class="line">bazel builds certain C++ code using gcc/clang, and certain CUDA code (files with extension .cu.cc) with nvcc.</div><div class="line"></div><div class="line">python/ops/ contain the core python interface</div><div class="line">python/kernel\_tests/ contain the unit tests and lots of example code</div><div class="line">python/framework/ contains the python abstractions of graph, etc, a lot of which get serialized down to proto and/or get passed to swigged session calls.</div><div class="line">python/platform/ is similar to the C++ platform, adding lightweight wrappers for python I/O, unit testing, etc.</div><div class="line"></div><div class="line">contrib/*/ directories generally mimic the root tensorflow path (i.e., they have core/ops/, etc)</div></pre></td></tr></table></figure>
 
+          
+        
       
     </div>
-    <footer class="article-footer">
-      <a data-url="https://callofdutyops.github.io/2017/03/06/tensorflow-source-code/" data-id="cj6eioix5001p17qx4ocjxwiy" class="article-share-link">Share</a>
-      
-      
-  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Deep-Learning/">Deep Learning</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Development/">Development</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Learn/">Learn</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/TensorFlow/">TensorFlow</a></li></ul>
+    
+    
+    
 
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
     </footer>
   </div>
   
-</article>
+  
+  
+  </article>
 
+
+    
+      
 
   
-    <article id="post-raspberrypi-cups" class="article article-type-post" itemscope itemprop="blogPost">
-  <div class="article-meta">
-    <a href="/2017/02/24/raspberrypi-cups/" class="article-date">
-  <time datetime="2017-02-24T14:55:10.000Z" itemprop="datePublished">2017-02-24</time>
-</a>
-    
-  <div class="article-category">
-    <a class="article-category-link" href="/categories/Life/">Life</a>
-  </div>
 
-  </div>
-  <div class="article-inner">
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://callofdutyops.github.io/2017/02/24/raspberrypi-cups/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Pu Huang">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Talk is cheap">
+    </span>
+
     
-    
-      <header class="article-header">
+      <header class="post-header">
+
         
-  
-    <h1 itemprop="name">
-      <a class="article-title" href="/2017/02/24/raspberrypi-cups/">实战树莓派配置CUPS，USB秒变网络打印机</a>
-    </h1>
-  
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2017/02/24/raspberrypi-cups/" itemprop="url">实战树莓派配置CUPS，USB秒变网络打印机</a></h1>
+        
 
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-02-24T22:55:10+08:00">
+                2017-02-24
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Life/" itemprop="url" rel="index">
+                    <span itemprop="name">Life</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
       </header>
     
-    <div class="article-entry" itemprop="articleBody">
+
+    
+    
+    
+    <div class="post-body han-init-context" itemprop="articleBody">
+
       
-        <p>自从读研，论文阅读量直线上升，总觉得电子版读起来不如纸质的感觉好，最关键是电子版做笔记不方面。于是乎，和室友商量着买个打印机。因为是打论文看，所以对打印质量没有特别要求，只要公式清晰就行，因此为了节省成本，二手激光打印机是首选。<br>因为是寝室两个人用，所以网络打印机肯定是最方便的，但是贵啊……其次，考虑到成本，支持自动双面也会很划算（毕竟国产硒鼓二三十一个，而且还2000的打印量，还可以加粉，纸张的成本显得格外重要）。</p>
+      
+
+      
+        
+          
+            <p>自从读研，论文阅读量直线上升，总觉得电子版读起来不如纸质的感觉好，最关键是电子版做笔记不方面。于是乎，和室友商量着买个打印机。因为是打论文看，所以对打印质量没有特别要求，只要公式清晰就行，因此为了节省成本，二手激光打印机是首选。<br>因为是寝室两个人用，所以网络打印机肯定是最方便的，但是贵啊……其次，考虑到成本，支持自动双面也会很划算（毕竟国产硒鼓二三十一个，而且还2000的打印量，还可以加粉，纸张的成本显得格外重要）。</p>
 <p>目标明确：黑白激光，网络打印，自动双面，二手，开始淘宝～</p>
 <p>一番搜索，找到一款HP P2055DN的型号，自动双面，网络打印，但是要600多，有点贵，一番咨询，老板人很nice，推荐了HP P2015D，USB打印，自动双面，虽然不支持网络打印，但是便宜啊！当时突然觉得网络打印没那么重要了，一时心动就这个了。</p>
 <p>买回来以后，发现，没有网络打印两个人用真的超级不方面。随时需要拔插不说，每次还要抱着笔记本蹲到角落里连上打印机……正有些懊恼的时候，看到了桌子角落里尘封已久的树莓派，心生一计，可以用这玩意儿做服务器啊，而且功耗还极低，完全可以一直保持开机状态，想想就很方便。于是乎一番搜索，有些教程极其复杂，有些有很简略，一时无所适从，还是变弄边看吧！</p>
@@ -712,134 +1862,423 @@
 <p>添加完成后即可对打印机配置，比如勾选自动双面等等，不同厂商的打印机有不同的选项，这个就参见说明了。<br>最后，打印测试页测试一下吧～</p>
 <p>p.s. 按照这样的方法有可能会出现打印很慢的情况，如果遇到这种情况，就删除打印机，在添加驱动的步骤中，选择RAW，然后在客户机搜索到这个RAW打印机后在客户机本地安装驱动，可以缓解打印过慢的情况。</p>
 
+          
+        
       
     </div>
-    <footer class="article-footer">
-      <a data-url="https://callofdutyops.github.io/2017/02/24/raspberrypi-cups/" data-id="cj6eioiwo000d17qx2wyxbon2" class="article-share-link">Share</a>
-      
-      
-  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Linux/">Linux</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Printer/">Printer</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Tutorial/">Tutorial</a></li></ul>
+    
+    
+    
 
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
     </footer>
   </div>
   
-</article>
+  
+  
+  </article>
 
+
+    
+  </section>
 
   
-
-
-  <nav id="page-nav">
-    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><a class="extend next" rel="next" href="/page/2/">__('next') &raquo;</a>
+  <nav class="pagination">
+    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="page-number" href="/page/3/">3</a><a class="extend next" rel="next" href="/page/2/"><i class="fa fa-angle-right"></i></a>
   </nav>
-</section>
+
+
+
+          </div>
+          
+
+
+          
+
+        </div>
         
-          <aside id="sidebar">
+          
   
-    
-  <div class="widget-wrap">
-    <h3 class="widget-title">Categories</h3>
-    <div class="widget">
-      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/Android/">Android</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Learning/">Learning</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Life/">Life</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/Linux/">Linux</a></li><li class="category-list-item"><a class="category-list-link" href="/categories/TensorFlow/">TensorFlow</a></li></ul>
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
     </div>
   </div>
 
-
-  
+  <aside id="sidebar" class="sidebar">
     
-  <div class="widget-wrap">
-    <h3 class="widget-title">Tags</h3>
-    <div class="widget">
-      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Android/">Android</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Dagger/">Dagger</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Data/">Data</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Deep-Learning/">Deep Learning</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Development/">Development</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Github/">Github</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Google/">Google</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Inception/">Inception</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Java/">Java</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Knowledge/">Knowledge</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Lambda/">Lambda</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Learn/">Learn</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Library/">Library</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Linux/">Linux</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/MVP/">MVP</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/MVVM/">MVVM</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/OkHttp/">OkHttp</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Practices/">Practices</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Printer/">Printer</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Python/">Python</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/R/">R</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Research/">Research</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Retrofit/">Retrofit</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/RxAndroid/">RxAndroid</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/RxJava/">RxJava</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Shell/">Shell</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/TensorBoard/">TensorBoard</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/TensorFlow/">TensorFlow</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Time-series/">Time series</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Tutorial/">Tutorial</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Volley/">Volley</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/development/">development</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/tutorial/">tutorial</a></li></ul>
+    <div class="sidebar-inner">
+
+      
+
+      
+
+      <section class="site-overview sidebar-panel sidebar-panel-active">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/avatar.gif"
+               alt="Pu Huang" />
+          <p class="site-author-name" itemprop="name">Pu Huang</p>
+           
+              <p class="site-description motion-element" itemprop="description">Mirror blog of http://hp.stuhome.net.</p>
+          
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives/">
+                <span class="site-state-item-count">23</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-categories">
+              
+                <span class="site-state-item-count">6</span>
+                <span class="site-state-item-name">分类</span>
+              
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              
+                <span class="site-state-item-count">33</span>
+                <span class="site-state-item-name">标签</span>
+              
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+            
+              <span class="links-of-author-item">
+                <a href="http://hp.stuhome.net" target="_blank" title="个人主站">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                    
+                      个人主站
+                    
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://github.com/callofdutyops" target="_blank" title="GitHub">
+                  
+                    <i class="fa fa-fw fa-github"></i>
+                  
+                    
+                      GitHub
+                    
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://twitter.com/awsomekde" target="_blank" title="Twitter">
+                  
+                    <i class="fa fa-fw fa-twitter"></i>
+                  
+                    
+                      Twitter
+                    
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="http://www.zhihu.com/people/huang-pu-8" target="_blank" title="知乎">
+                  
+                    <i class="fa fa-fw fa-globe"></i>
+                  
+                    
+                      知乎
+                    
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://plus.google.com/u/0/105835576086562775159" target="_blank" title="Google">
+                  
+                    <i class="fa fa-fw fa-google"></i>
+                  
+                    
+                      Google
+                    
+                </a>
+              </span>
+            
+              <span class="links-of-author-item">
+                <a href="https://stackoverflow.com/users/3881894/callofdutyops" target="_blank" title="StackOverflow">
+                  
+                    <i class="fa fa-fw fa-stack-overflow"></i>
+                  
+                    
+                      StackOverflow
+                    
+                </a>
+              </span>
+            
+          
+        </div>
+
+        
+        
+
+        
+        
+          <div class="links-of-blogroll motion-element links-of-blogroll-inline">
+            <div class="links-of-blogroll-title">
+              <i class="fa  fa-fw fa-globe"></i>
+              Links
+            </div>
+            <ul class="links-of-blogroll-list">
+              
+                <li class="links-of-blogroll-item">
+                  <a href="http://hp.stuhome.net/" title="个人主站" target="_blank">个人主站</a>
+                </li>
+              
+            </ul>
+          </div>
+        
+
+        
+
+
+      </section>
+
+      
+
+      
+
     </div>
-  </div>
+  </aside>
 
 
-  
-    
-  <div class="widget-wrap">
-    <h3 class="widget-title">Tag Cloud</h3>
-    <div class="widget tagcloud">
-      <a href="/tags/Android/" style="font-size: 14.29px;">Android</a> <a href="/tags/Dagger/" style="font-size: 10px;">Dagger</a> <a href="/tags/Data/" style="font-size: 10px;">Data</a> <a href="/tags/Deep-Learning/" style="font-size: 18.57px;">Deep Learning</a> <a href="/tags/Development/" style="font-size: 15.71px;">Development</a> <a href="/tags/Github/" style="font-size: 10px;">Github</a> <a href="/tags/Google/" style="font-size: 10px;">Google</a> <a href="/tags/Inception/" style="font-size: 10px;">Inception</a> <a href="/tags/Java/" style="font-size: 10px;">Java</a> <a href="/tags/Knowledge/" style="font-size: 10px;">Knowledge</a> <a href="/tags/Lambda/" style="font-size: 10px;">Lambda</a> <a href="/tags/Learn/" style="font-size: 15.71px;">Learn</a> <a href="/tags/Library/" style="font-size: 10px;">Library</a> <a href="/tags/Linux/" style="font-size: 15.71px;">Linux</a> <a href="/tags/MVP/" style="font-size: 10px;">MVP</a> <a href="/tags/MVVM/" style="font-size: 10px;">MVVM</a> <a href="/tags/OkHttp/" style="font-size: 10px;">OkHttp</a> <a href="/tags/Practices/" style="font-size: 10px;">Practices</a> <a href="/tags/Printer/" style="font-size: 10px;">Printer</a> <a href="/tags/Python/" style="font-size: 11.43px;">Python</a> <a href="/tags/R/" style="font-size: 10px;">R</a> <a href="/tags/Research/" style="font-size: 10px;">Research</a> <a href="/tags/Retrofit/" style="font-size: 10px;">Retrofit</a> <a href="/tags/RxAndroid/" style="font-size: 10px;">RxAndroid</a> <a href="/tags/RxJava/" style="font-size: 11.43px;">RxJava</a> <a href="/tags/Shell/" style="font-size: 10px;">Shell</a> <a href="/tags/TensorBoard/" style="font-size: 10px;">TensorBoard</a> <a href="/tags/TensorFlow/" style="font-size: 20px;">TensorFlow</a> <a href="/tags/Time-series/" style="font-size: 10px;">Time series</a> <a href="/tags/Tutorial/" style="font-size: 17.14px;">Tutorial</a> <a href="/tags/Volley/" style="font-size: 10px;">Volley</a> <a href="/tags/development/" style="font-size: 12.86px;">development</a> <a href="/tags/tutorial/" style="font-size: 10px;">tutorial</a>
-    </div>
-  </div>
-
-  
-    
-  <div class="widget-wrap">
-    <h3 class="widget-title">Archives</h3>
-    <div class="widget">
-      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/08/">八月 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/07/">七月 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/06/">六月 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/03/">三月 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/02/">二月 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/10/">十月 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/09/">九月 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/07/">七月 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/06/">六月 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/02/">二月 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/01/">一月 2016</a></li></ul>
-    </div>
-  </div>
-
-
-  
-    
-  <div class="widget-wrap">
-    <h3 class="widget-title">Recent Posts</h3>
-    <div class="widget">
-      <ul>
-        
-          <li>
-            <a href="/2017/08/03/tensorflow-model-best-practice/">TensorFLow模型建立最佳实践</a>
-          </li>
-        
-          <li>
-            <a href="/2017/07/30/tensorflow-details/">TensorFlow中的一些细节--PART 1</a>
-          </li>
-        
-          <li>
-            <a href="/2017/07/21/archlinux-tensorflow/">在ArchLinux上安装GPU版TensorFlow</a>
-          </li>
-        
-          <li>
-            <a href="/2017/06/15/sudo-python-environ/">sudo python environ 环境变量问题</a>
-          </li>
-        
-          <li>
-            <a href="/2017/03/28/tensorflow-learning-paths-2/">新手向的TensorFlow学习之路2（Learning paths 2）</a>
-          </li>
-        
-      </ul>
-    </div>
-  </div>
-
-  
-</aside>
         
       </div>
-      <footer id="footer">
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
   
-  <div class="outer">
-    <div id="footer-info" class="inner">
-      &copy; 2017 Pu Huang<br>
-      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
-    </div>
+  &copy;  2015 &mdash; 
+  <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">Pu Huang</span>
+
+  
+</div>
+
+
+  <div class="powered-by">
+    由 <a class="theme-link" href="https://hexo.io">Hexo</a> 强力驱动
   </div>
-</footer>
-    </div>
-    <nav id="mobile-nav">
-  
-    <a href="/" class="mobile-nav-link">Home</a>
-  
-    <a href="/archives" class="mobile-nav-link">Archives</a>
-  
-</nav>
+
+  <span class="post-meta-divider">|</span>
+
+  <div class="theme-info">
+    主题 &mdash;
+    <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+      NexT.Gemini
+    </a>
+  </div>
+
+
+        
+
+
+
+
+
+
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
     
 
-<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
 
 
-  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
-  <script src="/fancybox/jquery.fancybox.pack.js"></script>
-
-
-<script src="/js/script.js"></script>
 
 
 
-  </div><!-- hexo-inject:begin --><!-- Begin: Injected MathJax -->
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.2"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.2"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.2"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.2"></script>
+
+
+
+  
+    <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.2"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.2"></script>
+
+  
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.2"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+  
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Config({
+        tex2jax: {
+          inlineMath: [ ['$','$'], ["\\(","\\)"]  ],
+          processEscapes: true,
+          skipTags: ['script', 'noscript', 'style', 'textarea', 'pre', 'code']
+        }
+      });
+    </script>
+
+    <script type="text/x-mathjax-config">
+      MathJax.Hub.Queue(function() {
+        var all = MathJax.Hub.getAllJax(), i;
+        for (i=0; i < all.length; i += 1) {
+          all[i].SourceElement().parentNode.className += ' has-jax';
+        }
+      });
+    </script>
+    <script type="text/javascript" src="//cdn.bootcss.com/mathjax/2.7.1/latest.js?config=TeX-AMS-MML_HTMLorMML"></script><!-- hexo-inject:begin --><!-- Begin: Injected MathJax -->
 <script type="text/x-mathjax-config">
   MathJax.Hub.Config({"tex2jax":{"inlineMath":[["$","$"],["\\(","\\)"]],"skipTags":["script","noscript","style","textarea","pre","code"],"processEscapes":true},"TeX":{"equationNumbers":{"autoNumber":"AMS"}}});
 </script>
@@ -857,5 +2296,12 @@
 </script>
 <!-- End: Injected MathJax -->
 <!-- hexo-inject:end -->
+  
+
+
+  
+
+  
+
 </body>
 </html>
