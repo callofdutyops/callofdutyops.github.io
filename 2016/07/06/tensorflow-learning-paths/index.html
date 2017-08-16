@@ -1,0 +1,272 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="utf-8">
+  
+  <title>新手向的TensorFlow学习之路（Learning paths） | Talk is cheap</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="UPDATE：请看更新篇新手向的TensorFlow学习之路2 在学习Tensorflow的过程中磕磕碰碰，总结一些个人心得记录于此，志同道合之友共勉~~ 这篇文章算是新手向“纲领性”目录吧，近期正好在做一个有关TensorFlow的小项目，如果有时间就分章分篇详细写几篇TF的教程，还请大家关注本博客～ 1. 翻墙：这个是个不是技术的技术，TensorFlow毕竟出自Google，官方文档访问不是">
+<meta name="keywords" content="Deep Learning,TensorFlow,development,Linux,Github,Python">
+<meta property="og:type" content="article">
+<meta property="og:title" content="新手向的TensorFlow学习之路（Learning paths）">
+<meta property="og:url" content="https://callofdutyops.github.io/2016/07/06/tensorflow-learning-paths/index.html">
+<meta property="og:site_name" content="Talk is cheap">
+<meta property="og:description" content="UPDATE：请看更新篇新手向的TensorFlow学习之路2 在学习Tensorflow的过程中磕磕碰碰，总结一些个人心得记录于此，志同道合之友共勉~~ 这篇文章算是新手向“纲领性”目录吧，近期正好在做一个有关TensorFlow的小项目，如果有时间就分章分篇详细写几篇TF的教程，还请大家关注本博客～ 1. 翻墙：这个是个不是技术的技术，TensorFlow毕竟出自Google，官方文档访问不是">
+<meta property="og:locale" content="zh-cn">
+<meta property="og:updated_time" content="2017-08-16T03:17:27.153Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="新手向的TensorFlow学习之路（Learning paths）">
+<meta name="twitter:description" content="UPDATE：请看更新篇新手向的TensorFlow学习之路2 在学习Tensorflow的过程中磕磕碰碰，总结一些个人心得记录于此，志同道合之友共勉~~ 这篇文章算是新手向“纲领性”目录吧，近期正好在做一个有关TensorFlow的小项目，如果有时间就分章分篇详细写几篇TF的教程，还请大家关注本博客～ 1. 翻墙：这个是个不是技术的技术，TensorFlow毕竟出自Google，官方文档访问不是">
+  
+    <link rel="alternate" href="/atom.xml" title="Talk is cheap" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  <link rel="stylesheet" href="/css/style.css"><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+  
+
+</head>
+
+<body>
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Talk is cheap</a>
+      </h1>
+      
+        <h2 id="subtitle-wrap">
+          <a href="/" id="subtitle">Working harder</a>
+        </h2>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="https://callofdutyops.github.io"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-tensorflow-learning-paths" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2016/07/06/tensorflow-learning-paths/" class="article-date">
+  <time datetime="2016-07-06T01:56:57.000Z" itemprop="datePublished">2016-07-06</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/TensorFlow/">TensorFlow</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      新手向的TensorFlow学习之路（Learning paths）
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>UPDATE：请看更新篇<a href="http://hp.stuhome.net/index.php/2017/03/28/tensorflow-learning-paths-2/" target="_blank" rel="external">新手向的TensorFlow学习之路2</a></p>
+<p>在学习Tensorflow的过程中磕磕碰碰，总结一些个人心得记录于此，志同道合之友共勉~~</p>
+<p>这篇文章算是新手向“纲领性”目录吧，近期正好在做一个有关TensorFlow的小项目，如果有时间就分章分篇详细写几篇TF的教程，还请大家关注本博客～</p>
+<p><strong>1. 翻墙：</strong>这个是个不是技术的技术，TensorFlow毕竟出自Google，官方文档访问不是很稳定，而且Google搜索的结果要比Baidu好很多。有些免费一键翻墙的软件比如<a href="https://getlantern.org/" target="_blank" rel="external">Lantern</a>，打不开就<a href="https://github.com/getlantern/lantern/" target="_blank" rel="external">这个</a>（在releases中下载对应操作系统版本），或者<a href="https://psiphon3.com/" target="_blank" rel="external">赛风</a>。高级一点的是<a href="https://github.com/shadowsocks/" target="_blank" rel="external">Shadowsocks</a>。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">在这里插一句，本来是不想说这些的，有推销嫌疑，但是有很多人文这个问题，有些推荐的梯子。我是用的是[Digitalocean](https://m.do.co/c/ee79ae347c9f)（这是我的推荐链接 ，使用的话你我都可以获得奖励）搭建服务器，很稳定，$5（约30人民币）一个月，1T流量（肯定是用不完的，好像超了也不收费），在服务器上跑了一个shadowsocks的服务端外加这个wordpress的博客。网上有很多搭建教程。或者如果想省事，可以与我合租，服务器已经搭建好了，简单配置即可。可以发我Gmail，在网站的About页面有。p.s. 几人合租就几分之一$5，无额外费用，程序员纯纯的友谊你懂的：）</div></pre></td></tr></table></figure>
+<p><strong>2. Github：</strong>这是个开源程序的<a href="https://github.com/" target="_blank" rel="external">网站</a>，Linux内核就在这个网站托管。Github的核心是Git，一种版本控制系统，已经逐渐取代SVN。这个网站托管了很多高质量的或者说世界顶尖的开源项目，比如TensorFlow。学习一下这个网站如何使用，注册个账号，学习一下Git的使用方法。这个网站有自己的tutorial和guide。</p>
+<p><strong>3. Linux:</strong> TensorFlow的主要运行平台就是Linux，目前在Windows上运行的方案是虚拟机，但是深度学习对计算要求还是比较高的，虚拟机效率不是太高，因此还是推荐在原生Linux中运行。新手推荐发行版是<a href="http://www.ubuntu.org.cn/" target="_blank" rel="external">Ubuntu</a> 或者<a href="https://www.linuxmint.com/" target="_blank" rel="external">Linux mint</a>。这个可以自行搜索。学习Linux也有很多好处，因为很多开源软件都only linux的。</p>
+<p><strong>4. Python：</strong>这是一种非常流行的脚本语言，庞大的第三方库可以快速写出短小容易理解的代码，而且也是TensorFlow的推荐开发语言。教程太多了，这里给几个优秀的教程：<a href="http://learnpython.org/" target="_blank" rel="external">官网教程</a>，<a href="http://learnpythonthehardway.org/book/" target="_blank" rel="external">Learn Python the Hard Way</a>，<a href="http://www.liaoxuefeng.com/wiki/001374738125095c955c1e6d8bb493182103fac9270762a000/" target="_blank" rel="external">Python2.7教程</a></p>
+<p><strong>5. 深度学习（Deep Learning，DL）：</strong>虽然TensorFlow已经封装好了大部分DL的细节，但是如果不了解DL的相关核心概念，就会很难着手分析问题。首先强烈推荐<a href="http://neuralnetworksanddeeplearning.com/" target="_blank" rel="external">这个教程</a>，通读一遍，然后还有<a href="http://www.deeplearningbook.org/" target="_blank" rel="external">这个</a>，可以快速浏览或者只看自己不太明白的地方，还有<a href="http://deeplearning.stanford.edu/tutorial/" target="_blank" rel="external">这个</a>分块介绍的，还有几篇blog，<a href="http://colah.github.io/posts/2014-07-Conv-Nets-Modular/" target="_blank" rel="external">这个</a>和<a href="http://deeplearning.net/tutorial/lenet.html/" target="_blank" rel="external">这个</a>讲的是卷积神经网络。图像识别用的比较多的就是卷积神经网络，这两篇可以看看。</p>
+<p><strong>6. Tensorflow：</strong>前面都是铺垫，是为了更好地使用<a href="https://www.tensorflow.org/" target="_blank" rel="external">TensorFlow</a>。官方的文档不错，可以从get started然后tutorial看起，有个中文的<a href="http://wiki.jikexueyuan.com/project/tensorflow-zh/" target="_blank" rel="external">翻译版</a>，但是更新不及时（官方已经v0.10，这个可能是v0.8或者v0.7），可能有坑，可以和英文对照着看，还有个TensorFlow的<a href="http://learningtensorflow.com/" target="_blank" rel="external">教程</a>，也不错。有篇<a href="http://www.jorditorres.org/first-contact-with-tensorflow/" target="_blank" rel="external">FIRST CONTACT WITH TENSORFLOW</a>也不错。</p>
+<p><strong>7. 优秀博客：</strong><a href="http://acko.net/，https://bost.ocks.org/mike/，http://colah.github.io/，https://ireneli.eu/，这几个都是我在学习中遇到的非常nice的blog，有时间读读定会有所收获。" target="_blank" rel="external">http://acko.net/，https://bost.ocks.org/mike/，http://colah.github.io/，https://ireneli.eu/，这几个都是我在学习中遇到的非常nice的blog，有时间读读定会有所收获。</a></p>
+<p><strong>8. 经典论文及书籍：</strong>收集了一些DL的经典论文&amp;书籍，有些杂乱，不过几乎都是经典，各取所需吧。<a href="http://pan.baidu.com/s/1kUJ0fY3/" target="_blank" rel="external">百度云地址</a>（密码: 4w91）。各位有更好的欢迎推荐，我会整理上传。</p>
+<p>其中，Python，DL，TensorFlow是重点，其他都是辅助， 自己感觉够用即可，无需深入。学习中遇到困难首先向搜索引擎询问。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://callofdutyops.github.io/2016/07/06/tensorflow-learning-paths/" data-id="cj6egagr0000dp1qxhui0mc33" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Deep-Learning/">Deep Learning</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Github/">Github</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Linux/">Linux</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Python/">Python</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/TensorFlow/">TensorFlow</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/development/">development</a></li></ul>
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2016/09/20/tensorflow-batch-minibatch/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          如何理解TensorFlow中的batch和minibatch
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2016/06/02/tensorflow-is-on-the-way/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">Tensorflow is on the way!</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Categories</h3>
+    <div class="widget">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/TensorFlow/">TensorFlow</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tags</h3>
+    <div class="widget">
+      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Android/">Android</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Deep-Learning/">Deep Learning</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Development/">Development</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Github/">Github</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Learn/">Learn</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Linux/">Linux</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Python/">Python</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/TensorBoard/">TensorBoard</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/TensorFlow/">TensorFlow</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Tutorial/">Tutorial</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/development/">development</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/tutorial/">tutorial</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tag Cloud</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/Android/" style="font-size: 10px;">Android</a> <a href="/tags/Deep-Learning/" style="font-size: 17.5px;">Deep Learning</a> <a href="/tags/Development/" style="font-size: 15px;">Development</a> <a href="/tags/Github/" style="font-size: 10px;">Github</a> <a href="/tags/Learn/" style="font-size: 12.5px;">Learn</a> <a href="/tags/Linux/" style="font-size: 12.5px;">Linux</a> <a href="/tags/Python/" style="font-size: 10px;">Python</a> <a href="/tags/TensorBoard/" style="font-size: 10px;">TensorBoard</a> <a href="/tags/TensorFlow/" style="font-size: 20px;">TensorFlow</a> <a href="/tags/Tutorial/" style="font-size: 15px;">Tutorial</a> <a href="/tags/development/" style="font-size: 12.5px;">development</a> <a href="/tags/tutorial/" style="font-size: 10px;">tutorial</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/08/">八月 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/07/">七月 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/03/">三月 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/02/">二月 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/10/">十月 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/09/">九月 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/07/">七月 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/06/">六月 2016</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2017/08/03/tensorflow-model-best-practice/">TensorFLow模型建立最佳实践</a>
+          </li>
+        
+          <li>
+            <a href="/2017/07/30/tensorflow-details/">TensorFlow中的一些细节--PART 1</a>
+          </li>
+        
+          <li>
+            <a href="/2017/03/28/tensorflow-learning-paths-2/">新手向的TensorFlow学习之路2（Learning paths 2）</a>
+          </li>
+        
+          <li>
+            <a href="/2017/03/11/tensorboard-embedding/">TensorBoard Embedding 实战</a>
+          </li>
+        
+          <li>
+            <a href="/2017/03/06/tensorflow-source-code/">TensorFlow 源码阅读</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2017 Pu Huang<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/script.js"></script>
+
+
+
+  </div><!-- hexo-inject:begin --><!-- Begin: Injected MathJax -->
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Config({"tex2jax":{"inlineMath":[["$","$"],["\\(","\\)"]],"skipTags":["script","noscript","style","textarea","pre","code"],"processEscapes":true},"TeX":{"equationNumbers":{"autoNumber":"AMS"}}});
+</script>
+
+<script type="text/x-mathjax-config">
+  MathJax.Hub.Queue(function() {
+    var all = MathJax.Hub.getAllJax(), i;
+    for(i=0; i < all.length; i += 1) {
+      all[i].SourceElement().parentNode.className += ' has-jax';
+    }
+  });
+</script>
+
+<script type="text/javascript" src="//cdn.mathjax.org/mathjax/latest/MathJax.js?config=TeX-AMS-MML_HTMLorMML">
+</script>
+<!-- End: Injected MathJax -->
+<!-- hexo-inject:end -->
+</body>
+</html>

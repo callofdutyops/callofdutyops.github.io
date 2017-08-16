@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="utf-8">
+  
+  <title>结合TensorFlow PlayGround的简单神经网络原理解释 | Talk is cheap</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="很多人把机器学习（或者说本篇文章的重点：神经网络）看成“黑技术”、“黑魔法”，其实不然，所有的机器学习无外乎就是找到从输入到输入的最佳拟合函数，只是各种不同的机器学习技术得到的拟合函数方法、效果不同因此适用情景不同罢了。那么今天我们就结合TensorFlow的Playground来具体讲解一下，神经网络是如何去拟合输入和输出之间的目标函数的。好的，系好安全带，要发车了：）  PlayGround是">
+<meta name="keywords" content="Deep Learning,TensorFlow">
+<meta property="og:type" content="article">
+<meta property="og:title" content="结合TensorFlow PlayGround的简单神经网络原理解释">
+<meta property="og:url" content="https://callofdutyops.github.io/2016/10/15/tensorflow-playground/index.html">
+<meta property="og:site_name" content="Talk is cheap">
+<meta property="og:description" content="很多人把机器学习（或者说本篇文章的重点：神经网络）看成“黑技术”、“黑魔法”，其实不然，所有的机器学习无外乎就是找到从输入到输入的最佳拟合函数，只是各种不同的机器学习技术得到的拟合函数方法、效果不同因此适用情景不同罢了。那么今天我们就结合TensorFlow的Playground来具体讲解一下，神经网络是如何去拟合输入和输出之间的目标函数的。好的，系好安全带，要发车了：）  PlayGround是">
+<meta property="og:locale" content="zh-cn">
+<meta property="og:image" content="http://hp.stuhome.net/wp-content/uploads/2016/10/765773404FF6D803AFD2B0AA339824A498277C28A.jpg">
+<meta property="og:image" content="http://hp.stuhome.net/wp-content/uploads/2016/10/playground1-1024x438.png">
+<meta property="og:image" content="http://hp.stuhome.net/wp-content/uploads/2016/10/playgroud2.png">
+<meta property="og:image" content="http://hp.stuhome.net/wp-content/uploads/2016/10/Screenshot-from-2016-10-15-14-21-09.png">
+<meta property="og:image" content="http://hp.stuhome.net/wp-content/uploads/2016/10/Screenshot-from-2016-10-15-14-54-49.png">
+<meta property="og:updated_time" content="2017-08-16T03:00:17.833Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="结合TensorFlow PlayGround的简单神经网络原理解释">
+<meta name="twitter:description" content="很多人把机器学习（或者说本篇文章的重点：神经网络）看成“黑技术”、“黑魔法”，其实不然，所有的机器学习无外乎就是找到从输入到输入的最佳拟合函数，只是各种不同的机器学习技术得到的拟合函数方法、效果不同因此适用情景不同罢了。那么今天我们就结合TensorFlow的Playground来具体讲解一下，神经网络是如何去拟合输入和输出之间的目标函数的。好的，系好安全带，要发车了：）  PlayGround是">
+<meta name="twitter:image" content="http://hp.stuhome.net/wp-content/uploads/2016/10/765773404FF6D803AFD2B0AA339824A498277C28A.jpg">
+  
+    <link rel="alternate" href="/atom.xml" title="Talk is cheap" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  <link rel="stylesheet" href="/css/style.css"><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+  
+
+</head>
+
+<body>
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Talk is cheap</a>
+      </h1>
+      
+        <h2 id="subtitle-wrap">
+          <a href="/" id="subtitle">Working harder</a>
+        </h2>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="https://callofdutyops.github.io"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-tensorflow-playground" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2016/10/15/tensorflow-playground/" class="article-date">
+  <time datetime="2016-10-15T06:47:02.000Z" itemprop="datePublished">2016-10-15</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/TensorFlow/">TensorFlow</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      结合TensorFlow PlayGround的简单神经网络原理解释
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>很多人把机器学习（或者说本篇文章的重点：神经网络）看成“黑技术”、“黑魔法”，其实不然，所有的机器学习无外乎就是找到从输入到输入的<strong>最佳拟合函数</strong>，只是各种不同的机器学习技术得到的拟合函数方法、效果不同因此适用情景不同罢了。那么今天我们就结合TensorFlow的Playground来具体讲解一下，神经网络是如何去拟合输入和输出之间的目标函数的。好的，系好安全带，要发车了：）</p>
+<p><img src="http://hp.stuhome.net/wp-content/uploads/2016/10/765773404FF6D803AFD2B0AA339824A498277C28A.jpg" alt=""></p>
+<p><a href="http://playground.tensorflow.org/" target="_blank" rel="external">PlayGround</a>是一个图形化用于教学目的的简单神经网络在线演示、实验的平台，非常强大地可视化了神经网络的训练过程。不得不说做出这个演示系统的人不仅对神经网络的见解深刻，更是找到了可视化的有力方法。建议使用的时候把右下角的discretize output（离散化输出）选上，不去让系统自动平滑，这样本质看的更清楚。我们首先简单的讲一下这个PlayGround。第一块也就是最上面一行是训练参数，保持默认即可，这个我们不去做过多解释和介绍。因为这涉及到更深层次的神经网络知识，远非一篇简短的blog可以解释清楚，而且本篇文章的重点也是从intuitive（直觉化，直观化）方式讲解基本原理。想要了解更多的内容，请参见我写的另一篇教程：<a href="http://hp.stuhome.net/index.php/2016/07/06/tensorflow-learning-paths/" target="_blank" rel="external">新手向的TensorFlow学习之路（Learning paths）</a>。第二块就是下面的内容，从左到右是dataset（数据集）选择，feature（特征）选择，hidden layers（隐含层）选择和output（输出）。</p>
+<p>研究一个未知事物的时候，我们习惯于也应该从最简单的情况开始讨论，那么对于神经网络，什么是简单的情况？当然是神经元的数目越少越好，这样我们才能从繁杂的现象中理清关系。首先我们选择dataset中的第二行第一个，也就是Gaussian，然后feature选择x1，x2，点击hedden layers的减号去掉所有的隐含层，这样我们就得到的简单的模型，这个模型简单到只有两个神经元！就像这样：</p>
+<p><img src="http://hp.stuhome.net/wp-content/uploads/2016/10/playground1-1024x438.png" alt="playground1"></p>
+<p>接下来，我们点击第一行的Run开始训练。这个模型应该几秒钟就训练完成了。而且效果非常好，可以清晰的看出dataset已经被明显地按照颜色划分成了两块。你可能会觉得，What！！发生了什么！！别急，我们接着看。</p>
+<p>这时把鼠标hover（悬停）在x1或者x2上，你会看到这样的划分：</p>
+<p><img src="http://hp.stuhome.net/wp-content/uploads/2016/10/playgroud2.png" alt="playground2"></p>
+<p>对，这就是第一个feature，竖着“切一刀”！同样，第二个也是“切一刀”，不过是横着罢了。这样简单的“切一刀”就能解决问题吗？显然不能，所以这时时候weight（权重）就是上场了。weight就是来协调每个“切一刀”切多少的，把每个简单的动作联合起来，共同去解决问题。也就是说：<strong>每个神经元都是“傻傻的”只会一件事情，然后通过weight去组合协调，完成一件复杂的任务！</strong>多说无益。我们更进一步看看吧。</p>
+<p>我们再把鼠标hover到那个连接x1，x2到output的线条上，这时你会看到“Weight is xxx”的字样，点击线条我们是可以修改那个xxx数值的。那我们就试着修改那个xxx吧！首先，把x1的weight改成0，你应该会看到这样的画面：</p>
+<p><img src="http://hp.stuhome.net/wp-content/uploads/2016/10/Screenshot-from-2016-10-15-14-21-09.png" alt="screenshot-from-2016-10-15-14-21-09"></p>
+<p>这不就是x2嘛！是不是有点感觉了？如果x2的weight是0那么应该和x1一样吧？那就来试试自己的猜想，点击第一行的reset（重置）后run重新训练，再试着把x2的weight改成0。这次发现，不出所料，果真是自己猜想的那样～这次我们把x1，x2的weight都改成1，当然如果你开心，可以都改成100：）你会发现，一条完美的对角线平分了dataset，把dataset分成了两个部分。就像这样：</p>
+<p><img src="http://hp.stuhome.net/wp-content/uploads/2016/10/Screenshot-from-2016-10-15-14-54-49.png" alt="screenshot-from-2016-10-15-14-54-49"></p>
+<p>这意味着什么？这意味着两点：1.weight确实是各个feature的加权值，是一个去协调各个feature的量，weight(x1)=weight(x2)的时候，x1，x2同等重要，导致平分天下；2.学习/训练的过程不过是去寻找选择最优weight的过程，如果“人眼”能一眼看出weight，就像这个简单的数据集，我们大可去手工输入weight，同样可以达到一样甚至更好的效果！这正验证了之前的结论：<strong>每个神经元都是“傻傻的”只会一件事情，然后通过weight去组合协调，完成一件复杂的任务！</strong>两个神经元尚且如此，想象一个拥有成千上万乃至上亿神经元的系统（比如人脑），完全不用奇怪这个系统可以完成及其复杂的任务！</p>
+<p>现在可以尝试不同的dataset，再多加几个hidden layers，感受一下简单的神经元通过weight组合协调完成分类任务的强大。推荐试一下这个组合：dataset选择第一行第二个Exclusive or，feature只选择一个，就是第五个x1x2，然后hidden layers为0，也就是没有隐含层。然后再试一下用其他的feature去训练，对比感受一下feature的选择对结果的巨大影响。</p>
+<p>讲到这里，应该对神经网络的基本原理有了朦胧的认识的，但这是远远不够的，还有很多都没有讲（好吧，主要是比较懒：）），比如feature，multiple output，activition function等等，感兴趣可以参见Michael Nielsen的<a href="http://neuralnetworksanddeeplearning.com/chap4.html" target="_blank" rel="external">这一讲</a>，可视化地证明了神经网络对任意函数的拟合能力，非常精彩。阅读过程中可以结合PlayGround去理解。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://callofdutyops.github.io/2016/10/15/tensorflow-playground/" data-id="cj6egagr5000mp1qxc3tl6vl4" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Deep-Learning/">Deep Learning</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/TensorFlow/">TensorFlow</a></li></ul>
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2017/02/16/tensorflow-install/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          TensorFlow从源码安装
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2016/09/20/tensorflow-batch-minibatch/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">如何理解TensorFlow中的batch和minibatch</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Categories</h3>
+    <div class="widget">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/TensorFlow/">TensorFlow</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tags</h3>
+    <div class="widget">
+      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Android/">Android</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Deep-Learning/">Deep Learning</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Development/">Development</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Github/">Github</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Learn/">Learn</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Linux/">Linux</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Python/">Python</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/TensorBoard/">TensorBoard</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/TensorFlow/">TensorFlow</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Tutorial/">Tutorial</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/development/">development</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/tutorial/">tutorial</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tag Cloud</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/Android/" style="font-size: 10px;">Android</a> <a href="/tags/Deep-Learning/" style="font-size: 17.5px;">Deep Learning</a> <a href="/tags/Development/" style="font-size: 15px;">Development</a> <a href="/tags/Github/" style="font-size: 10px;">Github</a> <a href="/tags/Learn/" style="font-size: 12.5px;">Learn</a> <a href="/tags/Linux/" style="font-size: 12.5px;">Linux</a> <a href="/tags/Python/" style="font-size: 10px;">Python</a> <a href="/tags/TensorBoard/" style="font-size: 10px;">TensorBoard</a> <a href="/tags/TensorFlow/" style="font-size: 20px;">TensorFlow</a> <a href="/tags/Tutorial/" style="font-size: 15px;">Tutorial</a> <a href="/tags/development/" style="font-size: 12.5px;">development</a> <a href="/tags/tutorial/" style="font-size: 10px;">tutorial</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/08/">八月 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/07/">七月 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/03/">三月 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/02/">二月 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/10/">十月 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/09/">九月 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/07/">七月 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/06/">六月 2016</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2017/08/03/tensorflow-model-best-practice/">TensorFLow模型建立最佳实践</a>
+          </li>
+        
+          <li>
+            <a href="/2017/07/30/tensorflow-details/">TensorFlow中的一些细节--PART 1</a>
+          </li>
+        
+          <li>
+            <a href="/2017/03/28/tensorflow-learning-paths-2/">新手向的TensorFlow学习之路2（Learning paths 2）</a>
+          </li>
+        
+          <li>
+            <a href="/2017/03/11/tensorboard-embedding/">TensorBoard Embedding 实战</a>
+          </li>
+        
+          <li>
+            <a href="/2017/03/06/tensorflow-source-code/">TensorFlow 源码阅读</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2017 Pu Huang<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/script.js"></script>
+
+
+
+  </div><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+</body>
+</html>

@@ -3,18 +3,20 @@
 <head>
   <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="utf-8">
   
-  <title>Archives: 2017 | Talk is cheap</title>
+  <title>TensorFlow 源码阅读 | Talk is cheap</title>
   <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
-  <meta name="description" content="This is an internal blog in 516.">
-<meta property="og:type" content="website">
-<meta property="og:title" content="Talk is cheap">
-<meta property="og:url" content="https://callofdutyops.github.io/archives/2017/index.html">
+  <meta name="description" content="看完了TensorFlow官网的两份白皮书后，产生了阅读源码的念头，不过，git clone下来以后，仅从代码大小上就可以看出TF的体量之大，源码绝不是一己之力一时半会能够理解的。几番搜索，发现网上关于源码阅读的教程确实是很少，这里有一份不错的，这里还有google group里的讨论，为了方便墙内读者阅读，引用于此： 1234567891011121314151617core/ contains">
+<meta name="keywords" content="Deep Learning,Development,TensorFlow,Learn">
+<meta property="og:type" content="article">
+<meta property="og:title" content="TensorFlow 源码阅读">
+<meta property="og:url" content="https://callofdutyops.github.io/2017/03/06/tensorflow-source-code/index.html">
 <meta property="og:site_name" content="Talk is cheap">
-<meta property="og:description" content="This is an internal blog in 516.">
+<meta property="og:description" content="看完了TensorFlow官网的两份白皮书后，产生了阅读源码的念头，不过，git clone下来以后，仅从代码大小上就可以看出TF的体量之大，源码绝不是一己之力一时半会能够理解的。几番搜索，发现网上关于源码阅读的教程确实是很少，这里有一份不错的，这里还有google group里的讨论，为了方便墙内读者阅读，引用于此： 1234567891011121314151617core/ contains">
 <meta property="og:locale" content="zh-cn">
+<meta property="og:updated_time" content="2017-08-16T03:14:37.586Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Talk is cheap">
-<meta name="twitter:description" content="This is an internal blog in 516.">
+<meta name="twitter:title" content="TensorFlow 源码阅读">
+<meta name="twitter:description" content="看完了TensorFlow官网的两份白皮书后，产生了阅读源码的念头，不过，git clone下来以后，仅从代码大小上就可以看出TF的体量之大，源码绝不是一己之力一时半会能够理解的。几番搜索，发现网上关于源码阅读的教程确实是很少，这里有一份不错的，这里还有google group里的讨论，为了方便墙内读者阅读，引用于此： 1234567891011121314151617core/ contains">
   
     <link rel="alternate" href="/atom.xml" title="Talk is cheap" type="application/atom+xml">
   
@@ -67,153 +69,68 @@
   </div>
 </header>
       <div class="outer">
-        <section id="main">
-  
-  
-    
-    
-      
-      
-      <section class="archives-wrap">
-        <div class="archive-year-wrap">
-          <a href="/archives/2017" class="archive-year">2017</a>
-        </div>
-        <div class="archives">
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      <a href="/2017/08/03/tensorflow-model-best-practice/" class="archive-article-date">
-  <time datetime="2017-08-02T17:44:07.000Z" itemprop="datePublished">8月 3</time>
+        <section id="main"><article id="post-tensorflow-source-code" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2017/03/06/tensorflow-source-code/" class="article-date">
+  <time datetime="2017-03-05T18:20:15.000Z" itemprop="datePublished">2017-03-06</time>
 </a>
-      
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/TensorFlow/">TensorFlow</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
   
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2017/08/03/tensorflow-model-best-practice/">TensorFLow模型建立最佳实践</a>
+    <h1 class="article-title" itemprop="name">
+      TensorFlow 源码阅读
     </h1>
   
 
-    </header>
-  </div>
-</article>
-  
+      </header>
     
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      <a href="/2017/07/30/tensorflow-details/" class="archive-article-date">
-  <time datetime="2017-07-30T03:31:34.000Z" itemprop="datePublished">7月 30</time>
-</a>
+    <div class="article-entry" itemprop="articleBody">
       
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2017/07/30/tensorflow-details/">TensorFlow中的一些细节--PART 1</a>
-    </h1>
-  
+        <p>看完了TensorFlow官网的<a href="https://www.tensorflow.org/about/bib" target="_blank" rel="external">两份白皮书</a>后，产生了阅读源码的念头，不过，git clone下来以后，仅从代码大小上就可以看出TF的体量之大，源码绝不是一己之力一时半会能够理解的。几番搜索，发现网上关于源码阅读的教程确实是很少，这里<a href="http://www.cnblogs.com/yao62995/p/5773578.html" target="_blank" rel="external">有一份不错的</a>，<a href="https://groups.google.com/a/tensorflow.org/forum/?utm_medium=email&amp;utm_source=footer#!msg/discuss/Fp0PEvZpSP0/-5u1WcKkAgAJ" target="_blank" rel="external">这里</a>还有google group里的讨论，为了方便墙内读者阅读，引用于此：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div></pre></td><td class="code"><pre><div class="line">core/ contains the main C++ code and runtimes.</div><div class="line"></div><div class="line">core/ops/ contains the &quot;signatures&quot; of the operations</div><div class="line">core/kernels/ contains the &quot;implementations&quot; of the operations (including CPU and CUDA kernels)</div><div class="line">core/framework/ contains the main abstract graph computation and other useful libraries</div><div class="line">core/platform/ contains code that abstracts away the platform and other imported libraries (protobuf, etc)</div><div class="line"></div><div class="line">TensorFlow relies heavily on the Eigen library for both CPU and GPU calculations.  Though some GPU kernels are implemented directly with CUDA code.</div><div class="line"></div><div class="line">bazel builds certain C++ code using gcc/clang, and certain CUDA code (files with extension .cu.cc) with nvcc.</div><div class="line"></div><div class="line">python/ops/ contain the core python interface</div><div class="line">python/kernel\_tests/ contain the unit tests and lots of example code</div><div class="line">python/framework/ contains the python abstractions of graph, etc, a lot of which get serialized down to proto and/or get passed to swigged session calls.</div><div class="line">python/platform/ is similar to the C++ platform, adding lightweight wrappers for python I/O, unit testing, etc.</div><div class="line"></div><div class="line">contrib/*/ directories generally mimic the root tensorflow path (i.e., they have core/ops/, etc)</div></pre></td></tr></table></figure>
 
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      <a href="/2017/03/28/tensorflow-learning-paths-2/" class="archive-article-date">
-  <time datetime="2017-03-28T15:12:36.000Z" itemprop="datePublished">3月 28</time>
-</a>
       
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2017/03/28/tensorflow-learning-paths-2/">新手向的TensorFlow学习之路2（Learning paths 2）</a>
-    </h1>
-  
-
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      <a href="/2017/03/11/tensorboard-embedding/" class="archive-article-date">
-  <time datetime="2017-03-11T15:16:15.000Z" itemprop="datePublished">3月 11</time>
-</a>
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://callofdutyops.github.io/2017/03/06/tensorflow-source-code/" data-id="cj6egagr6000pp1qxizgnd7e0" class="article-share-link">Share</a>
       
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2017/03/11/tensorboard-embedding/">TensorBoard Embedding 实战</a>
-    </h1>
-  
-
-    </header>
-  </div>
-</article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      <a href="/2017/03/06/tensorflow-source-code/" class="archive-article-date">
-  <time datetime="2017-03-05T18:20:15.000Z" itemprop="datePublished">3月 6</time>
-</a>
       
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2017/03/06/tensorflow-source-code/">TensorFlow 源码阅读</a>
-    </h1>
-  
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Deep-Learning/">Deep Learning</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Development/">Development</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Learn/">Learn</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/TensorFlow/">TensorFlow</a></li></ul>
 
-    </header>
+    </footer>
   </div>
-</article>
   
     
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      <a href="/2017/02/17/tensorflow-on-android/" class="archive-article-date">
-  <time datetime="2017-02-16T16:05:54.000Z" itemprop="datePublished">2月 17</time>
-</a>
-      
+<nav id="article-nav">
   
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2017/02/17/tensorflow-on-android/">在Android端使用TensorFlow</a>
-    </h1>
+    <a href="/2017/03/11/tensorboard-embedding/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          TensorBoard Embedding 实战
+        
+      </div>
+    </a>
   
+  
+    <a href="/2017/02/17/tensorflow-on-android/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">在Android端使用TensorFlow</div>
+    </a>
+  
+</nav>
 
-    </header>
-  </div>
+  
 </article>
-  
-    
-    
-    <article class="archive-article archive-type-post">
-  <div class="archive-article-inner">
-    <header class="archive-article-header">
-      <a href="/2017/02/16/tensorflow-install/" class="archive-article-date">
-  <time datetime="2017-02-16T07:39:47.000Z" itemprop="datePublished">2月 16</time>
-</a>
-      
-  
-    <h1 itemprop="name">
-      <a class="archive-article-title" href="/2017/02/16/tensorflow-install/">TensorFlow从源码安装</a>
-    </h1>
-  
-
-    </header>
-  </div>
-</article>
-  
-  
-    </div></section>
-  
 
 </section>
         

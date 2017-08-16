@@ -1,0 +1,254 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><meta charset="utf-8">
+  
+  <title>TensorBoard Embedding 实战 | Talk is cheap</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1">
+  <meta name="description" content="TensorBoard是TensorFlow自带的一个训练可视化工具，可以实现对训练过程中的tensor量监控，常见的包括loss，accuracy等等，同时也可以对权重值W，偏置值b等绘制histogram（不过这个不是传统意义上的histogram，开发组也在着手让这个histogram变得更直观），r0.12版本中添加了新功能embedding，随着r1.0的释出，embedding也越发成">
+<meta name="keywords" content="Deep Learning,Development,TensorBoard,TensorFlow">
+<meta property="og:type" content="article">
+<meta property="og:title" content="TensorBoard Embedding 实战">
+<meta property="og:url" content="https://callofdutyops.github.io/2017/03/11/tensorboard-embedding/index.html">
+<meta property="og:site_name" content="Talk is cheap">
+<meta property="og:description" content="TensorBoard是TensorFlow自带的一个训练可视化工具，可以实现对训练过程中的tensor量监控，常见的包括loss，accuracy等等，同时也可以对权重值W，偏置值b等绘制histogram（不过这个不是传统意义上的histogram，开发组也在着手让这个histogram变得更直观），r0.12版本中添加了新功能embedding，随着r1.0的释出，embedding也越发成">
+<meta property="og:locale" content="zh-cn">
+<meta property="og:image" content="http://hp.stuhome.net/wp-content/uploads/2017/03/sprite_1024-300x300.png">
+<meta property="og:updated_time" content="2017-08-16T02:40:09.919Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="TensorBoard Embedding 实战">
+<meta name="twitter:description" content="TensorBoard是TensorFlow自带的一个训练可视化工具，可以实现对训练过程中的tensor量监控，常见的包括loss，accuracy等等，同时也可以对权重值W，偏置值b等绘制histogram（不过这个不是传统意义上的histogram，开发组也在着手让这个histogram变得更直观），r0.12版本中添加了新功能embedding，随着r1.0的释出，embedding也越发成">
+<meta name="twitter:image" content="http://hp.stuhome.net/wp-content/uploads/2017/03/sprite_1024-300x300.png">
+  
+    <link rel="alternate" href="/atom.xml" title="Talk is cheap" type="application/atom+xml">
+  
+  
+    <link rel="icon" href="/favicon.png">
+  
+  
+    <link href="//fonts.googleapis.com/css?family=Source+Code+Pro" rel="stylesheet" type="text/css">
+  
+  <link rel="stylesheet" href="/css/style.css"><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+  
+
+</head>
+
+<body>
+  <!-- hexo-inject:begin --><!-- hexo-inject:end --><div id="container">
+    <div id="wrap">
+      <header id="header">
+  <div id="banner"></div>
+  <div id="header-outer" class="outer">
+    <div id="header-title" class="inner">
+      <h1 id="logo-wrap">
+        <a href="/" id="logo">Talk is cheap</a>
+      </h1>
+      
+        <h2 id="subtitle-wrap">
+          <a href="/" id="subtitle">Working harder</a>
+        </h2>
+      
+    </div>
+    <div id="header-inner" class="inner">
+      <nav id="main-nav">
+        <a id="main-nav-toggle" class="nav-icon"></a>
+        
+          <a class="main-nav-link" href="/">Home</a>
+        
+          <a class="main-nav-link" href="/archives">Archives</a>
+        
+      </nav>
+      <nav id="sub-nav">
+        
+          <a id="nav-rss-link" class="nav-icon" href="/atom.xml" title="RSS Feed"></a>
+        
+        <a id="nav-search-btn" class="nav-icon" title="Search"></a>
+      </nav>
+      <div id="search-form-wrap">
+        <form action="//google.com/search" method="get" accept-charset="UTF-8" class="search-form"><input type="search" name="q" class="search-form-input" placeholder="Search"><button type="submit" class="search-form-submit">&#xF002;</button><input type="hidden" name="sitesearch" value="https://callofdutyops.github.io"></form>
+      </div>
+    </div>
+  </div>
+</header>
+      <div class="outer">
+        <section id="main"><article id="post-tensorboard-embedding" class="article article-type-post" itemscope itemprop="blogPost">
+  <div class="article-meta">
+    <a href="/2017/03/11/tensorboard-embedding/" class="article-date">
+  <time datetime="2017-03-11T15:16:15.000Z" itemprop="datePublished">2017-03-11</time>
+</a>
+    
+  <div class="article-category">
+    <a class="article-category-link" href="/categories/TensorFlow/">TensorFlow</a>
+  </div>
+
+  </div>
+  <div class="article-inner">
+    
+    
+      <header class="article-header">
+        
+  
+    <h1 class="article-title" itemprop="name">
+      TensorBoard Embedding 实战
+    </h1>
+  
+
+      </header>
+    
+    <div class="article-entry" itemprop="articleBody">
+      
+        <p>TensorBoard是TensorFlow自带的一个训练可视化工具，可以实现对训练过程中的tensor量监控，常见的包括loss，accuracy等等，同时也可以对权重值W，偏置值b等绘制histogram（不过这个不是传统意义上的histogram，<a href="https://github.com/tensorflow/tensorflow/tree/master/tensorflow/tensorboard#distribution-dashboard" target="_blank" rel="external">开发组也在着手让这个histogram变得更直观</a>），r0.12版本中添加了新功能embedding，随着r1.0的释出，embedding也越发成熟，但是<a href="https://www.tensorflow.org/get_started/embedding_viz" target="_blank" rel="external">官网的教程</a>确实让新手一头雾水，几番搜索后，发现了<a href="https://gist.github.com/dandelionmane/4f02ab8f1451e276fea1f165a20336f1" target="_blank" rel="external">一份不错的示例代码</a>，但是这其中还是有些比较隐晦的概念，因此这篇博客针对对mnist的embedding进行讲解。</p>
+<p>预备知识：</p>
+<ol>
+<li>什么是embedding，首先，可以看看<a href="https://zh.wikipedia.org/wiki/%E5%B5%8C%E5%85%A5_(%E6%95%B0%E5%AD%A6" target="_blank" rel="external">wiki的定义</a>)，其实简而言之，embedding就是一个“保持结构的单射”，保持结构是指不改变原始数据的结构信息（比如几何结构，mnist图像的内在结构），单射是指一一映射，这样就很好理解什么叫对mnist进行embedding，也就是对mnist原始图像进行一个“保持结构的单射变换”，使得一个图像这种非结构型数据易于处理（分类），如果对词嵌入很熟悉的话，就很好理解了，词嵌入也是一种embedding，把词映射到了实数空间。</li>
+<li>什么是sprite image，首先看一下<a href="https://www.w3schools.com/css/css_image_sprites.asp" target="_blank" rel="external">w3schools的定义</a>，这个其实在网页和游戏里比较常用，就是把很多零碎的小图片拼接成一张大图片，要用到相应图片的时候就去大图片上截取。例如，1024张mnist图像拼接的sprite image是这样的：<img src="http://hp.stuhome.net/wp-content/uploads/2017/03/sprite_1024-300x300.png" alt=""></li>
+</ol>
+<p>接下来我就先说一下TensorBoard Embedding的基本思想，基本代码操作，然后给出完整代码以及用到的资源。（请先阅读上面给出的官方教程，有很多概念需要了解，例如sprite image以及labels文件的内容，组织方式等。）</p>
+<p>TensorBoard Embedding的基本思想就是embedding+sprite image。首先，输入（例如mnist图像以及对应的标签）经过模型（例如卷积神经网络）得到输出（一个对图像重表示的tensor），这个输出的tensor其实就可以看做对一个mnist输入的embedding（1.由图像结构计算出的。2.每个图像有且仅有一个对应的输出tensor），那么，我们就可以利用这个embedding对原始的mnist图像进行分类，可视化处理。随后，指定sprite image的路径以及对应的labels的路径，利用给出的labels去把输出的tensor绑定到对应的sprite image区块的图像。这么说有点绕，举个例子：mnist的有监督训练，网络模型接收了一个mnist图像“7”以及对应这个图像的标签“7”，经过模型，得到输出tensor “t”，那么TensorBoard就会去给定的labels文件里寻找“7”这个标签，然后找到“7”这个标签对应的sprite image中的区块（行优先），绑定到tensor “t”上，这样，对tensor进行可视化的时候就可以显示绑定的image，达到对image进行分类可视化的效果。</p>
+<p>实现的关键代码是（解释详见注释）：<br><figure class="highlight python"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line">config = tf.contrib.tensorboard.plugins.projector.ProjectorConfig()</div><div class="line">embedding_config = config.embeddings.add()</div><div class="line"><span class="comment"># embedding是一个tf变量</span></div><div class="line">embedding_config.tensor_name = embedding.name</div><div class="line"><span class="comment"># sprite image文件路径</span></div><div class="line">embedding_config.sprite.image_path = sprite_path</div><div class="line"><span class="comment"># labels文件路径</span></div><div class="line">embedding_config.metadata_path = labels_path</div><div class="line"><span class="comment"># sprite image中每一单个图像的大小</span></div><div class="line">embedding_config.sprite.single_image_dim.extend([<span class="number">28</span>, <span class="number">28</span>])</div><div class="line"><span class="comment"># 写入配置</span></div><div class="line">tf.contrib.tensorboard.plugins.projector.visualize_embeddings(writer, config)</div></pre></td></tr></table></figure></p>
+<p>从代码中可以看出，关键在于，embedding变量，sprite image文件路径，labels文件路径。<br>具体的实现详见<a href="https://gist.github.com/dandelionmane/4f02ab8f1451e276fea1f165a20336f1" target="_blank" rel="external">示例代码</a>。</p>
+
+      
+    </div>
+    <footer class="article-footer">
+      <a data-url="https://callofdutyops.github.io/2017/03/11/tensorboard-embedding/" data-id="cj6egagqs0001p1qxkzsy39b8" class="article-share-link">Share</a>
+      
+      
+  <ul class="article-tag-list"><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Deep-Learning/">Deep Learning</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/Development/">Development</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/TensorBoard/">TensorBoard</a></li><li class="article-tag-list-item"><a class="article-tag-list-link" href="/tags/TensorFlow/">TensorFlow</a></li></ul>
+
+    </footer>
+  </div>
+  
+    
+<nav id="article-nav">
+  
+    <a href="/2017/03/28/tensorflow-learning-paths-2/" id="article-nav-newer" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Newer</strong>
+      <div class="article-nav-title">
+        
+          新手向的TensorFlow学习之路2（Learning paths 2）
+        
+      </div>
+    </a>
+  
+  
+    <a href="/2017/03/06/tensorflow-source-code/" id="article-nav-older" class="article-nav-link-wrap">
+      <strong class="article-nav-caption">Older</strong>
+      <div class="article-nav-title">TensorFlow 源码阅读</div>
+    </a>
+  
+</nav>
+
+  
+</article>
+
+</section>
+        
+          <aside id="sidebar">
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Categories</h3>
+    <div class="widget">
+      <ul class="category-list"><li class="category-list-item"><a class="category-list-link" href="/categories/TensorFlow/">TensorFlow</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tags</h3>
+    <div class="widget">
+      <ul class="tag-list"><li class="tag-list-item"><a class="tag-list-link" href="/tags/Android/">Android</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Deep-Learning/">Deep Learning</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Development/">Development</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Github/">Github</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Learn/">Learn</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Linux/">Linux</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Python/">Python</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/TensorBoard/">TensorBoard</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/TensorFlow/">TensorFlow</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/Tutorial/">Tutorial</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/development/">development</a></li><li class="tag-list-item"><a class="tag-list-link" href="/tags/tutorial/">tutorial</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Tag Cloud</h3>
+    <div class="widget tagcloud">
+      <a href="/tags/Android/" style="font-size: 10px;">Android</a> <a href="/tags/Deep-Learning/" style="font-size: 17.5px;">Deep Learning</a> <a href="/tags/Development/" style="font-size: 15px;">Development</a> <a href="/tags/Github/" style="font-size: 10px;">Github</a> <a href="/tags/Learn/" style="font-size: 12.5px;">Learn</a> <a href="/tags/Linux/" style="font-size: 12.5px;">Linux</a> <a href="/tags/Python/" style="font-size: 10px;">Python</a> <a href="/tags/TensorBoard/" style="font-size: 10px;">TensorBoard</a> <a href="/tags/TensorFlow/" style="font-size: 20px;">TensorFlow</a> <a href="/tags/Tutorial/" style="font-size: 15px;">Tutorial</a> <a href="/tags/development/" style="font-size: 12.5px;">development</a> <a href="/tags/tutorial/" style="font-size: 10px;">tutorial</a>
+    </div>
+  </div>
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Archives</h3>
+    <div class="widget">
+      <ul class="archive-list"><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/08/">八月 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/07/">七月 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/03/">三月 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2017/02/">二月 2017</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/10/">十月 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/09/">九月 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/07/">七月 2016</a></li><li class="archive-list-item"><a class="archive-list-link" href="/archives/2016/06/">六月 2016</a></li></ul>
+    </div>
+  </div>
+
+
+  
+    
+  <div class="widget-wrap">
+    <h3 class="widget-title">Recent Posts</h3>
+    <div class="widget">
+      <ul>
+        
+          <li>
+            <a href="/2017/08/03/tensorflow-model-best-practice/">TensorFLow模型建立最佳实践</a>
+          </li>
+        
+          <li>
+            <a href="/2017/07/30/tensorflow-details/">TensorFlow中的一些细节--PART 1</a>
+          </li>
+        
+          <li>
+            <a href="/2017/03/28/tensorflow-learning-paths-2/">新手向的TensorFlow学习之路2（Learning paths 2）</a>
+          </li>
+        
+          <li>
+            <a href="/2017/03/11/tensorboard-embedding/">TensorBoard Embedding 实战</a>
+          </li>
+        
+          <li>
+            <a href="/2017/03/06/tensorflow-source-code/">TensorFlow 源码阅读</a>
+          </li>
+        
+      </ul>
+    </div>
+  </div>
+
+  
+</aside>
+        
+      </div>
+      <footer id="footer">
+  
+  <div class="outer">
+    <div id="footer-info" class="inner">
+      &copy; 2017 Pu Huang<br>
+      Powered by <a href="http://hexo.io/" target="_blank">Hexo</a>
+    </div>
+  </div>
+</footer>
+    </div>
+    <nav id="mobile-nav">
+  
+    <a href="/" class="mobile-nav-link">Home</a>
+  
+    <a href="/archives" class="mobile-nav-link">Archives</a>
+  
+</nav>
+    
+
+<script src="//ajax.googleapis.com/ajax/libs/jquery/2.0.3/jquery.min.js"></script>
+
+
+  <link rel="stylesheet" href="/fancybox/jquery.fancybox.css">
+  <script src="/fancybox/jquery.fancybox.pack.js"></script>
+
+
+<script src="/js/script.js"></script>
+
+
+
+  </div><!-- hexo-inject:begin --><!-- hexo-inject:end -->
+</body>
+</html>
