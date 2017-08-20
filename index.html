@@ -261,6 +261,159 @@
   
   
   <div class="post-block">
+    <link itemprop="mainEntityOfPage" href="https://callofdutyops.github.io/2017/08/20/OS-dev-booting/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="Pu Huang">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/avatar.gif">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Talk is cheap">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2017/08/20/OS-dev-booting/" itemprop="url">OS dev note PART 1 - Booting</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-08-20T12:44:07+08:00">
+                2017-08-20
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/OS/" itemprop="url" rel="index">
+                    <span itemprop="name">OS</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    
+    
+    
+    <div class="post-body han-init-context" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h1 id="The-Boot-Process"><a href="#The-Boot-Process" class="headerlink" title="The Boot Process"></a>The Boot Process</h1><p>We have to realize that when the computer <em>just</em> powered on, there’s little<br>serivices can be used. This situation we called <em>pre-OS</em> environment. At<br>this stage, even a filesystem would be a luxury. So, there must be some<br><em>simple</em> way to load the OS. The most direct way is to read some bytes on<br>the <em>first sector</em> of disk or some other storage driver like CD-ROM. This<br>sector we called <em>boot sector</em>. But how? Who can do this for us? Luckily,<br>there is a guard man on our computer’s motherboard called <em>BIOS</em> (Basic<br>Input/Output Software), BIOS reads specific sectors of data (in our<br>situation, the first sector, usually 512 bytes in size). But how can BIOS<br>knows the sector is a boot sector? We have to make some special marks on<br>this special sector, this mark call <em>magic number</em>. In this situation, is<br><em>0xaa55</em>.</p>
+<h1 id="Show-me-your-code"><a href="#Show-me-your-code" class="headerlink" title="Show me your code"></a>Show me your code</h1><figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="meta">$</span> vim boot.asm</div></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">loop:</div><div class="line">    jmp loop</div><div class="line"></div><div class="line">times 510-($-$$) db 0</div><div class="line"></div><div class="line">dw 0xaa55</div></pre></td></tr></table></figure>
+<p>Then assemble this into actual machine code.<br><figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="meta">$</span> nasm boot.asm -f bin -o boot.bin</div></pre></td></tr></table></figure></p>
+<p>The <code>-f</code> option is to tell the nasm just produce <em>raw</em> machine code, no<br>other meta information. Then we can use <em>CPU emulator</em> like qemu to load<br>our <code>boot.bin</code>.<br><figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="meta">$</span> qemu boot.bin</div></pre></td></tr></table></figure></p>
+<p>If you can see the emulator stuck in <code>Booting from hard disk...</code>, then we<br>success! (Or you’ll see something like <code>there are no bootable driver</code>)</p>
+<p>What happened? Why some lines of code can do this magic thing? Let’s look<br>into the <code>boot.bin</code> the <code>nasm</code> produced. We have to use <em>hex editor</em> to<br>display raw data or we’ll get some garbled because normal editor try to<br>interpret the raw data into ASCII.<br><figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="meta">$</span> hexdump boot.bin</div></pre></td></tr></table></figure></p>
+<p>Look the last two bytes, it’s <em>0xaa55</em>! Then we look back to our assembly<br>code, <code>dw 0xaa55</code> do this for us, <code>times</code> just continue padding <code>0</code> until<br>it reaches 510 bytes. 510 bytes plused 2 bytes (0xaa55) is exactly 512<br>bytes. This is our boot sector. About assembly language, you can find a<br>lot of tutorial on Internet.</p>
+<h1 id="Hello-from-BIOS"><a href="#Hello-from-BIOS" class="headerlink" title="Hello from BIOS"></a>Hello from BIOS</h1><p>Although the code we just write is validated, it seems useless. To make<br>it more fancy, why not print some characters on the screen? Remember, you<br>can’t just write something like <code>print hello</code>, because we even don’t have<br>print function here! But it seems like the BIOS can print characters on<br>the screen, like Self-test information. The <em>interrupts</em> is the secret.<br>Code first:<br><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div></pre></td><td class="code"><pre><div class="line">mov ah, 0x0e</div><div class="line"></div><div class="line">mov al, &apos;H&apos;</div><div class="line">int 0x10</div><div class="line"></div><div class="line">mov al, &apos;e&apos;</div><div class="line">int 0x10</div><div class="line"></div><div class="line">mov al, &apos;l&apos;</div><div class="line">int 0x10</div><div class="line"></div><div class="line">mov al, &apos;l&apos;</div><div class="line">int 0x10</div><div class="line"></div><div class="line">mov al, &apos;o&apos;</div><div class="line">int 0x10</div><div class="line"></div><div class="line">jmp $</div><div class="line"></div><div class="line">times 510-($-$$) db 0</div><div class="line"></div><div class="line">dw 0xaa55</div></pre></td></tr></table></figure></p>
+<p><code>ax</code> is a CPU register, in 16-bit mode (where we are now), the <em>high</em> part<br>of <code>ax</code> is <code>ah</code> and the <em>low</em> part is <code>al</code>. <code>0x10</code> is a <em>interrupt related<br>to screen</em>, <code>0x0e</code> indicates the interrupt type is <code>tele-type</code>. So, the<br><code>ax</code> register including a interrupt mode and a ASCII code of character<br>which both of them will be used by interrupt <code>0x10</code>. Then:<br><figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line"><span class="meta">$</span> nasm boot.asm -f bin -o boot.bin</div></pre></td></tr></table></figure></p>
+<figure class="highlight shell"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">qemu boot.bin</div></pre></td></tr></table></figure>
+<p>This time, we can see <code>Hello</code> on the screen! Not bad, because we even don’t<br>have a OS here! And again, you can inspect the <code>boot.bin</code> using <code>hexdump</code>.<br>The last two bytes is <code>0xaa55</code>, others are machine code.</p>
+
+          
+        
+      
+    </div>
+    
+    
+    
+
+    
+
+    
+
+    
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </div>
+  
+  
+  
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
+  
+  
+  
+  <div class="post-block">
     <link itemprop="mainEntityOfPage" href="https://callofdutyops.github.io/2017/08/17/hexo-markdown/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -453,7 +606,7 @@
           
             <div class="site-state-item site-state-posts">
               <a href="/archives/">
-                <span class="site-state-item-count">1</span>
+                <span class="site-state-item-count">2</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
