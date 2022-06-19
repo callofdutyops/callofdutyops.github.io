@@ -9,12 +9,21 @@ categories:
 - tech
 ---
 
+2022更新：距离初版答案编写已经过去6年，就算是第二版的答案，很多内容也已经过时或者失效。我本人也很久不从事这个领域了，因此这次更新我会尽自己所能保持内容的有效性，还请读者辩证阅读。
+
+> 阅读目的声明
+> 
+> 发现很多人看这个回答并不是要学习TensorFlow本身，而是想高效入门并达到初级机器学习/深度学习实战水平。如果你是这类读者，那么直接看[机器学习实战](https://book.douban.com/subject/35218199/)这本书（个人强烈推荐，属于读一本少一本的宝藏级书籍），并停止向下阅读本回答。如果你想深入了解、学习、使用TensorFlow，那么接着往下看。
+
 TL;DR：有同学反应资源太多不知道从何看起，或者有点基础了想快速上手，因此就直接把几个比较好的教程放在这里，后面的内容作为参考。
-1. Stanford的CS 20SI课程，专门针对TensorFlow的课程，Tensorflow for Deep Learning Research
-2. 两本书籍：TensorFlow Machine Learning Cookbook以及TensorFlow for Machine Intelligence，这两本网络均有pdf版本，请自行搜索。
+1. TensorFlow 实战Google深度学习框架 第2版（喜欢阅读中文资料的可以先看这本书）
+2. 两本书籍：TensorFlow Machine Learning Cookbook以及TensorFlow for Machine Intelligence，这两本网络均有pdf版本，请自行搜索
 3. Udacity公开课，深度学习
-4. 三日入门TensorFlow，直接搜索即可找到资源
-5. [Awesome TensorFlow](https://github.com/jtoy/awesome-tensorflow)
+4. 《三日入门TensorFlow》，直接搜索即可找到资源
+5. （推荐参考）[Awesome TensorFlow](https://github.com/jtoy/awesome-tensorflow)
+
+> 前言
+> 其实TensorFlow本身仅仅是一个分布式的高性能计算框架，想要用TF做深度学习，仅仅学习这个框架本身是没有太大意义的。因此应该将TF看作技术路线中的一个核心点，去掌握整个开发所需要的必要技术，知识。尤其是深度学习的基本原理，这对日后搭建模型，模型调参以至提出新的模型都是极其有用的。
 
 ## 不是前提的前提--英语阅读【公共基础】
 需要有扎实的英语阅读能力，其实与其说扎实，不如说是能**沉下心**看英语。
@@ -33,7 +42,7 @@ TL;DR：有同学反应资源太多不知道从何看起，或者有点基础了
 这个网站托管了很多高质量的或者说世界顶尖的开源项目，比如TensorFlow。学习一下这个网站如何使用，注册个账号，学习一下Git的使用方法。
 这个网站有自己的tutorial和guide。而且后期自己的项目管理多半也会用到git，所以，早点学习肯定是有好处的。
 ### 【fast peace（即简略的快节奏教程，下同）】
-1. [Git 参考手册（推荐）](http://gitref.org/zh/)
+1. [Git 参考手册（推荐）](http://gitref.justjavac.com/)
 2. [git - the simple guide](http://rogerdudler.github.io/git-guide/)
 3. [Git - Quick Guide](https://www.tutorialspoint.com/git/git_quick_guide.htm)
 
@@ -57,7 +66,7 @@ TL;DR：有同学反应资源太多不知道从何看起，或者有点基础了
 
 ### 【hard way】：
 1. [廖雪峰的Python教程](http://www.liaoxuefeng.com/wiki/0014316089557264a6b348958f449949df42a6d3a2e542c000)
-2. [The Python Tutorial](https://docs.python.org/3.5/tutorial/)
+2. [The Python Tutorial](https://docs.python.org/3/tutorial/index.html)
 
 ### Linux【公共基础】
 TensorFlow的主要运行平台之一就是Linux，但是正式版对Windows的支持日趋完善，真的没时间学习Linux平台可以先在Windows上运行TensorFlow。
@@ -81,14 +90,13 @@ LTS（长期支持版本）的加成保证了系统的稳定（稳定不仅指�
 ### 【hard way】（偏向概念解释，数学推导，基本原理）
 两本经典中的经典书籍：第一本倾向于直观性的解释，第二本就更加理论了。 
 1. [Deep Learning](http://www.deeplearningbook.org/)
-2. [Neural Networks and Deep Learning](http://neuralnetworksanddeeplearning.com/) 代码应用向的，使用Theano从零搭建各种常见的网络结构。
-3. [Deep Learning Tutorials](http://deeplearning.net/tutorial/)
+2. [Neural Networks and Deep Learning](http://neuralnetworksanddeeplearning.com/) 代码应用向的，使用Theano从零搭建各种常见的网络结构
 
 ## Python常用科学计算库【公共基础】
 虽然说是公共基础部分，但是系统学习这几个库，也不是一件容易的事，而且很耗时间。因此还是遵循够用即可的原则。
 但是还是想列在这里，因为后来发现如果这几个库掌握的比较熟练，数据预处理后处理都能极大地节省时间，当你还在苦苦想如何设计预处理方法的时候，
 其实去查一查手册，大概率在这几个库里已经写好了。
-这几个库的官方文档都很优秀，比如Pandas的[10 Minutes to pandas](http://pandas.pydata.org/pandas-docs/stable/10min.html)。因此，闲余时间多看看官方tutorial即可。
+这几个库的官方文档都很优秀，比如Pandas的[10 Minutes to pandas](https://pandas.pydata.org/pandas-docs/stable/user_guide/10min.html)。因此，闲余时间多看看官方tutorial即可。
 1. Numpy
 2. Sklearn
 3. Matplotlib
@@ -96,11 +104,11 @@ LTS（长期支持版本）的加成保证了系统的稳定（稳定不仅指�
 
 ## TensorFlow
 ### 【fast peace】（偏向应用性质，到手即用，pretrained-models，tflearn，keras等）
-1. [TensorFlow的三份白皮书](https://www.tensorflow.org/about/)，对TensorFlow的整体有个把握或者说印象是很有必要的，对后期的“图编程”，优化，都很有启发。
-2. [TFLearn](http://tflearn.org/)，基于TensorFlow的高级API，不需要了解太多细节，应用向的可以直接看这个。\
+1. [TensorFlow白皮书](https://www.tensorflow.org/about/bib)，对TensorFlow的整体有个把握或者说印象是很有必要的，对后期的“图编程”，优化，都很有启发
+2. Keras，High Level API，目前已经集成进TensorFlow了
 
 ### 【hard way】（偏向理论性质，调用基本API手写，自定义layer，自定义kernel，自定义optimizer等）
-1. [官网教程](https://www.tensorflow.org/get_started/get_started)，Get Start，Programmer’s guide，Tutorials，Performance过一遍。
+1. [官网教程](https://www.tensorflow.org/tutorials)
 2. [Google的Udacity课程](https://cn.udacity.com/course/deep-learning--ud730)
 
 ## 论文阅读路线图
@@ -109,17 +117,17 @@ github上有个很有名的repo，已经过万stars，从事深度学习科研�
 1. [Deep Learning papers reading roadmap](https://github.com/songrotek/Deep-Learning-Papers-Reading-Roadmap)
 
 ## 相关博客等其他资源
-1. 先放上我的[博客](https://callofdutyops.github.io)啦（笑）
-2. [Beginner-level tutorials for a powerful framework](http://learningtensorflow.com)
-3. [CS231n: Convolutional Neural Networks for Visual Recognition](http://cs231n.stanford.edu/)
-4. [CS224n: Natural Language Processing with Deep Learning](http://web.stanford.edu/class/cs224n/)
-5. [UFLDL Tutorial](http://deeplearning.stanford.edu/tutorial/)
-6. [UFLDL教程（上面UFLDL Tutorial旧版，但是是中文的）](http://deeplearning.stanford.edu/wiki/index.php/UFLDL%E6%95%99%E7%A8%8B)
-7. [First Contact With TensorFlow](http://jorditorres.org/first-contact-with-tensorflow/)
-8. [Deep Learning](http://deeplearning.net/)
-9. [colah's blog（推荐，写了很多晦涩概念可视化的博客）](http://colah.github.io/)
-10. [DeepLearning4J（虽然是一个面向Java的深度学习框架，但是文档很好，通用性也很强）](https://deeplearning4j.org/)
-
-## 不错的资源类网站
-1. [arxiv-sanity](http://www.arxiv-sanity.com/)
-2. [GitXiv](http://www.gitxiv.com/)
+### 教程、资源
+1. [CS231n: Convolutional Neural Networks for Visual Recognition](http://cs231n.stanford.edu/)
+2. [CS224n: Natural Language Processing with Deep Learning](http://web.stanford.edu/class/cs224n/)
+3. [UFLDL Tutorial](http://deeplearning.stanford.edu/tutorial/)
+4. [First Contact With TensorFlow](https://torres.ai/first-contact-with-tensorflow/)
+5. [Practical Deep Learning for Coders](https://course.fast.ai/)（一个不错的视频教程）
+6. [DeepLearning4J](https://deeplearning4j.konduit.ai/multi-project/tutorials/beginners)（虽然是一个面向Java的深度学习框架，但是文档很好，通用性也很强）
+7. [arxiv-sanity](https://arxiv-sanity-lite.com/)
+### 优秀个人博客
+1. [colah](http://colah.github.io/)（强烈推荐，写了很多晦涩概念可视化的文章）
+2. [Chris McCormick](http://mccormickml.com/)
+3. [Daniil](http://warmspringwinds.github.io/)
+4. [ireneli](https://ireneli.eu/)
+5. [Hackery](https://acko.net/)
