@@ -1,0 +1,32 @@
+# NexT theme overrides (merged on top of node_modules/hexo-theme-next/_config.yml)
+# Full option reference: https://theme-next.js.org/docs/
+
+minify: true
+
+scheme: Gemini
+
+creative_commons:
+  sidebar: true
+  post: true
+
+menu:
+  home: / || fa fa-home
+  about: /about/me || fa fa-user
+  tags: /tags/ || fa fa-tags
+  categories: /categories/ || fa fa-th
+  archives: /archives/ || fa fa-archive
+
+menu_settings:
+  badges: true
+
+social:
+  GitHub: https://github.com/callofdutyops || fab fa-github
+  E-Mail: mailto:awsomekde@gmail.com || fa fa-envelope
+  StackOverflow: https://stackoverflow.com/u/3881894 || fab fa-stack-overflow
+
+github_banner:
+  enable: true
+  permalink: https://github.com/callofdutyops
+
+motion:
+  enable: false
